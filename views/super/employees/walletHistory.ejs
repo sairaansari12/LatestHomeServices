@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        
+
+                    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            
+                                            <li class="breadcrumb-item active">Wallet History</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label"><a  href="javascript:;" onclick="window.history.back()";> <i class="mdi mdi-backburger "></i> </a> &nbsp;Wallet History</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+                       
+
+                        <div class="row ">
+<input type="hidden" id="empId">
+                            <div class="col-md-3">
+                                <div class="card-box product-box"> 
+                                    
+                            
+                                    <div class="gal-box text-center">
+                                        <a href="<%-empData.image%>" class="image-popup" title="Screenshot-2">    
+                                       <img src="<%-empData.image%>" onerror="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" alt="product-pic" class="avatar-xxl rounded-circle">
+                                      </a>
+                                     
+                                   
+                                        </div>
+    
+                                               
+    
+                                    <div class="product-info">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+    
+                                                <h5 class="font-20 mt-0 sp-line-1"><a href="/api/company/employees/view/<%-empData.id%>"  class="text-dark"><%-empData.firstName+" " +empData.lastName %></a> </h5>
+    
+                                                <h5 class="m-0 mt-2">  <i class="mdi mdi-phone"></i>&nbsp;<span class="text-muted"> <%-empData.countryCode+" " +empData.phoneNumber %></span></h5>
+                                                    <h5 class="m-0 mt-3">  <span class="text-dark font-16">Total Orders :</span><span class="text-muted"> <%-empData.totalOrders %></span></h5> 
+                                                <h5 class="text-uppercase   bg-light p-2">Wallet Balance :<span class="text-muted">  <%-CURRENCY %>&nbsp;<%-empData.walletBalance%></span></h5>
+
+                                                <a href="javascript:void(0)"   onclick="clearDueAmount('<%-empData.id%>')" class="btn float-right btn-secondary waves-effect waves-light"><i class="mdi mdi-wallet mr-1"></i>Deposit amount</a>
+
+    
+    
+                                            </div>
+                                            
+                                           
+                                        </div> 
+                                        
+                                    </div> 
+                                </div> 
+                            </div>
+
+
+                            <div class="col-xl-9 order-xl-1 order-2">
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-lg-12">
+                                                <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                                    <!--<div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="search" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>-->
+                                                    <div class="form-group mx-sm-2 mb-2">
+                                                        <label for="status-select" class="mr-2">Status</label>
+                                                        <select class="custom-select" id="status-select">
+                                                            <option value="" />All 
+                                                              <option value="1" />Credit
+                                                              <option value="0" />Debit
+ 
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group mx-sm-1 mb-2">
+                                                        <input type="text" id="range-datepicker"  name="range-datepicker" class="fromDate form-control" placeholder="Select Date Range">
+                                                    </div>
+                                                  
+
+                                                    <div class="col-lg-2">
+                                                        <div class="text-lg-left">
+                                                            <a onclick="getFilter(1)" href="javascript:;"><button type="button" class="btn btn-light waves-effect mb-2">Filter</button></a>
+                                                        </div>
+                                                    </div><!-- end col-->
+                                                    <div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="text" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>
+                                                </form>                            
+                                            </div>
+                                            
+                                        </div>
+                
+                                  
+                                <div class="card mb-2">
+                                    <div class="card-body">      
+                                                                      <table id="demo-foo-pagination"
+                                            class="table  nowrap dataTable no-footer w-100 toggle-arrow-tiny">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th >Order ID</th>
+                                                        <th >Date</th>
+                                                        <th>Price (<%-CURRENCY%>)</th>
+                                                        <th>Type </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="orderData">
+                                                </tbody>
+                                            </table> 
+                                </div>
+                                </div>
+                                <div class="col-md-4" style="float:right" id="append_pagination">
+                                </div>
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+                
+</div>
+                
+    <!-- END wrapper -->
+  
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+    $('#search').on( 'keyup', function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+     getFilter(1)
+    }   
+    });
+    $('#empId').val(getURLParameter('empId'))
+
+  
+    function getFilter(currentPage)
+    {
+        var fromDate=""
+        var toDate=""
+        currentPage=currentPage
+        var limit=30
+        $('#loading1').show()
+        var status=$('#status-select').val();
+        var rangeDatePicker=$('#range-datepicker').val().split("to");
+        var search=$('#search').val();
+        var empId=$('#empId').val();
+
+      if(rangeDatePicker.length>1){ fromDate=rangeDatePicker[0];
+     toDate=rangeDatePicker[1];}
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>employees/wallet/history',
+            dataType: 'json',
+            data: {"empId":empId,'search':search,'fromDate':fromDate,'payType':status ,'toDate':toDate,'page':currentPage,'limit':limit},
+            success: function (response) {
+                $('#loading1').hide()
+
+                if (response.code == '200') 
+                {
+                    var row="";
+
+                    $('#orderData').html('')
+                    var data1=response.body
+                    var data=response.body.rows
+                    for(var t=0;t<data.length;t++)
+                    {
+                        var type="Debit"
+                        var typeBadge="badge-danger"
+                        if(data[t].payType==1) {type="Credit"
+                        typeBadge="badge-success"
+                    }
+                        var orderNo=(data[t].order && data[t].order.orderNo)?data[t].order.orderNo :""
+                       row=row+ `<tr id="row_${data[t].id}">
+                        <td><a href="<%-adminpath%>orders/view/${data[t].orderId}">${orderNo} </a></td>'+
+                        <td>${format(new Date(data[t].createdAt))}</td>
+                        <td>${data[t].amount}</td>
+                        <td><h4><span class="badge ${typeBadge}">${type}</span></h4></td>
+
+                        </tr>`;
+                       
+                    }
+                    
+                    $('#orderData').html(row);
+                    appendPagination(currentPage,Math.ceil(data1.count/limit))
+                    //$('#exe').DataTable();
+                }
+                else{
+                    
+                }
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+              
+
+            }
+        });
+    } 
+
+    function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end my-2">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+           $("#append_pagination").html(fd)  
+    }
+
+
+    function clearDueAmount(empId)
+    {
+
+        var amount = prompt("Please enter amount:", "");
+        if (amount == null){}
+        if (amount == null){}
+        else if(amount == "" ||  parseFloat(amount)<0 || isNaN(amount)) { 
+                                  showToastError("amount is not valid")  } else {
+   
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>employees/depositAmount',
+                dataType: 'json',
+                data: {'empId':empId,amount:amount},
+                success: function (response) {
+                    //alert(response.code)
+                    if (response.code == '200') {
+                        
+                        showToastSuccess(response.message)
+
+                        setTimeout(function() {
+                               window.location.reload()
+                            },600);
+
+
+                    }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                }
+            });
+        }
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    var currentPage=1
+    getFilter(currentPage)
+</script>
+</body>
+
+</html>

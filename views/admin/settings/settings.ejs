@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Visit Home</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                        <ul class="nav nav-pills" id="nav-links">
+                          <li class="nav-item"><a class="nav-link active" data-toggle="pill" onclick="showTab('home',0)" href="javascript:void(0)">General Settings</a></li>
+                          <li class="nav-item"><a class="nav-link" data-toggle="pill"  onclick="showTab('menu1',1)"  href="javascript:void(0)" >About Us Details</a></li>
+                          <li class="nav-item"><a class="nav-link" data-toggle="pill"   onclick="showTab('menu2',2)"  href="javascript:void(0)" >Privacy Information</a></li>
+                          <li class="nav-item"><a class="nav-link" data-toggle="pill"  onclick="showTab('menu3',3)" href="javascript:void(0)">Terms & Conditions Information</a></li>
+                          <li class="nav-item"><a class="nav-link" data-toggle="pill" onclick="showTab('menu5',4)" href="javascript:void(0)">Cancellation Policy</a></li>
+
+                          <li class="nav-item"><a class="nav-link" data-toggle="pill" onclick="showTab('menu4',5)" href="javascript:void(0)">Final Steps</a></li>
+                        </ul>
+                      
+                        <div class="tab-content">
+                          <div id="home" class="tab-pane fade show active">
+                            <h3 class="mb-3">General Settings</h3>
+                            
+                            <form  id="generalForm" onsubmit="return false" class="col-md-10 center-margin " method="" />
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Currency:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="text" id="currency" data-required="true"  <%if(data){%>  value="<%-data.currency%>" <%}%> class="form-control" name="currency"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+                
+                           
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="" >
+                                        Language:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <select data-placeholder="Choose Language"  name="language" class="chosen-select form-control" id="language">
+                                        <option <%if(data && data.language=='EN'){%> selected <%}%>  value="EN" />ENGLISH 
+                                        <option  <%if(data && data.language=='FR'){%> selected <%}%>  value="FR" />SPANISH
+                                        
+                        
+                               </select>                                                      
+                              </div>
+                            </div>
+
+
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Cancellation Charges(%):
+                                        <span class="text-danger">*</span>
+                                        <p>on cancellation order</p>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="cancellationCharges" data-required="true"  <%if(data){%>  value="<%-data.cancellationCharges%>" <%}%> class="form-control" name="cancellationCharges"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+
+                            
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Send Loyality Points:
+                                        <span class="text-danger">*</span>
+                                        <p>on every order</p>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="loyalityPoints" data-required="true"  <%if(data){%>  value="<%-data.loyalityPoints%>" <%}%> class="form-control" name="loyalityPoints"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+
+
+
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Set Loyality Points (Pro Member):
+                                        <span class="text-danger">*</span>
+                                        <p>on every order</p>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="lpProMember" data-required="true"  <%if(data){%>  value="<%-data.lpProMember%>" <%}%> class="form-control" name="lpProMember"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+
+
+
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        One loyality point value:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="onelPValue" data-required="true"  <%if(data){%>  value="<%-data.onelPValue%>" <%}%> class="form-control" name="onelPValue"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Loyality Points Per.(%):
+                                        <span class="text-danger">*</span>
+                                        <p>Set maximum points value(%) used for every order </p>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="lpOrderPercentage" data-required="true"  <%if(data){%>  value="<%-data.lpOrderPercentage%>" <%}%> class="form-control" name="lpOrderPercentage"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+                
+
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                        Target Sales:
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-8">
+                                    <input type="number" id="targetSales" data-required="true"  <%if(data){%>  value="<%-data.targetSales%>" <%}%> class="form-control" name="targetSales"   data-trigger="change"  />
+                
+                                </div>
+                               
+                            </div>
+                
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                       Order Auto Assignment:
+                                    </label>
+                                </div>
+                
+                                
+                                
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="yes" <%if(data && data.autoAssign=='yes'){%> checked <%}%> id="autoAssign" name="autoAssign" class="custom-control-input">
+                                    <label class="custom-control-label" value="yes" for="autoAssign">Yes</label>
+                                  </div>
+                                  <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="autoAssign2" name="autoAssign"  <%if(data && data.autoAssign=='no'){%> checked <%}%> class="custom-control-input" value="no">
+                                    <label class="custom-control-label" for="autoAssign2">No</label>
+                                  </div>
+
+                            </div>
+                
+                
+
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-4">
+                                    <label for="">
+                                       Visit Home Settings:
+                                    </label>
+                                </div>
+                
+                                
+                                
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" value="0" <%if(data && data.staffPref==0){%> checked <%}%> id="staffPref" name="staffPref" class="custom-control-input">
+                                    <label class="custom-control-label" value="yes" for="staffPref">My Staff</label>
+                                  </div>
+                                  <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="staffPref2" name="staffPref"  <%if(data && data.staffPref==1){%> checked <%}%> class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="staffPref2">App Staff</label>
+                                  </div>
+
+                            </div>
+                
+
+                
+                            </form>
+                
+                          </div>
+
+                        
+
+
+                          <div id="menu1" class="tab-pane fade">
+                            <h3 class="mb-3">About Us Details</h3>
+                            
+                            <form  id="aboutusForm" onsubmit="return false" class="col-md-12 center-margin " method="" />
+
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+                         
+                            <div class="form-row form-group">
+                                <div class="form-label col-md-12">
+                                    <label for="" class="label-description">
+                                        <span>About Us Link</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="aboutusLink"   <%if(data){%>  value="<%-data.aboutusLink%>" <%}%> name="aboutusLink" autocomplete="off"  data-rangelength="[10,200]"  data-trigger="change"  />
+                
+                                   
+                                </div>
+                               
+                            </div>
+                
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                
+                                <label for="" class="label-description">
+                                    <span>About Us Content</span>  
+                                </label>
+                                    <textarea id="aboutusTiny"     data-trigger="keyup"  class="parsley-validated" > <%if(data){%> <%-data.aboutus%>  <%}%></textarea>
+                                    <input type="hidden"  id="aboutus"  name="aboutus"  />
+                
+                                </div>
+                            </div>
+                
+                
+                            
+                 
+                            </form>
+                
+                          </div>
+                          <div id="menu2" class="tab-pane fade">
+                            <h3>Privacy Information</h3>
+                           
+                            <form  id="privacyForm" onsubmit="return false" class="col-md-12 center-margin " method="" />
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+                         
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                                    <label for="" class="label-description">
+                                        <span>Privacy Link</span>
+                                    </label>
+                                    <input type="text" id="privacyLink"   <%if(data){%>  value="<%-data.privacyLink%>" <%}%> name="privacyLink" autocomplete="off"  data-rangelength="[10,200]" class="form-control"  data-trigger="change"  />
+                
+                                   
+                                </div>
+                               
+                            </div>
+                
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                
+                                <label for="" class="label-description">
+                                    <span>Privacy Content</span>
+                                </label>
+                                    <textarea id="privacyTiny"     data-trigger="keyup"  class="parsley-validated" > <%if(data){%> <%-data.privacyContent%><% } %> </textarea>
+                                    <input type="hidden"  id="privacy"  name="privacyContent"  />
+                
+                                </div>
+                            </div>
+                
+                
+                
+                 
+                            </form>
+                
+                          </div>
+                          <div id="menu3" class="tab-pane fade">
+                            <h3>Terms & Condition Information</h3>
+                            
+                            <form  id="termsForm" onsubmit="return false" class="col-md-12 center-margin " method="" />
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+                         
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                                    <label for="" class="label-description">
+                                        <span>Terms & Condition Link</span>
+                                    </label>
+                                    <input type="text" id="termsLink" class="form-control"  <%if(data){%>  value="<%-data.termsLink%>" <%}%> name="termsLink" autocomplete="off"  data-rangelength="[10,200]"  data-trigger="change"  />
+                
+                                   
+                                </div>
+                               
+                            </div>
+                
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                
+                                <label for="" class="label-description">
+                                    <span>Terms & Condition Content</span>
+                                </label>
+                                    <textarea id="termsTiny"  data-trigger="keyup"  class="parsley-validated" > <%if(data){%> <%-data.termsContent%><% } %> </textarea>
+                                    <input type="hidden"  id="terms"  name="termsContent"  />
+                
+                                </div>
+                            </div>
+                
+                
+                           
+                
+                 
+                            </form>
+                
+                
+                          </div>
+
+
+                          <div id="menu5" class="tab-pane fade">
+                            <h3>Cancellation Policy</h3>
+                            
+                            <form  id="cancellationForm" onsubmit="return false" class="col-md-12 center-margin " method="" />
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+                         
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                                    <label for="" class="label-description">
+                                        <span>Cancellation Policy Link</span>
+                                    </label>
+                                    <input type="text" id="cancellationLink" class="form-control"  <%if(data){%>  value="<%-data.cancellationLink%>" <%}%> name="cancellationLink" autocomplete="off"  data-rangelength="[10,200]"  data-trigger="change"  />
+                
+                                   
+                                </div>
+                               
+                            </div>
+                
+
+                           
+                            <div class="form-row">
+                                <div class="form-label col-md-12">
+                
+                                <label for="" class="label-description">
+                                    <span>Cancellation Policy</span>
+                                </label>
+                                    <textarea id="cancellationTiny"  data-trigger="keyup"  class="parsley-validated" > <%if(data){%> <%-data.cancellationPolicy%><% } %> </textarea>
+                                    <input type="hidden"  id="cancellationPolicy"  name="cancellationPolicy"  />
+                
+                                </div>
+                            </div>
+                
+                
+                           
+                
+                 
+                            </form>
+                
+                
+                          </div>
+
+
+
+                          <div id="menu4" class="tab-pane fade">
+                            <h3>Final Steps</h3>
+                          
+                            <form  id="linkForm" onsubmit="return false" class="col-md-12 center-margin " method="" />
+                            <input type="hidden"  name="documentId" id="documentId"   <%if(data){%> value="<%-data.id%>"  <%}%>/>
+                
+
+
+                            
+                         
+                            <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Website Link
+                                    </label>
+                                </div>
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append bg-orange">
+                                            <i class="glyph-icon icon-dashboard"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" placeholder="Website link" name="websiteLink" <%if(data){%> value="<%-data.websiteLink%>"  <%}%>  id="websiteLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                             <br/>
+                            <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Facebook Link
+                                    </label>
+                                </div> 
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append primary-bg">
+                                            <i class="glyph-icon icon-facebook"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" placeholder="Facebook link"  <%if(data){%> value="<%-data.facebookLink%>"  <%}%> name="facebookLink" id="facebookLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                             <br/>
+                            <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Gmail Link
+                                    </label>
+                                </div> 
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append bg-red">
+                                            <i class="glyph-icon icon-google-plus"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" placeholder="Gmail link" <%if(data){%> value="<%-data.gmailLink%>"  <%}%>  name="gmailLink" id="gmailLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                             <br/>
+                            <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Linkedin Link
+                                    </label>
+                                </div> 
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append primary-bg">
+                                            <i class="glyph-icon icon-linkedin"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" placeholder="Linkedin link" <%if(data){%> value="<%-data.linkedinLink%>"  <%}%>  name="linkedinLink" id="linkedinLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                
+                            <br/>
+                            <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Twitter Link 
+                                    </label>
+                                </div> 
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append bg-twitter">
+                                            <i class="glyph-icon icon-twitter"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" <%if(data){%> value="<%-data.twitterLink%>"  <%}%>  placeholder="Twitter link" name="twitterLink" id="twitterLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                             <br/>
+                
+                
+                
+                             <div class="form-row">
+                                <div class="form-label col-md-2">
+                                    <label for="">
+                                        Instagram Link
+                                    </label>
+                                </div> 
+                                <div class="form-input col-md-9">
+                                    <div class="input-append-wrapper">
+                                        <div class="input-append bg-red">
+                                            <i class="glyph-icon icon-instagram"></i>
+                                        </div>
+                                        <div class="append-left">
+                                            <input type="text" class="form-control" placeholder="Instagram link"  <%if(data){%> value="<%-data.instaLink%>"  <%}%> name="instaLink" id="instaLink" />
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                
+                           
+                
+                 
+                            </form>
+                
+                            </div>
+                          </div>
+                        </div>
+                
+                        <p class="text-right">
+                            
+                            <button class="btn btn-secondary buttonPrevious btn-sm">Prev</button>
+                            <button class="btn btn-info buttonNext btn-sm">Next</button>
+                            <button class="btn btn-primary buttonFinish btn-sm">Finish</button>
+                        </p>
+                
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+
+
+
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+
+    <script>
+        var count=0
+         
+        $(document).ready(function(){
+        
+            $(".buttonFinish").hide();
+        
+          $(function(event){
+            $(".buttonFinish").on("click", function(){
+        
+        
+               if(count==5)
+               { 
+                callUpdateAPI("linkForm")
+            }
+        
+            
+            });
+            $(".buttonNext").on("click", function(){
+        
+                if(count==0) callUpdateAPI("generalForm");
+                if(count==1) callUpdateAPI("aboutusForm");
+                if(count==2) callUpdateAPI("privacyForm");
+                if(count==3) callUpdateAPI("termsForm");
+                if(count==4) callUpdateAPI("cancellationForm");
+
+                count++;
+        
+                if(count==5){
+                    $(".buttonNext").hide();
+                    $(".buttonFinish").show();
+                }
+        
+                nextButton();
+                
+            });
+        
+            $(".buttonPrevious").on("click", function(){
+                count--;
+        
+                if(count<5){
+                    $(".buttonNext").show();
+                    $(".buttonFinish").hide();
+                }
+        
+                prevButton();
+                
+            });
+        
+          });
+        });
+        
+        
+        </script>
+        
+        
+        <script>
+
+$('#restForm').validate({
+            rules: {
+                startTime: {
+                    required: true,
+                },
+                endTime: {
+                    required: true,
+                },
+                deliveryType: {
+                    required: true,
+                    email: true,
+                },
+                itemType: {
+                    required: true,
+                   // minlength: 5
+                }
+                
+            
+            },
+            messages: {
+                startTime: {
+                    required: "Please enter start time",
+                   // email: "Please enter a vaild email address"
+                },
+                endTime: {
+                    required: "Please enter end time",
+                    //minlength: "Your password must be at least 5 characters long"
+                }
+               
+            
+            },
+
+            submitHandler: function (form) {
+           
+
+            var tempform = $('#restForm');
+
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>settings/updateRest',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+
+                            showToastSuccess(response.message)                            
+
+
+                        } else {
+                            showToastError(response.message)
+                        }
+                    },
+
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+               
+
+
+                }); 
+        }
+   
+        });
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+            tinymce.init({
+              selector: '#aboutusTiny',plugins: "autoresize"
+            });
+            tinymce.init({
+              selector: '#privacyTiny',
+              plugins: "autoresize"
+        
+            });
+            tinymce.init({
+              selector: '#termsTiny',
+              plugins: "autoresize"
+            });
+
+            tinymce.init({
+              selector: '#cancellationTiny',
+              plugins: "autoresize"
+            });
+
+            
+
+          </script>
+        <script type="text/javascript">
+        
+           
+        
+        function callUpdateAPI(formName)
+        {
+        
+
+            console.log(">>>>>>>>>>>>>>>",formName)
+        if(formName=="aboutusForm")
+        {
+            var temp =tinymce.get('aboutusTiny').getContent();
+               $('#aboutus').val(temp)
+        }
+        
+        
+        if(formName=="privacyForm")
+        {
+            var temp =tinymce.get('privacyTiny').getContent();
+               $('#privacy').val(temp)
+        }
+        
+        
+        
+        if(formName=="termsForm")
+        {
+            var temp =tinymce.get('termsTiny').getContent();
+               $('#terms').val(temp)
+        }
+        
+        
+        if(formName=="cancellationForm")
+        {
+            var temp =tinymce.get('cancellationTiny').getContent();
+               $('#cancellationPolicy').val(temp)
+        }
+
+        
+
+       
+            var tempform = $('#'+formName);
+               tempform .parsley('validate' );
+              if(tempform.parsley('isValid' ))
+                    {
+        
+              var form_data = new FormData(tempform[0]);
+            $("#loading1").show();
+            $.ajax({
+                        type: 'POST',
+                        url: '<%-adminpath%>settings/update',
+                        dataType: 'json',
+                        data:form_data ,
+                        contentType:false,
+                        cache:false,
+                        processData:false,
+                        success: function (response) {
+                            $("#loading1").hide();
+                            if (response.code == 200) {
+                          
+                                showToastSuccess(response.message)
+        
+                        //  window.location.reload()                       
+                            } else {
+                                showToastError(response.message)
+                            }
+                        },
+        
+                        error: function(response)
+                        {
+                            $("#loading1").hide();
+                           var errorResponse=JSON.parse(response.responseText)
+                           showToastError(errorResponse.message)
+        
+        
+                        }
+                    });
+                }
+        
+        
+            }
+        
+            function nextButton(){
+        
+                var activeTab = $(document).find(".active");
+                $.each(activeTab,function(key,value){
+                    if(typeof $(this).data("toggle") !== typeof undefined && $(this).data("toggle") !== false){
+                        $(this).parent("li").next("li").children("a").trigger("click");
+                    }
+                });
+        
+            }
+        
+            function prevButton(){
+                var activeTab = $(document).find(".active");
+                $.each(activeTab,function(key,value){
+                    if(typeof $(this).data("toggle") !== typeof undefined && $(this).data("toggle") !== false){
+                        $(this).parent("li").prev("li").children("a").trigger("click");
+                    }
+                });
+            }
+
+            function showTab(id,value)
+            {
+                count=value
+            $('.active').removeClass('active');
+
+        $('#'+id).addClass('show active')
+            }
+        
+        
+            </script>
+
+
+</body>
+
+</html>

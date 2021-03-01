@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <%- include('../partials/header'); -%>
+
+    </head>
+
+    <body class="loading"
+    data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "default", "showuser": false}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+            <%- include('../partials/dashboardHeader'); -%>
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">Chat</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Chat</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <!-- start chat users-->
+                            <div class="col-xl-3 col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="font-13 text-muted text-uppercase mb-2">Contacts</h6>
+                                        <!-- users -->
+                                        <div class="row">
+                                            <div class="col">
+                                                <div data-simplebar style="max-height: 375px" id="chatlist">
+                                                   
+                                                </div> <!-- end slimscroll-->
+                                            </div> <!-- End col -->
+                                        </div>
+                                        <!-- end users -->
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div>
+                            <!-- end chat users-->
+
+                            <!-- chat area -->
+                            <div class="col-xl-9 col-lg-8">
+
+                                <div class="card">
+                                    <div class="card-body py-2 px-3 border-bottom border-light">
+                                        <div class="media py-1">
+                                            <!-- <img src="../assets/images/users/user-5.jpg" class="mr-2 rounded-circle" height="36" alt="Brandon Smith"> -->
+                                            <!-- <div class="media-body">
+                                                <h5 class="mt-0 mb-0 font-15">
+                                                    <a href="contacts-profile.html" class="text-reset">James Zavel</a>
+                                                </h5>
+                                                <p class="mt-1 mb-0 text-muted font-12">
+                                                    <small class="mdi mdi-circle text-success"></small> Online
+                                                </p>
+                                            </div> -->
+                                            <!-- <div>
+                                                <a href="javascript: void(0);" class="text-reset font-19 py-1 px-2 d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Voice Call">
+                                                    <i class="fe-phone-call"></i>
+                                                </a>
+                                                <a href="javascript: void(0);" class="text-reset font-19 py-1 px-2 d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Video Call">
+                                                    <i class="fe-video"></i>
+                                                </a>
+                                                <a href="javascript: void(0);" class="text-reset font-19 py-1 px-2 d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Users">
+                                                    <i class="fe-user-plus"></i>
+                                                </a>
+                                                <a href="javascript: void(0);" class="text-reset font-19 py-1 px-2 d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete Chat">
+                                                    <i class="fe-trash-2"></i>
+                                                </a>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul id="list" class="conversation-list" data-simplebar style="max-height: 460px; overflow-y: scroll;">
+                                                                              
+                                            
+                                        </ul>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mt-2 bg-light p-3 rounded">
+                                                    <form class="needs-validation" novalidate="" name="chat-form"
+                                                        id="chat-form">
+                                                        <div class="row">
+                                                            <div class="col mb-2 mb-sm-0">
+                                                                <input type="text" class="form-control border-0" placeholder="Enter your text" id="msg">
+                                                                <div class="invalid-feedback">
+                                                                    Please enter your messsage
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-auto">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-light"><i class="fe-paperclip"></i></a>
+                                                                    <button type="submit" class="btn btn-success chat-send btn-block"><i class='fe-send'></i></button>
+                                                                </div>
+                                                            </div> <!-- end col -->
+                                                        </div> <!-- end row-->
+                                                    </form>
+                                                </div> 
+                                            </div> <!-- end col-->
+                                        </div>
+                                        <!-- end row -->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div>
+                            <!-- end chat area-->
+
+                        </div> <!-- end row-->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>    
+        
+    </body>
+    
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    var socket = new io('<%-config.SOCKET_URL%>');
+    var groupId;
+    socket.on("newMessage", (data)=>{
+        var html = ` <li class="clearfix">
+                    <div class="chat-avatar">
+                        <img src="/dist/assets/images/user.jpg" class="rounded" alt="${data.senderName}" />
+                        <i>10:00</i>
+                    </div>
+                    <div class="conversation-text">
+                        <div class="ctext-wrap">
+                            <i>${data.senderName}</i>
+                            <p>
+                            ${data.message}
+                            </p>
+                        </div>
+                    </div>
+                    
+            </li>`;
+      $('#list').append($(html));
+
+    })
+   
+    $(document).ready(function(){   
+        socket.emit('chatList',{authToken: '<%-token%>', usertype: "user"});
+        socket.on("chatListRes", data=>{
+            console.log("====msgs", data );
+            var userData = data;
+            var html = "";
+
+            for(var k=0;k<userData.length;k++){
+               var id = userData[k].adminId ? userData[k].adminId : userData[k].senderId;
+                html = html + `<a href="javascript:void(0);" class="text-body">
+                    <div class="media p-2">
+                        <img src="/dist/assets/images/user.jpg" class="mr-2 rounded-circle" height="42" alt="" />
+                        <div class="media-body" onclick="showmsg('${id}')">
+                            <h5 class="mt-0 mb-0 font-14">
+                                <!-- <span class="float-right text-muted font-weight-normal font-12">4:30am</span> -->
+                                ${userData[k].senderName} 
+                            </h5>
+                            <p class="mt-1 mb-0 text-muted font-14">
+                               <!-- <span class="w-25 float-right text-right"><span class="badge badge-soft-danger">3</span></span> -->
+                                <span class="w-75"> ${userData[k].message}</span>
+                            </p>
+                        </div>
+                    </div>
+                </a> `  
+            }
+            $('#chatlist').html(html)
+        });
+        var data = {
+            authToken: '<%-token%>',
+            receiverId: "89624900-a974-4849-9048-c32d6bed220ae9f13"
+        }
+       socket.emit('joinRoom',data);
+       socket.on('joinRoomRes',(data)=>{
+           console.log("==joinRoomRes", data)
+           groupId = data.groupId;
+           socket.emit("chatHistory", {authToken: '<%-token%>', groupId: data.groupId, usertype: "user"});
+           socket.on("chatHistoryRes", (data)=>{
+               console.log("=>chatHistoryRes", data);
+               var html = "";
+               for(var i = 0 ;  i <data.length ; i++){
+                var odd = data[i].senderId == '<%-id%>' ? true : false;
+                
+                if(odd){
+                    html = html +  ` <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="/dist/assets/images/user.jpg" class="rounded" alt="${data[i].senderName}" />
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>${data[i].senderName}</i>
+                                    <p>
+                                    ${data[i].message}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                    </li>`
+
+                }else{
+                    html = html +  ` <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="/dist/assets/images/user.jpg" class="rounded" alt="${data[i].senderName}" />
+                                <i>10:00</i>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <i>${data[i].senderName}</i>
+                                    <p>
+                                    ${data[i].message}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                    </li>`
+                }
+            }
+               $('#list').html(html)
+           })
+       });
+    });
+    
+    
+    $('form').submit(function(e) {
+      e.preventDefault();
+        socket.emit("sendMessage", {authToken: '<%-token%>' , type: 1, message: $('#msg').val(), usertype: "user", groupId: groupId})
+      return false;
+    });
+
+    // function showmsg(id){
+ 
+       
+    // }
+</script>

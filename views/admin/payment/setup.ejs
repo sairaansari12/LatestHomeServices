@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">setup</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Payment Account Setup</h4>
+                                </div>
+                            </div>
+                        </div>     
+
+
+                        <div class="row">
+                            <% if(adminRole=="2"){%>
+
+                                    <div class="col-lg-6">
+                                        <div class="card-box">
+                                            <h4>Here you will find your comission setup details</h4>                      <!-- end page title --> 
+                                       <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                       The transaction fee for each payment option is based on your subscription plan
+
+                                    
+                                    </h5>
+
+                                    <label for="">
+                                       You will recieve payment from admin 
+                                     </label>
+                                       <div class="checkbox  checkbox-primary mb-4">
+                                  
+
+                                        
+                                        <% 
+                                        var tags=[{id:0,name:'Monthly'}, {id:1,name:'Quarterly'},{id:2,name:'Yearly'}]
+                                        
+                                        for(var p =0;p<tags.length;p++){ %>
+                                        <input id="checkbox<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="tags" type="checkbox"   onclick="return false"  <%if(chargesData && chargesData.installments.includes(tags[p].id)){ %> checked <%}%>>
+                                        <label for="checkbox<%-p%>">
+                                            <%-tags[p].name%>
+                                        </label>
+
+                                   
+<%}%>
+
+                                    </div>
+                                    <label for="">
+                                        Type of comission
+                                     </label>
+                                    <div class="checkbox  checkbox-primary mb-4">
+                                  
+                                      
+                                        <% 
+                                        var dataTypes=[{id:0,name:'Full Amount'}, {id:1,name:'Comission percentage'}]
+                                        
+                                        for(var p =0;p<dataTypes.length;p++){ %>
+                                        <input id="checkbox<%-p%>"   value="<%-dataTypes[p].id%>" class="ml-2" name="tags" type="checkbox"   onclick="return false"  <%if(chargesData && chargesData.chargesType.includes(dataTypes[p].id)){ %> checked <%}%>>
+                                        <label for="checkbox<%-p%>">
+                                            <%-dataTypes[p].name%>
+                                        </label>
+
+                                   
+<%}%>
+
+                                    </div>
+
+
+                            
+
+                                    <div class="form-group">
+                                        <label for="">
+                                           Full Amount <span class="text-danger">*</span>
+                                        </label>
+                                        <input  maxlength="8" required type="text" value="<%-chargesData!=null?chargesData.chargesAmount:""%>" id="fullAmount" required  readonly name="fullAmount"   class="form-control" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">
+                                       Comission Charges <span class="text-danger">*</span>
+                                    </label>
+                                    <input  maxlength="8" required type="text" readonly  id="charges" required  name="charges"  value="<%-chargesData!=null?chargesData.chargesPercent:""%>" class="form-control" />
+                            </div>
+                        </div> <!-- end col -->
+                                    </div>
+<%}%>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="card-box ">
+                                            <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                        
+                                                Your account number will used  in your account  integration with CereHome and you will recieve all payments through this account
+        
+                                            
+                                            </h5>
+
+                            <form  role="form" onsubmit="return false"   id="addpayment" >
+<input type="hidden" id="paymentId" name="paymentId" value="<%-payData!=null?payData.id:""%>">
+    
+                                        <div class="form-group">
+                                                <label for="">
+                                                  Account holder name <span class="text-danger">*</span>
+                                                </label>
+                                                <input  type="text"  maxlength="32"  value="<%-payData!=null?payData.acHolderName:""%>"  id="acHolderName"   name="acHolderName"  class="form-control" />
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                                <label for="">
+                                                   Account Number <span class="text-danger">*</span>
+                            
+                                                </label>
+                                                <input  maxlength="40"  value="<%-payData!=null?payData.accountNo:""%>"  type="text"  id="accountNo"    name="accountNo"  class="form-control" />
+                                        </div>
+                            
+                                      
+                                        <div class="form-group">
+                
+                                                <label for="">
+                                                    Branch IFSC Code <span class="text-danger">*</span>
+                                                </label>
+                                                <input required type="text"  maxlength="20"  value="<%-payData!=null?payData.branchIFSC:""%>"   id="branchIFSC"  name="branchIFSC"  class="form-control" />
+                                        </div>
+
+                                        <div class="form-group">
+                
+                                            <label for="">
+                                                Branch Name <span class="text-danger">*</span>
+                                            </label>
+                                            <input    maxlength="40" type="text"  value="<%-payData!=null?payData.branchName:""%>"   id="branchName"  name="branchName" class="form-control" />
+                                    </div>
+                            
+                                        
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-center mb-3">
+                                                    <a  onclick="window.history.back()" href="javascript:void(0);:"><button type="button"  class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                                    <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                                </div>
+                                            </div> <!-- end col -->
+        
+                                        </div>
+                                  
+                                    </form>
+
+
+
+                                           
+                                           
+                                        </div> <!-- end card-box -->
+                                 
+                                    
+                               
+                               
+                         
+
+                            <!-- end row -->
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+  
+    $(document).ready(function(){
+
+        $("#addpayment").validate({
+            rules: {
+                accountNo: {
+                  required: true
+                },
+                acHolderName: {
+                  required: true
+                },
+                branchIFSC: {
+                  required: true
+                },
+                branchName: {
+                  required: true
+                }
+            },
+            messages: {
+                accountNo: {
+                    required: "This field is required"
+                },
+                acHolderName: {
+                    required: "This field is required"
+                },
+                branchIFSC: {
+                    required: "This field is required"
+                },
+                branchIFSC: {
+                    required: "This field is required"
+                }
+            },
+            submitHandler: function (form) {
+     
+         
+                $(".overlay").show();
+                var tempform = $('#addpayment');
+                var form_data = new FormData(tempform[0]);
+                console.log(form_data);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>payment/setup',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                            setTimeout(function(){
+                                showToastError(response.message);
+                            }, 2000);
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        
+        
+        });
+    });
+</script>
+</body>
+
+</html>

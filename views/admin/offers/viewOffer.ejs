@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+            <div class="content-page">
+                <div class="content">
+                    <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class=form-label">Edit Offer</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                    <form  role="form" onsubmit="return false"  class="col-md-12"  id="adduser" >
+                    <input type="hidden"  name="parentId" id="parentId"   />
+                     <input type="hidden"  name="coupanId" id="coupanId"  value="<%-data.id%>" />
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                
+                                    <h5 class="text-uppercase mt-3 mb-3 bg-light p-2">General</h5>
+
+                                        <div class="form-group mb-3">
+                                            <label for="product-name">Offer Name <span class="text-danger">*</span></label>
+                                            <input type="text" value="<%-data.name%>" id="name" autocomplete="off"  minlength="2" maxlength="100" name="name" class="form-control" placeholder="Offer Name">
+                                        </div>
+
+                                        <div class="form-group  mb-3">
+                                            <label for="product-name">Offer Code <span class="text-danger">*</span></label>
+                                            <input type="text" id="code" value="<%-data.code%>"  autocomplete="off" minlength="2" maxlength="6" name="code" class="form-control" placeholder="Offer Code">
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="product-name">Offer Discount (%) <span class="text-danger">*</span></label>
+                                            <input  min="1" max="99" type="number" id="discount" value="<%-data.discount%>" name="discount" class="form-control" placeholder="Offer Discount (%)">
+                                        </div>
+
+                                   
+                                        <div class="form-group mb-3">
+                                            <label for="product-name">Offer Usage Limit <span class="text-danger">*</span></label>
+                                            <input type="number" min="1"  id="usageLimit" value="<%-data.usageLimit%>" name="usageLimit" class="form-control" placeholder="Offer Usage Limit">
+                                        </div>
+
+                                        <div class="form-group  mb-3">
+                                            <label for="product-name">Minimum Order Amount <span class="text-danger">*</span></label>
+                                            <input type="number" id="minimumAmount" value="<%-data.minimumAmount%>" name="minimumAmount" class="form-control" placeholder="Minimum Order Amount">
+                                        </div>
+                                    
+
+                                        <div class="form-group   mb-3">
+                                            <label for="product-category">Type <span class="text-danger">*</span></label>
+                                            <select class="form-control chosen" id="type" name="type">
+                                                <option value="0" />All 
+                                                <%for(var p=0;p<types.length;p++){%>
+                                                    <option <%if(data.type==types[p].id){%> selected <%}%>   value="<%-types[p].id%>" ><%-types[p].userType%></option>  
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Due Date <span class="text-danger">*</span></label>
+                                            <input type="text" value="<%-data.validupto%>" class="form-control" id="validupto" name="validupto" placeholder="Offer Valid">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="card-box">
+
+                                  
+                                      
+                                        <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Offer Image</h5>
+
+                                  
+                                         
+                                        
+                                        <div class="mt-3">
+                                            <input  name="icon" id="icon"  type="file" data-default-file= "<%=data.thumbnail%>"  data-plugins="dropify" data-max-file-size="1M"  />
+                                            <p class="text-muted text-center mt-2 mb-0">Click here to upload offer image</p>
+                                        </div>
+                                            
+    
+                                        
+    
+                                  
+                                     
+                                        <div class="dropzone-previews mt-3" id="file-previews">
+                                            <img  class="avatar-title"  style="display:none" src="<%=data.thumbnail%>"   id="myIcon"  alt="">
+                                        </div>
+                                       
+                                 
+                                            <!-- Date View -->
+                                           
+
+                                            <h5 class="text-uppercase mt-3 mb-3 bg-light p-2">Offer usage information</h5>
+
+                                        <div class="form-group  mb-3">
+                                            <textarea class="form-control" id="product-description"  name="description" rows="5" placeholder="Please enter description"><%-data.description%></textarea>
+                                        </div>
+
+
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center mb-3">
+                                    <a href="<%- adminpath %>coupans"><button type="button" class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                    <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Update</button>
+                                </div>
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                    </form>
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+                
+</div>
+                
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    <script>
+    $(function() { 
+        $('#sidebar-menu ul li').find('a[href*="<%-adminpath%>offers"]').parent().addClass('menuitem-active');
+        $('#sidebar-menu ul li a[href^="<%-adminpath%>offers"]').addClass('active');
+    });
+    $("#validupto").flatpickr({minDate: "today"});
+    $("#icon").change(function() {
+  readURL(this,'myIcon');
+});
+    $('#name').on('keypress', function (event) {
+        var regex = new RegExp("^[a-zA-Z0-9_ ]*$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+           event.preventDefault();
+           return false;
+        }
+    });
+    $("#adduser").validate({
+        rules: {
+            name: {
+              required: true
+            },
+            code: {
+              required: true
+            },
+            discount: {
+                required: true
+            },
+            usageLimit: {
+                required: true
+            },
+            minimumAmount: {
+                required: true
+            },
+            validupto: {
+                required: true
+            },
+            description: {
+                required: true
+            },
+            icon: { accept: "image/jpg,image/jpeg,image/png,image/gif"},
+
+        },
+        messages: {
+            name: {
+                required: "This field is required"
+            },
+            code: {
+                required: "This field is required"
+            },
+            discount: {
+                required: "This field is required."
+            },
+            usageLimit: {
+              required: "This field is required"
+            },
+            minimumAmount: {
+              required: "This field is required"
+            },
+            validupto: {
+              required: "This field is required"
+            },
+            description: {
+              required: "This field is required"
+            },
+            icon: {accept: 'Not an image!'},
+        },
+        submitHandler: function (form) {
+            var textareaValue = $('#product-description').summernote('code').replace(/<\/?[^>]+(>|$)/g, "");
+            if(textareaValue=="")
+            showToastError("Please enter description")
+else  {
+               var ext1 = $('#icon').val().split('.').pop().toLowerCase();
+                if(ext1==null || ext1=="") ext1=$('#myIcon').attr('src').split('.').pop().toLowerCase();
+
+                if($.inArray(ext1.trim(), ['gif','png','jpg','jpeg']) == -1     ) {
+               showToastError('Please select only jpg and png files for image!')
+                return false;
+}
+
+
+            else{
+            $("#loading1").show();
+            var tempform = $('#adduser');
+            var form_data = new FormData(tempform[0]);
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>offers/update',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $('#loading1').hide()
+                    if (response.code == 200) {
+                  
+                        //showToastSuccess(response.message)
+                        showToastSuccess(response.message)
+                        setTimeout(function() {
+                            window.location.href="<%-adminpath%>offers";    
+                                                },800);
+
+                       
+                    } else {
+                        //showToastError(response.message)
+                    }
+                },
+                error: function(response)
+                {
+                    $('#loading1').hide()
+
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+        }
+        
+    });
+    </script>
+</body>
+
+</html>

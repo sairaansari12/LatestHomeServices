@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">Manage Permissions</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Manage Permissions</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form  role="form"  onsubmit="return false"  id="addPermissions"   enctype="multipart/form-data">
+<input type="hidden" id="companyId"  name="companyId"/>
+
+
+
+<h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">Categories</h5>
+
+<%for(var k=0;k<pCategories.length;k++){%>
+    <div class="form-input  checkbox checkbox-primary  mb-2 col-md-8">                                                
+    <input id="<%-pCategories[k].name%>"  class="ml-2" name="pCategory" type="checkbox"  value="<%-pCategories[k].id%>"  <%if(permissions && permissions.pCategories.includes(pCategories[k].id)) {%> checked <%}%>>
+    <label for="<%-pCategories[k].name%>"><%-pCategories[k].name%></label>    
+    </div>
+<%}%>
+
+
+
+
+
+
+
+                                            <h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">Ratings</h5>
+
+                                            <div class="form-input  checkbox checkbox-primary  mb-2 col-md-8">
+                                                
+                                              
+                                                <input id="pReviewDelete"  class="ml-2" name="pReviewDelete" type="checkbox"   <%if(permissions && permissions.productReviewDelete=="1"){ %> checked <%}%>>
+                                                <label for="pReviewDelete">
+                                                    Product Review Deletion
+                                                 </label>  
+
+                                                </div>
+
+                                        
+                                          
+                                               <div class="form-input  checkbox checkbox-primary  mb-2 col-md-8">
+                                            <input id="sReviewDelete"  class="ml-2" name="sReviewDelete" type="checkbox"   <%if(permissions && permissions.staffReviewDelete=="1"){ %> checked <%}%>>
+                                            <label for="sReviewDelete">
+                                                Staff Review Deletion
+                                             </label>  
+
+                                                 </div>
+                                            
+                                      
+                                        
+                                                    
+                                               <div class="form-input  checkbox checkbox-primary  mb-2 col-md-8">
+                                                <input id="rReviewDelete"  class="ml-2" name="rReviewDelete" type="checkbox"   <%if(permissions && permissions.restroReviewDelete=="1"){ %> checked <%}%>>
+                                                <label for="rReviewDelete">
+                                                    VendorReview Deletion
+                                                 </label>  
+    
+                                                     </div>
+                                                     <h5 class="text-uppercase bg-light p-2 mt-2 mb-3" id="catName">Services</h5>
+
+
+                                                     <div class="form-input  checkbox checkbox-primary  mb-2 col-md-8">
+                                                        <input id="pApproved"  class="ml-2" name="pApproved" type="checkbox"   <%if(permissions && permissions.pApproved=="1"){ %> checked <%}%>>
+                                                        <label for="pApproved">
+                                                            Services approved autoimatically
+                                                         </label>  
+            
+                                                             </div>
+
+                        
+
+                                        <div class="col-12 mt-3 ">
+                                            <div class="text-center mb-3">
+                                                <button type="button"  onclick="window.history.back();" class="btn w-sm btn-light waves-effect">Cancel</button>
+                                                <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                               
+                                            </div>
+                                        </div> <!-- end col -->
+                                  </form>
+                                    
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+<!-- Modal -->
+<!-- /.modal -->
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+    
+$("#addPermissions").validate({
+    rules: {
+        
+        
+    },
+    messages: {
+        
+    },
+    submitHandler: function (form) {
+
+        var tempform = $('#addPermissions');
+        var form_data = new FormData(tempform[0]);
+        $("#loading1").show();
+        $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath%>company/permissions',
+            dataType: 'json',
+            data: form_data,
+            contentType:false,
+            cache:false,
+            processData:false,
+            success: function (response) {
+                $("#loading1").hide();
+                if (response.code == 200) {
+            
+                    showToastSuccess(response.message)
+
+                    // window.location.href="<%-adminpath%>deals";
+                   
+                } else {
+
+                    showToastError(response.message)
+                }
+            },
+            error: function(response)
+            {
+                $('#loading1').hide()
+
+               var errorResponse=JSON.parse(response.responseText)
+               showToastError(errorResponse.message)
+
+
+            }
+        });
+    
+}
+});
+$('#companyId').val(getURLParameter('id'))
+
+
+</script>
+</body>
+
+</html>

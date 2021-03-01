@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading authentication-bg authentication-bg-pattern">
+
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-pattern">
+
+                        <div class="card-body p-4">
+                            <h2 class="mt-0 text-center">Software Admin</h2>
+
+                            <div class="text-center w-75 m-auto">
+                                <div class="auth-logo">
+                                    <a href="index.html" class="logo logo-dark text-center">
+                                        <span class="logo-lg">
+                                            <img src="../assets/images/logo-dark.png" alt="" height="60">
+                                        </span>
+                                    </a>
+                
+                                    <a href="index.html" class="logo logo-light text-center">
+                                        <span class="logo-lg">
+                                            <img src="../assets/images/logo-light.png" alt="" height="60">
+                                        </span>
+                                    </a>
+                                </div>
+                                <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
+                            </div>
+
+ 
+
+                    <!-- title-->
+
+                    <% if (typeof successMessage != 'undefined' && successMessage && successMessage.length>0) { %>
+
+                        <div class="callout callout-info bg-success">
+                    
+                            <p><%- successMessage %></p>
+                          </div>
+                        <% }%>
+
+                    <% if (typeof errorMessage != 'undefined' && errorMessage && errorMessage.length>0) { %>
+                    
+                        <div class="callout callout-info">
+                            <p><%- errorMessage %></p>
+                          </div>
+                        <% }%>
+
+
+                            <form role="form" id="loginForm" action="<%-mainpath%>/login" method="POST">
+                                <div class="form-group">
+                                    <label for="emailaddress">Email address</label>
+                                    <input class="form-control" type="email" name="email" id="email"
+                                        placeholder="Enter your email">
+                                    <!-- <div class="input-group-append ">
+                                            <div class="input-group-text">
+                                              <span class="fas fa-envelope"></span>
+                                            </div>
+                                          </div> -->
+                                </div>
+                                <div class="form-group">
+                                    <a href="<%-mainpath%>forgotPassword" class="text-muted float-right"><small>Forgot your
+                                            password?</small></a>
+                                    <label for="password">Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" name="password" autocomplete="off" id="password"
+                                            class="form-control" placeholder="Enter your password">
+                                        <div class="input-group-append" data-password="false">
+                                            <div class="input-group-text">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="form-group mb-3">
+                                    <!-- <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="checkbox-signin">
+                                        <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                                    </div> -->
+                                    <div class="form-checkbox-radio col-md-6">
+                                        <input type="checkbox" id="checkbox1" class="custom-checkbox" name="remember-password" id="remember-password" />
+                                        <label for="remember-password" class="pad5L">Remember password?</label>
+                                    </div>
+                                </div>
+        
+        
+                                <div class="form-group mb-0 text-center">
+                                    <button  class="btn btn-primary btn-block" type="submit">Log In </button>
+                                </div>
+        
+        
+        
+                                <!-- social-->
+                                <!-- <div class="text-center mt-4">
+                                    <p class="text-muted font-16">Sign in with</p>
+                                    <ul class="social-list list-inline mt-3">
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);"
+                                                class="social-list-item border-primary text-primary"><i
+                                                    class="mdi mdi-facebook"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
+                                                    class="mdi mdi-google"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
+                                                    class="mdi mdi-twitter"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);"
+                                                class="social-list-item border-secondary text-secondary"><i
+                                                    class="mdi mdi-github"></i></a>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                            </form>
+                           
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end page -->
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+  
+    
+</body>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#loginForm').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+
+            },
+            messages: {
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    
+</script>
+
+
+</html>
+
+<%- include('../partials/commonJs'); -%> 
+
+<script>
+
+if (localStorage.chkbox && localStorage.chkbox != '') {
+        $('#checkbox1').attr('checked', 'checked');
+        $('#email').val(localStorage.username);
+        $('#password').val(localStorage.pass);
+    } else {
+        $('#checkbox1').removeAttr('checked');
+        $('#email').val('');
+        $('#password').val('');
+    }
+
+$('#checkbox1').change(function() {
+
+        if(this.checked) {
+            localStorage.username = $('#email').val();
+            localStorage.pass = $('#password').val();
+            localStorage.chkbox = $('#checkbox1').val();        }
+            else{
+                localStorage.username = '';
+            localStorage.pass = '';
+            localStorage.chkbox = '';
+            }             
+    });
+</script>
+<script>
+
+var value = readCookie('set-layout-theme');
+if(value==null || value=="")
+document.cookie="set-layout-theme=light"
+</script>

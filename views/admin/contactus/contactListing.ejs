@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">CereHome</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Email</a></li>
+                                            <li class="breadcrumb-item active">Contact us</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="form-label">Contact us</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+
+                        <div class="row">
+
+                            <!-- Right Sidebar -->
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <!-- Left sidebar -->
+                                   
+                                    <!-- End Left sidebar -->
+
+                                   
+
+                                        <div class="btn-group">
+                                            <button type="button" onclick="deleteEntry()" class="btn btn-sm btn-light waves-effect"><i class="mdi mdi-archive font-18"></i></button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-light dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">
+                                                <i  class="mdi mdi-folder font-18"></i>
+                                                <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <span class="dropdown-header">Move to</span>
+                                                <a class="dropdown-item" onclick="markReadUnread('1')" href="javascript: void(0);">Read</a>
+                                                <a class="dropdown-item" onclick="markReadUnread('0')"   href="javascript: void(0);">Unread</a>
+                                                <a class="dropdown-item"   onclick="markStatus('1')" href="javascript: void(0);">Resolved</a>
+                                                <a class="dropdown-item"   onclick="markStatus('0')" href="javascript: void(0);">Unresolved</a>
+                                            </div>
+                                        </div>
+                                  
+                                        <div class="btn-group mx-sm-1">
+                                            <input type="text" id="range-datepicker"  class="fromDate form-control" placeholder="Select Date range">
+                                        </div>
+
+                                        <div class="btn-group mx-sm-1">
+                                            <div class="text-lg-left">
+                                                <a onclick="getFilter(1)" href="javascript:;"><button type="button" class="btn btn-light waves-effect">Apply</button></a>
+                                            </div>
+                                        </div><!-- end col-->
+
+
+                                        <div class="btn-group">
+                                            <label for="inputPassword2" class="sr-only">Search</label>
+                                            <input type="search" class="form-control" id="search" placeholder="Search...">
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <select onchange="sorting()" class="custom-select" id="sortby-select">
+                                                <option value="createdAt#DESC">Sort By</option>
+                                                <option value="readStatus#ASC">Unread</option>
+                                                <option value="readStatus#DESC">Read</option>
+                                                <option value="status#ASC">Unresolved</option>
+                                                <option value="status#DESC">Resolved</option>
+                                                <option value="createdAt#DESC">Recent messages</option>
+                                                <option value="createdAt#ASC">Older to New</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="mt-3">
+
+                                            <div id="accordion" class="table-responsive">
+                                                <table id="demo-foo-pagination"
+                                                data-page-size="30"  data-sort="false"   class="table  nowrap dataTable no-footer w-100 toggle-arrow-tiny">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th ></th>
+                                                            <th  >Customer</th>
+                                                            <th >Query</th>
+                                                            <th >Contact</th>
+                                                            <th  >Status</th>
+                                                            <th >Date</th>
+                                                            <th  data-hide="all">Photo</th>
+                                                            <th  data-hide="all" >Email</th>
+                                                            <th  data-hide="all">Full message</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="orderData">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- <ul class="message-list" id="appendData">
+                                              
+
+                                             
+                                            </ul> -->
+                                        </div>
+                                        <!-- end .mt-4 -->
+
+                                        <div class="row float-right" id="append_pagination">
+                                           
+                                        </div>
+                                        <!-- end row-->
+                                   
+                                    <!-- end inbox-rightbar-->
+
+                                    <div class="clearfix"></div>
+                                </div> <!-- end card-box -->
+
+                            </div> <!-- end Col -->
+                        </div><!-- End row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <!-- Footer Start -->
+                <%- include('../partials/footer'); -%>
+
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+                
+</div>
+
+
+    <!-- END wrapper -->
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    <script src="/dist/assets/libs/footable/footable.all.min.js"></script>
+
+    <!-- Init js -->
+    <script src="/dist/assets/js/pages/foo-tables.init.js"></script>
+<script>
+ $('#search').on( 'keyup', function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+     getFilter(1)
+    }   
+    });
+var currentPage=1
+  var orderByInfo={'orderby':'createdAt',orderType:'DESC'}
+       function getFilter(currentPage)
+    {
+        var fromDate=""
+        var toDate=""
+        currentPage=currentPage
+        var limit=20
+        var search=$('#search').val()
+
+        $('#loading1').show()
+        var status=$('#status-select').val();
+        var rangeDatePicker=$('#range-datepicker').val().split("to");
+      
+      if(rangeDatePicker.length>1){ fromDate=rangeDatePicker[0];
+     toDate=rangeDatePicker[1];}
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>contactus/list',
+            dataType: 'json',
+            data: {search:search,'fromDate':fromDate,'toDate':toDate,'page':currentPage,'limit':limit,'orderByInfo':orderByInfo},
+            success: function (response) {
+                $('#loading1').hide()
+
+                if (response.code == '200') 
+                {
+                    var row="";
+
+                    $('#orderData').html('')
+                    var data=response.body
+                       var obj=response.body.rows
+                        $.each(obj,function(key,value)
+                        {
+                            var divColor=value.readStatus==0?'#f5f7f9' :''
+                            var status=(value.status==0)?'Unresolved' :'Resolved'
+
+                        row =row+ `<tr  style="background-color:${divColor}" class="unread">
+                                                   <td>
+                                                            <input  name="contactCheck" type="checkbox"  value="${value.id}" id="chk${value.id}">
+                                                            <label for="chk${value.id}" class="toggle"></label>
+                                                      </td>
+                                                       <td> <a href="javascript:void(0)" class="title">${value.user!=null?(value.user.firstName +" "+value.user.lastName):""} </a>
+                                                   </td>
+<td>    
+                                                    ${short(value.query,60)}</td>
+                                                    <td>${value.phoneNumber}</td>
+<td>${status}</td>
+
+                                                        <td><div class="float-right text-muted font-12">${formatAMPM(new Date(value.createdAt))}</div></td>
+                                                        <td> <img   onError="this.onerror=null;this.src='/assets/images/no-user.png';" src="${value.user!=null?value.user.image :""}"  class="avatar-xl" /> 
+                                                            <td>${value.email}</td>
+                                                            <td ><div  style="white-space:pre-wrap; word-wrap:break-word" class="content-heading"><p>${value.query}<p></div></td>
+
+
+                                                        
+                                                </tr>`;
+                    });
+                    
+                    if(row=="") $('#orderData').html("<div class='mt-3 text-center'>No results found</div>");
+
+                   else $('#orderData').html(row);
+                    $('#orderData').trigger('footable_redraw');     
+                    appendPagination(currentPage,Math.ceil(data.count/limit))
+                    //$('#exe').DataTable();
+                }
+                else{
+                    
+                           showToastError(response.message);
+                          
+                }
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                       
+
+            }
+        });
+    } 
+
+
+    function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end mb-3">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+       
+           $("#append_pagination").html(fd)  
+    }
+  
+
+
+    function sorting()
+    {
+   var order=$('#sortby-select').val();
+   var finalValue=order.split("#")
+   orderByInfo.orderby=finalValue[0]
+   orderByInfo.orderType=finalValue[1]
+   getFilter(1)
+
+    }
+    getFilter(1)
+
+</script>
+
+<script>
+        function deleteEntry()
+    {
+
+           var array = []; 
+            $("input:checkbox[name=contactCheck]:checked").each(function() { 
+                array.push($(this).val()); 
+            });
+
+            if(array.length==0)
+            {
+                showToastError("There is nothing selected to delete")
+                return;
+            }
+        if( confirm('Are you sure you want to delete this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>contactus/delete',
+                dataType: 'json',
+                data: {'ids':array},
+                success: function (response) {
+                    if (response.code == '200') {
+                        showToastSuccess(response.message)
+                      getFilter(currentPage)    
+                                               }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+
+
+
+    function markReadUnread(status)
+    {
+
+           var array = []; 
+            $("input:checkbox[name=contactCheck]:checked").each(function() { 
+                array.push($(this).val()); 
+            });
+
+            if(array.length==0)
+            {
+                showToastError("There is nothing selected")
+                return;
+            }
+      
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>contactus/read',
+                dataType: 'json',
+                data: {'ids':array,readStatus: status},
+                success: function (response) {
+                    if (response.code == '200') {
+                        showToastSuccess(response.message)
+                      getFilter(currentPage)    
+                                               }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+                }
+            });
+        
+    }
+
+
+
+    function markStatus(status1)
+    {
+
+           var array = []; 
+            $("input:checkbox[name=contactCheck]:checked").each(function() { 
+                array.push($(this).val()); 
+            });
+
+            if(array.length==0)
+            {
+                showToastError("There is nothing selected")
+                return;
+            }
+      
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>contactus/status',
+                dataType: 'json',
+                data: {'ids':array,'ustatus': status1},
+                success: function (response) {
+                    if (response.code == '200') {
+                        showToastSuccess(response.message)
+                      getFilter(currentPage)    
+                                               }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+                }
+            });
+        
+    }
+
+</script>
+</body>
+
+</html>

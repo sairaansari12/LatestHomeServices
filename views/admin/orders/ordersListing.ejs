@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+
+                                        <li class="breadcrumb-item active">Orders</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Orders</h4>
+                                <h5>Order Auto Assignment:
+                                    <% if(findDataSetting && findDataSetting.autoAssign == "yes"){ %>
+                                    ON
+                                    <% }else{ %>
+                                    OFF
+                                    <% } %>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col-lg-12">
+                                            <form onkeypress="return event.keyCode != 13" class="form-inline">
+
+                                                <div class="form-group col-lg-2 mb-2">
+                                                    <select class="custom-select" id="status-select">
+                                                        <option value="" />Select order status
+                                                        <%for(var k=0;k<options.length;k++)
+                                                            {%>
+                                                        <option value="<%-options[k].status%>">
+                                                            <%-options[k].statusName%> </option>
+
+
+                                                        <%}%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-lg-2 mb-2 ml-4">
+                                                        <input type="text" id="range-datepicker"  class="fromDate form-control" placeholder="Select Date range">
+                                                    </div>
+                                                    
+
+
+                                                
+
+
+                                                    <div class="col-lg-1 ml-4 ">
+                                                        <div class="text-lg-left">
+                                                            <a onclick="getFilter(1)" href="javascript:;"><button type="button" class="btn btn-light waves-effect mb-2">Apply</button></a>
+                                                        </div>
+                                                    </div><!-- end col-->
+
+                                                    <div class="col-lg-3  mb-2 mx-sm-2">
+                                                        <select onchange="catFilter()" class="custom-select select2" id="cat-select">
+                                                            <option value="">Select Category</option>
+            <%for(var k=0;k<cdata.length;k++){%><option value="<%-cdata[k].id%>"><%-cdata[k].name%></option>
+            
+            <%}%>                                              
+            
+                                                        </select>
+                                                    </div>
+
+
+                                                    <div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="text" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>
+                                                </form>                            
+                                            </div>
+                                            
+                                        </div>
+                
+                                        <div id="accordion" class="table-responsive">
+                                            <table id="demo-foo-pagination"
+                                            data-page-size="30" data-sort="false"    class="table  nowrap dataTable no-footer w-100 toggle-arrow-tiny">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th >Order ID</th>
+                                                        <th >Customer</th>
+                                                        <th >Order Date</th>
+                                                        <th >Contact</th>
+                                                        <th>Price (<%-CURRENCY%>)</th>
+                                                        <th>Payment mode</th>
+                                                        <th>Order Status</th>
+                                                        <th>Order Type</th>
+                                                        <th data-hide="all">Address</th>
+                                                        <th data-hide="all">Order on</th>
+                                                        <th data-hide="all">Payment</th>
+                                                        <th data-hide="all">Refund</th>
+                                                        <th style="width: 125px;">Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="orderData">
+                                                        </tbody>
+                                                        </table>
+                                                </div>
+                                                <div class="col-md-4" style="float:right" id="append_pagination">
+                                                </div>
+                                        </div> <!-- end card-body-->
+                                    </div> <!-- end card-->
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                        </div> <!-- container -->
+
+                    </div> <!-- content -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Page content -->
+                <!-- ============================================================== -->
+
+
+
+                <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Order Status</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                    <input type="hidden" id="assignOrderId" value="" />
+                                    <select class="custom-select" id="status-selectt">
+                                        <option value="" disabled />Choose Status
+                                        <%for(var k=0;k<options.length;k++)
+                                            {%>
+                                        <option value="<%-options[k].status%>"> <%-options[k].statusName%> </option>
+
+
+                                        <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="changeStatus()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div><!-- /.modal -->
+                
+</div>
+                
+    <!-- END wrapper -->
+
+    <%- include('../partials/script'); -%>
+                                        <%- include('../partials/commonJs'); -%>
+                                        <script src="/dist/assets/libs/footable/footable.all.min.js"></script>
+
+                                        <!-- Init js -->
+                                        <script src="/dist/assets/js/pages/foo-tables.init.js"></script>
+                                        <script>
+                                            var coll = document.getElementsByClassName("collapsible");
+                                            var i;
+                                            var category=""
+
+                                            for (i = 0; i < coll.length; i++) {
+                                                coll[i].addEventListener("click", function () {
+                                                    this.classList.toggle("active");
+                                                    var content = this.nextElementSibling;
+                                                    if (content.style.display === "block") {
+                                                        content.style.display = "none";
+                                                    } else {
+                                                        content.style.display = "block";
+                                                    }
+                                                });
+                                            }
+
+                                        </script>
+                                        <script>
+                                            $('#search').on('keyup', function (event) {
+                                                event.preventDefault();
+                                                if (event.keyCode === 13) {
+                                                    getSearch(1)
+                                                }
+                                            });
+                                            $("#toDate").flatpickr();
+                                            function changeStatus() {
+                                                var id = $("#assignOrderId").val();
+                                                var status = $("#status-selectt :selected").val();
+                                                console.log('sadas', status)
+                                                if (confirm('Are you sure you want to change status for this order?')) {
+
+                                                    $("#con-close-modal").modal('hide');
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '<%-adminpath%>orders/status',
+                                                        dataType: 'json',
+                                                        data: { 'id': id, 'status': status },
+                                                        success: function (response) {
+                                                            console.log(response)
+                                                            if (response.code == '200') {
+                                                                showToastSuccess(response.message);
+                                                                setTimeout(function () {
+                                                                    getFilter(currentPage)
+                                                                }, 2000);
+                                                            }
+                                                            else {
+
+                                                                showToastError(response.message);
+
+                                                            }
+                                                        },
+
+                                                        error: function (response) {
+                                                            var errorResponse = JSON.parse(response.responseText)
+                                                            showToastError(errorResponse.message)
+
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            function showModal(id, status) {
+
+                                                $('#assignOrderId').val(id);
+                                                $("#con-close-modal").modal('show');
+
+                                                //$('#myModal').modal();
+
+                                            }
+                                            function getFilter(currentPage) {
+                                                currentPage = currentPage
+                                                var limit = 30
+                                                $('#loading1').show()
+                                                var status = $('#status-select').val();
+                                                var fromDate = ""
+                                                var toDate = ""
+                                                var rangeDatePicker = $('#range-datepicker').val().split("to");
+
+                                                if (rangeDatePicker.length > 1) {
+                                                    fromDate = rangeDatePicker[0];
+                                                    toDate = rangeDatePicker[1];
+                                                }
+
+                                                //alert(fromDate)
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: '<%-adminpath%>orders/list',
+                                                    dataType: 'json',
+                                                    data: { 'fromDate': fromDate, 'progressStatus': status, 'toDate': toDate, 'page': currentPage, 'limit': limit,category:category },
+                                                    success: function (response) {
+                                                        $('#loading1').hide()
+
+                                                        if (response.code == '200') {
+                                                            var row = "";
+
+                                                            $('#orderData').html('')
+                                                            var data1 = response.body.data
+                                                            var data = response.body.data.rows
+                                                            for (var t = 0; t < data.length; t++) {
+                                                                var status = data[t].orderStatus.statusName
+                                                                var Payment = "Failed"
+                                                                var paymentBg = "bg-red"
+                                                                var orderClass = "badge-info";
+                                                                var orderType = "Visit Home"
+                                                                var paymentType = "Online"
+                                                                var  refund= (data[t].refundType == 0)? 'Not Refunded' :"Refunded"
+
+                                                                if (data[t].deliveryType == 0) orderType = "Visit Vendor"
+                                                                if (data[t].paymentType == 2) paymentType = "COD"
+
+                                                                if (data[t].payment && data[t].payment.transactionStatus == "1") {
+                                                                    var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i>Paid</span></h5></a>';
+                                                                } 
+                                                                
+                                                                else if (data[t].paymentType == 2 && data[t].payment.transactionStatus == "2") 
+                                                                {
+                                                                var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-danger text-info"><i class="mdi mdi-cancel"></i> Not paid</span></h5></a>';
+                                                                }
+                                                                else {
+                                                                    var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-danger text-danger"><i class="mdi mdi-cancel"></i> Payment Failed</span></h5></a>';
+                                                                }
+
+                                                                var actionstatus = ""
+                                                                if (data[t].progressStatus == 0) actionstatus = '<button  onclick="acceptReject(\'' + data[t].id + '\',2)"  class="btn btn-danger btn-xs btn-icon"><i class="fa fa-times"></i></button>' +
+                                                                    '&nbsp;<button  onclick="acceptReject(\'' + data[t].id + '\',1)" class="btn btn-success btn-xs btn-icon"><i class="fa fa-check"></i></button>';
+
+
+
+                                                                if (data[t].progressStatus == "1") {
+                                                                    var orderClass = "badge-info";
+                                                                }
+                                                                if (data[t].progressStatus == "2") {
+                                                                    var orderClass = "badge-danger";
+                                                                }
+                                                                if (data[t].progressStatus == "3") {
+                                                                    var orderClass = "badge-warning";
+                                                                }
+                                                                if (data[t].progressStatus == "4") {
+                                                                    var orderClass = "badge-danger";
+                                                                }
+                                                                if (data[t].progressStatus == "5") {
+                                                                    var orderClass = "badge-success";
+                                                                }
+                                                                if (data[t].progressStatus == "6") {
+                                                                    var orderClass = "badge-success";
+                                                                }
+                                                                row = row + '<tr id="row_' + data[t].id + '">' +
+                                                                    '<td><a href="<%-adminpath%>orders/view/' + data[t].id + '">' + data[t].orderNo + ' </a></td>' +
+                                                                    '<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                                                    '<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                                                    '<td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                                                    '<td>' + data[t].totalOrderPrice + '</td>' +
+                                                                    '<td>' + paymentType + '</td>' +
+
+                                                                    '<td><h5><span class="badge ' + orderClass + '">' + status + '</span> ' + actionstatus + '</h5></td>' +
+
+                                                                    '<td><h5><span class="badge badge-info">' + orderType + '</span></h5></td>' +
+
+                                                                    '<td>' + (data[t].address != null ? data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city : "") + '</td>' +
+                                                                    '<td>' + format(new Date(data[t].createdAt)) + '</td>' +
+                                                                    '<td>' + payemnt + '</td>' +
+                                                                    '<td>' + refund + '</td>' +
+
+                                                                    '<td>' +
+
+                                                                    '<a href="<%-adminpath%>orders/view/' + data[t].id + '" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                                                                    '<a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" title="" class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                                                                    '<a href="javascript:;" class="action-icon" id="block_status_' + data[t].id + '"  onclick="showModal(\'' + data[t].id + '\',\'' + data[t].progressStatus + '\')" ><i class="mdi mdi-square-edit-outline"></i></a>' +
+                                                                    '</td>' +
+                                                                    '</tr>';
+
+
+
+
+                                                            }
+                                                            if(row=="") $('#orderData').html("<td></td><td></td><td></td><td></td><td><h5>No Result Found</h5></td>");
+
+                                                            else $('#orderData').html(row);
+                                                            $('#orderData').trigger('footable_redraw');
+
+
+                                                            appendPagination(currentPage, Math.ceil(data1.count / limit))
+                                                            //$('#exe').DataTable();
+                                                        }
+                                                        else {
+                                                            showToastError(response.message)
+                                                        }
+                                                    },
+
+                                                    error: function (response) {
+                                                        $('#loading1').hide()
+
+                                                        var errorResponse = JSON.parse(response.responseText)
+                                                        showToastError(errorResponse.message)
+
+                                                    }
+                                                });
+                                            }
+                                            function getSearch(currentPage) {
+                                                currentPage = currentPage
+                                                var search = $('#search').val()
+                                                var limit = 40
+                                                $('#loading1').show()
+                                                var status = $('#status-select').val();
+                                                var fromDate = "";
+                                                var toDate = "";
+
+                                                //alert(fromDate)
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: '<%-adminpath%>orders/search',
+                                                    dataType: 'json',
+                                                    data: { 'search': search, 'fromDate': fromDate, 'progressStatus': status, 'toDate': toDate, 'page': currentPage, 'limit': limit ,category:category},
+                                                    success: function (response) {
+                                                        $('#loading1').hide()
+
+                                                        if (response.code == '200') {
+                                                            var row = "";
+
+                                                            $('#orderData').html('')
+                                                            var data1 = response.body.data
+                                                            var data = response.body.data.rows
+                                                            for (var t = 0; t < data.length; t++) {
+                                                                var status = data[t].orderStatus.statusName
+                                                                var Payment = "Failed"
+                                                                var paymentBg = "bg-red"
+                                                                var orderClass = "badge-info";
+                                                                var orderType = "Visit Home"
+                                                                var paymentType = "Online"
+                                                                var  refund= (data[t].refundType == 0)? 'Not Refunded' :"Refunded"
+
+                                                                if (data[t].paymentType == 2) paymentType = "COD"
+
+                                                                var actionstatus = ""
+                                                                if (data[t].progressStatus == 0) actionstatus = '<button  onclick="acceptReject(\'' + data[t].id + '\',2)"  class="btn btn-danger btn-xs btn-icon"><i class="fa fa-times"></i></button>' +
+                                                                    '&nbsp;<button  onclick="acceptReject(\'' + data[t].id + '\',1)" class="btn btn-success btn-xs btn-icon"><i class="fa fa-check"></i></button>';
+
+
+
+                                                                if (data[t].deliveryType == 0) orderType = "Visit Vendor"
+
+                                                                if (data[t].payment && data[t].payment.transactionStatus == "1") {
+                                                                    var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i>Paid</span></h5></a>';
+                                                                } 
+                                                                
+                                                                else if (data[t].paymentType == 2 && data[t].payment.transactionStatus == "2") 
+                                                                {
+                                                                var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-danger text-info"><i class="mdi mdi-cancel"></i> Not paid</span></h5></a>';
+                                                                }
+                                                                
+                                                                else {
+                                                                    var payemnt = '<a href="javascript:;"  class="btn bg-green font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                                        '<h5><span class="badge bg-soft-danger text-danger"><i class="mdi mdi-cancel"></i> Payment Failed</span></h5></a>';
+                                                                }
+
+                                                                if (data[t].progressStatus == "1") {
+                                                                    var orderClass = "badge-info";
+                                                                }
+                                                                if (data[t].progressStatus == "2") {
+                                                                    var orderClass = "badge-danger";
+                                                                }
+                                                                if (data[t].progressStatus == "3") {
+                                                                    var orderClass = "badge-warning";
+                                                                }
+                                                                if (data[t].progressStatus == "4") {
+                                                                    var orderClass = "badge-danger";
+                                                                }
+                                                                if (data[t].progressStatus == "5") {
+                                                                    var orderClass = "badge-success";
+                                                                }
+
+                                                                row = row + '<tr id="row_' + data[t].id + '">' +
+                                                                    '<td><a href="<%-adminpath%>orders/view/' + data[t].id + '">' + data[t].orderNo + ' </a> </td>' +
+                                                                    '<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                                                    '<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                                                    '<td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                                                    '<td>' + data[t].totalOrderPrice + '</td>' +
+                                                                    '<td>' + paymentType + '</td>' +
+
+                                                                    '<td><h5><span class="badge ' + orderClass + '">' + status + '</span> ' + actionstatus + '</h5></td>' +
+                                                                    '<td><h5><span class="badge badge-info">' + orderType + '</span></h5></td>' +
+
+                                                                    '<td>' + (data[t].address != null ? data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city : "") + '</td>' +
+                                                                    '<td>' + format(new Date(data[t].createdAt)) + '</td>' +
+                                                                    '<td>' + payemnt + '</td>' +
+                                                                    '<td>' + refund + '</td>' +
+
+                                                                    '<td>' +
+                                                                    '<a href="<%-adminpath%>orders/view/' + data[t].id + '" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                                                                    '<a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" title="" class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                                                                    '<a href="javascript:;" class="action-icon" id="block_status_' + data[t].id + '"  onclick="showModal(\'' + data[t].id + '\',\'' + data[t].progressStatus + '\')" ><i class="mdi mdi-square-edit-outline"></i></a>' +
+                                                                    '</td>' +
+                                                                    '</tr>';
+                                                            }
+                                                            if(row=="") $('#orderData').html("<td></td><td></td><td></td><td></td><td><h5>No Result Found</h5></td>");
+
+                                                           else $('#orderData').html(row)
+                                                            $('#orderData').trigger('footable_redraw');
+
+                                                            appendPagination(currentPage, Math.ceil(data1.count / limit))
+                                                            //$('#exe').DataTable();
+                                                        }
+                                                        else {
+                                                            showToastError(response.message)
+                                                        }
+                                                    },
+
+                                                    error: function (response) {
+                                                        $('#loading1').hide()
+
+                                                        var errorResponse = JSON.parse(response.responseText)
+                                                        showToastError(errorResponse.message)
+
+                                                    }
+                                                });
+                                            }
+                                            function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end mb-3">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+       
+           $("#append_pagination").html(fd)  
+    }
+  
+                                            function acceptReject(id, status) {
+                                                var typeValue = "Accept"
+                                                if (status == "2") typeValue = "Reject"
+                                                if (confirm('Are you sure you want to change ' + typeValue + ' this order?')) {
+
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '<%-adminpath%>orders/status',
+                                                        dataType: 'json',
+                                                        data: { 'id': id, 'status': status },
+                                                        success: function (response) {
+                                                            console.log(response)
+                                                            if (response.code == '200') {
+                                                                showToastSuccess(response.message);
+                                                                setTimeout(function () {
+                                                                    getFilter(currentPage)
+                                                                }, 1000);
+                                                            }
+                                                            else {
+
+                                                                setTimeout(function () {
+                                                                    showToastError(response.message);
+                                                                    window.location.reload();
+                                                                }, 1000);
+                                                            }
+                                                        },
+
+                                                        error: function (response) {
+                                                            var errorResponse = JSON.parse(response.responseText)
+                                                            showToastError(errorResponse.message)
+
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+
+
+                                            var currentPage = 1
+                                            getFilter(currentPage)
+                                        </script>
+                                        <script>
+
+function catFilter()
+    {
+   var order=$('#cat-select').val();
+    category=order
+   getFilter(1)
+
+    }
+
+
+                                        </script>
+
+</body>
+
+</html>

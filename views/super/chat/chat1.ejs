@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            /* .pagination1{
+                text-align: center;
+                padding-bottom: 10px;
+            }
+            .pagination1 a {
+                color: black;
+                cursor: pointer;
+                padding: 4px 9px;
+                background: #f3f2f2;
+            }
+            .no-chat{
+                text-align: center;
+            } */
+            .timeHeading
+            {
+   font-size:9px;            }
+
+        </style>
+
+        <%- include('../partials/header'); -%>
+
+    </head>
+
+    <body class="loading"
+    data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "default", "showuser": false}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+            <%- include('../partials/dashboardHeader'); -%>
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">Chat</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Chat</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <!-- start chat users-->
+                            <div class="col-xl-3 col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="search-bar mb-3" id="search-bar">
+                                            <div class="position-relative">
+                                                <input onkeyup="search(event)" type="text" class="form-control form-control-light" placeholder="Search...">
+                                                <span class="mdi mdi-magnify"></span>
+                                            </div>
+                                        </form>
+                                        <h6 id="contact" class="font-13 text-muted text-uppercase mb-2">Contacts</h6>
+                                        <!-- users -->
+                                        <div class="row">
+                                            <div class="col">
+                                                <div data-simplebar style="max-height: 375px;overflow: auto;" id="chatlist">
+                                                   
+                                                </div> <!-- end slimscroll-->
+                                            </div> <!-- End col -->
+                                        </div>
+                                        <!-- end users -->
+                                    </div> <!-- end card-body-->
+                                    <div class="pagination1" id="pagination1">
+                                        <!-- <a onclick="next(-1)" >&laquo;</a>
+                                        <a id="pagenumber"></a>
+                                        <a onclick="next(1)">&raquo;</a> -->
+                                    </div>
+                                </div> <!-- end card-->
+                            </div>
+                            <!-- end chat users-->
+
+                            <!-- chat area -->
+                            <div class="col-xl-9 col-lg-8" id="right-chat">
+
+                                <div class="card">
+                                    <div class="card-body py-2 px-3 border-bottom border-light">
+                                        <div class="media py-1">
+      
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul id="list" class="conversation-list" data-simplebar style="max-height: 460px; overflow: auto;">
+                                                                              
+                                            
+                                        </ul>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mt-2 bg-light p-3 rounded">
+                                                    <form class="needs-validation" novalidate="" name="chat-form"
+                                                        id="chat-form">
+                                                        <div class="row">
+                                                            <div class="col mb-2 mb-sm-0">
+                                                                <input type="text" class="form-control border-0" placeholder="Enter your text" id="msg">
+                                                                <div id="img" style="text-align: center;"></div>
+                                                                <!-- <div class="invalid-feedback">
+                                                                    Please enter your messsage
+                                                                </div> -->
+                                                            </div>
+                                                            <div class="col-sm-auto">
+                                                                <div class="btn-group">
+                                                                    <a onclick="selectFile()" class="btn btn-light"><i class="fe-paperclip"></i></a>
+                                                                    <input onchange="getImage(this)" id="file-upload"   accept='image/*' type="file" hidden />
+                                                                    <button type="submit" class="btn btn-success chat-send btn-block"><i class='fe-send' ></i></button>
+                                                                </div>
+                                                            </div> <!-- end col -->
+                                                        </div> <!-- end row-->
+                                                    </form>
+                                                </div> 
+                                            </div> <!-- end col-->
+                                        </div>
+                                        <!-- end row -->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div>
+                            <!-- end chat area-->
+
+                        </div> <!-- end row-->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>    
+        
+    </body>
+    
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    //live link = http://51.79.40.224:9070/
+    var socket = new io('<%-config.SOCKET_URL%>');
+    var groupId, base64Img, extension, currentPage = 1, totalPage, totalRows, isVendor = false, receiverId;
+    var chatListData = [];
+    socket.on("newMessageEvent",(data)=>{
+        var pageData = {
+            pageNumber: currentPage
+        }
+        getChatlist(pageData);
+    })
+    socket.on("newMessage", (data)=>{  
+        var pageData = {
+            pageNumber: currentPage
+        }
+        getChatlist(pageData); 
+        
+        console.log(data)
+        if(data.senderId)
+            var odd = data.senderId == '<%-id%>' ? true : false;
+        else     
+            var odd = data.adminId == '<%-id%>' ? true : false;
+        var html = "";
+        var sentAt = convertTime(data.sentAt);
+        if(odd){
+            html = ` <li class="clearfix odd">
+                    <div class="chat-avatar">
+                        <img src="${data.senderName ? '<%-config.IMAGE_APPEND_URL%>'+"users/"+data.senderImage : '<%-config.IMAGE_APPEND_UR%>'+"users/"+data.adminImage}"  onError="this.onerror=null;this.src='/assets/images/no-user.png';" class="rounded" alt="${data.senderName ? data.senderName : data.adminName}" />
+                        <span class="timeHeading">${sentAt}</span>
+                    </div>
+                    <div class="conversation-text">
+                        <div class="ctext-wrap">
+                            <i>${data.senderName ? data.senderName : data.adminName}</i>`;
+            if(data.type == 1){
+                html = html + `<p>
+                            ${data.message}
+                            </p>
+                        </div>
+                    </div>          
+                </li>`
+            }  else{
+                html = html + `<img   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" style="width: 345px;height: 260px;" src="${data.media}" />
+                        </div>
+                    </div>                              
+                </li>`
+            }
+        } else{
+            html = ` <li class="clearfix">
+                    <div class="chat-avatar">
+                        <img src="/dist/assets/images/user.jpg"  onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" class="rounded" alt="${data.senderName ? data.senderName : data.adminName}" />
+                        <span class="timeHeading">${sentAt}</span>
+                    </div>
+                    <div class="conversation-text">
+                        <div class="ctext-wrap">
+                            <i>${data.senderName ? data.senderName : data.adminName}</i>`;
+            if(data.type == 1){
+                html = html + `<p>
+                            ${data.message}
+                            </p>
+                        </div>
+                    </div>          
+                </li>`
+            }  else{
+                html = html + `<img style="width: 345px;height: 260px;" src="${data.media}" />
+                        </div>
+                    </div>                              
+                </li>`
+            }
+        } 
+        
+      $('#list').append($(html));
+
+    })
+   
+    $(document).ready(function(){  
+        //$("#pagenumber").html(currentPage);
+       // $("#pagination1").hide();
+      $("#chat img:last-child").remove();
+        $("#right-chat").hide(); 
+        var pageData = {
+            pageNumber: 1
+        }
+        $('#loading1').show();
+        getChatlist(pageData);
+    });
+    
+    
+    $('form').submit(function(e) {
+      e.preventDefault();
+      $("#msg").show();
+      $("#img img:last-child").remove();
+      if(base64Img && base64Img != ""){  
+        socket.emit("sendMessage", {authToken: '<%-token%>' , type: 2, media: base64Img,extension:extension, usertype: "admin",extraType: isVendor != "false" ? "vendor" : "", groupId: groupId, receiverId: receiverId});
+        base64Img = "";
+        var url = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231abc9c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e")`
+        $("#msg").css('background-image',url );
+        
+      }else{
+        $("#msg").css('background-image', 'none');
+          if($('#msg').val() && $('#msg').val().trim() != ""){
+            socket.emit("sendMessage", {authToken: '<%-token%>' , type: 1, message: $('#msg').val(), usertype: "admin",extraType: isVendor != "false" ? "vendor" : "", groupId: groupId, receiverId: receiverId});
+            var url = `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231abc9c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e")`
+            $("#msg").css('background-image',url );
+            
+        }
+        
+      }    
+        $('#msg').val('');
+      return false;
+    });
+    function getChatlist(pageData){
+
+       // alert(pageData.pageNumber)
+        socket.emit('chatList',{authToken: '<%-token%>', usertype: "admin", pageNumber: pageData.pageNumber,limit:10});
+        socket.on("chatList", data=>{
+            $('#loading1').hide();
+
+(data.msg.length>0)  ?  $("#pagination1").show():  $("#pagination1").hide();
+  
+        var limit=10
+        if(data.limit) limit=data.limit
+          appendPagination(data.page, Math.ceil(data.count / limit))
+            ////totalPage = data.page;
+            // totalRows = data.count;
+            // if(totalRows > 20){
+            //     $("#pagination1").show();
+            // }
+            chatListData = data.msg;
+            var userData = data.msg;
+            createChatList(userData, '');  
+        })
+    }
+
+    function appendPagination(cPage,count)
+    {
+        //alert(cPage)
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end mb-3">'; 
+
+            if (cPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="next(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (cPage > 5) {
+          i = +cPage - 4;
+          } 
+        
+         
+            for (i; i<=count; i++) {
+                if (cPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+cPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="next('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+cPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (cPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="next('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+       
+           $("#pagination1").html(fd)  
+    }
+  
+    function createChatList(data, search){
+        var html = "";
+        if(data.length == 0 && search != "search"){
+            html = html + `<div class="no-chat">No chat found</div>`;
+            //$("#search-bar").hide();
+            $("#contact").hide();
+        }else{
+            $("#search-bar").show();
+            $("#contact").show();
+            if(data.length == 0 )
+                html = html + `<div class="no-chat">No user found</div>`;
+        }
+        for(var k=0;k<data.length;k++){
+            var id = data[k].adminId ? data[k].adminId : data[k].orderid;
+            var Vendor = data[k].adminId ? true : false;
+            html = html + `<a href="javascript:void(0);" class="text-body">
+                <div class="media p-2">
+                    <img   onError="this.onerror=null;this.src='/assets/images/no-user.png';"src="${data[k].senderName ?'<%-config.IMAGE_APPEND_URL%>'+"users/"+data[k].senderImage : '<%-config.IMAGE_APPEND_URL%>'+"users/"+data[k].adminImage}"   class="mr-2 rounded-circle avatar-sm"  alt="" />
+                    <div class="media-body" onclick="showmsg('${id}','${Vendor}')">
+                        <h5 class="mt-0 mb-0 font-14">
+                            <!-- <span class="float-right text-muted font-weight-normal font-12">4:30am</span> -->
+                            ${data[k].senderName ? data[k].senderName : data[k].adminName} `;
+                        if(data[k].orderid){
+                           var  orderId=data[k].orderid
+                           if(data[k].group && data[k].group.order && data[k].group.order.orderNo)
+                           orderId=data[k].group.order.orderNo
+                            html = html + `<br><br>Order Id:${orderId}`;
+                        }
+            html = html + `</h5>
+                        <p class="mt-1 mb-0 text-muted font-14">
+                            <!-- <span class="w-25 float-right text-right"><span class="badge badge-soft-danger">3</span></span> -->
+                            <span class="w-75"> ${data[k].message}</span>
+                        </p>
+                    </div>
+                </div>
+            </a> `  
+        }
+        $('#chatlist').html(html);
+        $('#loading1').hide();
+    }
+
+    function showmsg(id, Vendor){
+        $("#right-chat").show();
+        $('#loading1').show();
+        isVendor = Vendor;
+        receiverId = id;
+       var singleChatList = chatListData.find(x=> x.orderid == id || x.adminId == id);
+        if(groupId){
+            var leaveRoomData = {
+                authToken: '<%-token%>',
+                receiverId: id,
+                groupId: groupId
+            }
+            socket.emit("leaveRoom", leaveRoomData);
+        }
+       var data = {
+            authToken: '<%-token%>',
+            receiverId: id,
+            groupId: singleChatList.groupId,
+            userType: "admin",
+            receiverType: isVendor != "false" ? "vendor" : "user"
+        }
+       socket.emit('joinRoom',data);
+       socket.on('joinRoom',(data)=>{
+           groupId = data.groupId;
+           socket.emit("chatHistory", {authToken: '<%-token%>', groupId: data.groupId, usertype: "admin"});
+           socket.on("chatHistory", (data)=>{
+               var html = "";
+               for(var i = 0 ;  i <data.length ; i++){
+                   console.log(data)
+                   var sentAt = convertTime(data[i].sentAt);
+                   if(data[i].senderId)
+                        var odd = data[i].senderId == '<%-id%>' ? true : false;
+                   else     
+                    var odd = data[i].adminId == '<%-id%>' ? true : false;
+                if(odd){
+                    html = html +  ` <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="${data[i].senderName ?'<%-config.IMAGE_APPEND_URL%>'+"users/"+data[i].senderImage : '<%-config.IMAGE_APPEND_URL%>'+"users/"+data[i].adminImage}"    onError="this.onerror=null;this.src='/assets/images/no-user.png';" class="rounded" alt="${data[i].senderImage}" />
+                                <span class="timeHeading">${sentAt}</span>
+                            </div>
+                            <div class="conversation-text" style="width: 73% !important">
+                                <div class="ctext-wrap">
+                                    <i>${data[i].senderName ? data[i].senderName : data[i].adminName}</i>
+                                    `;
+                    if(data[i].type == 1){
+                        html = html + `<p>
+                                    ${data[i].message}
+                                    </p>
+                                </div>
+                            </div>          
+                        </li>`
+                    }  else{
+                        html = html + `<img   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';"  style="width: 345px;height: 260px;" src="${data[i].media}" />
+                             </div>
+                            </div>                              
+                        </li>`
+                    }                                
+                               
+                }else{
+                    html = html +  ` <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img  src="${data[i].senderName ?'<%-config.IMAGE_APPEND_URL%>'+"users/"+data[i].senderImage : '<%-config.IMAGE_APPEND_URL%>'+"users/"+data[i].adminImage}"   onError="this.onerror=null;this.src='/assets/images/no-user.png';" class="rounded" alt="${data[i].senderName}" />
+                                <span class="timeHeading">${sentAt}</span>
+                            </div>
+                            <div class="conversation-text" style="width: 73% !important">
+                                <div class="ctext-wrap">
+                                    <i>${data[i].senderName ? data[i].senderName : data[i].adminName}</i>`;
+                                   
+                    if(data[i].type == 1){
+                        html = html + `<p>
+                                    ${data[i].message}
+                                    </p>
+                                </div>
+                            </div>          
+                        </li>`
+                    }  else{
+                        html = html + `<img    onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" style="width: 345px;height: 260px;" src="${data[i].media}" />
+                             </div>
+                            </div>                              
+                        </li>`
+                    } 
+                }
+                
+               }
+               $('#list').html(html);
+               $('#loading1').hide();
+           })
+       });
+       
+    }
+    function selectFile(){
+        $("#file-upload").click();
+    }
+    function getImage(element){
+        var img = element.files[0];
+        extension = element.files[0].name.substring(element.files[0].name.lastIndexOf('.') + 1);
+        var reader = new FileReader();  
+        reader.onloadend = function() {
+            base64Img = reader.result;
+            $("#msg").hide();
+            var html = `<img src="${base64Img}" style="width: 200px;height: 200px;" />`
+            $("#img").html(html);
+        }
+        reader.readAsDataURL(img);
+    }
+    function search(event){
+        event.preventDefault();
+                                                if (event.keyCode === 13) {
+                                                    $('#loading1').show();
+                                                    var limit=1000;
+      if(event.target.value=="") limit=10
+     
+                       socket.emit('chatList',{authToken: '<%-token%>', usertype: "admin", pageNumber: 1,'search':event.target.value,limit:limit});
+
+       
+    }
+    }
+    function next(page){ 
+   
+                var pageData = {
+                    pageNumber: page
+               }
+                getChatlist(pageData);
+           // }
+        }         
+        
+    
+    function convertTime(timeStamp){
+        var unixtimestamp = timeStamp;
+        var date = new Date(unixtimestamp*1000);
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var lastdigit = year.toString().slice(-2);
+
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var newformat = hours >= 12 ? 'PM' : 'AM';  
+        hours = hours % 12;   
+        hours = hours ? hours : 12;  
+        minutes = minutes < 10 ? '0' + minutes : minutes;  
+        var convdataTime = day+'/'+(month+1)+'/'+lastdigit+' '+hours + ':' + minutes+ ' ' + newformat;
+        //var convdataTime =  day + '-' + month+ '-' + year+" "+hours + ':' + minutes+ ' ' + newformat;
+        //var convdataTime =  hours + ':' + minutes+ ' ' + newformat;
+
+        return convdataTime;
+    }
+</script>

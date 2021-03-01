@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">CereHome</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Wizard</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Add Staff</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <%-include ('../partials/flashMessage')%>
+
+
+                    <div class="row">
+                        <div class="col-xl-10">
+                            <div class="card">
+                                <div class="card-body">
+
+
+                                    <% if (typeof successMessage != 'undefined' && successMessage && successMessage.length>0) { %>
+
+                                        <div class="callout callout-info bg-success">
+                                    
+                                            <p><%- successMessage %></p>
+                                          </div>
+                                        <% }%>
+                
+                                    <% if (typeof errorMessage != 'undefined' && errorMessage && errorMessage.length>0) { %>
+                                    
+                                        <div class="callout callout-info">
+                                            <p><%- errorMessage %></p>
+                                          </div>
+                                        <% }%>
+                
+
+
+                                    <!-- <form role="form" onsubmit="return false" class="col-md-12" id="adduser"> -->
+                                        <form  onsubmit="return false" role="form" id="adduser"  >
+
+                                        <div id="progressbarwizard">
+
+                                            <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
+                                                <li class="nav-item">
+                                                    <a href="#basictab1" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-account-circle mr-1"></i>
+                                                        <span class="d-none d-sm-inline">PERSONAL INFO</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#basictab2" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-face-profile mr-1"></i>
+                                                        <span class="d-none d-sm-inline">CONTACT INFO</span>
+                                                    </a>
+                                                </li>
+
+
+                                                <li class="nav-item">
+                                                    <a href="#basictab4" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-face-profile mr-1"></i>
+                                                        <span class="d-none d-sm-inline">MEDIA INFO</span>
+                                                    </a>
+                                                </li>
+
+                                                <!-- <div class="form-group row mb-3">
+                                                    <label class="col-md-3 col-form-label" for="dob">
+                                                        D.O.B</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" id="dob" name="dob" class="form-control"
+                                                            data-provide="datepicker">
+
+                                                    </div>
+                                                </div> -->
+
+
+
+                                                <li class="nav-item">
+                                                        <!-- <a href="#basictab3" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2"> -->
+                                                            <i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>
+                                                            <!-- <span class="d-none d-sm-inline">Finish</span> -->
+                                                            <button type="submit"
+                                                                class="btn ui-state-default medium  primary-bg">
+                                                                <span class="d-none d-sm-inline">SUBMIT</span>
+                                                            </button>
+                                                        <!-- </a> -->
+                                                    
+
+                                                    <!-- <div class="form-row">
+                                                        <input type="hidden" name="superhidden" id="superhidden" />
+                                                        <div class="form-input col-md-8 col-md-offset-6">
+
+                                                            <button type="submit"
+                                                                class="btn ui-state-default medium  primary-bg">
+                                                                <span class="button-content">Submit</span>
+                                                            </button>
+                                                        </div>
+                                                    </div> -->
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content b-0 mb-0 pt-0">
+                                                <div id="bar" class="progress mb-3" style="height: 7px;">
+                                                    <div class="bar progress-bar progress-bar-striped progress-bar-animated bg-success"></div>
+                                                </div>
+                                                <div class="tab-pane" id="basictab1">
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="userName">First
+                                                                    Name:<span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <input  maxlength="32" type="text" id="firstName" name="firstName"
+                                                                        data-trigger="change" data-required="true"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="lastName">
+                                                                    Last Name: </label>
+                                                                <div class="col-md-9">
+                                                                    <input  maxlength="32" type="text" id="lastName" name="lastName"
+                                                                        data-trigger="change"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                          
+                                                            <div class="form-group row mb-3">
+                                                                <label  class="col-md-3 col-form-label" for="product-category">Role</label>
+                                                                <div class="col-md-9">
+                                                                    <select name="role" class=" form-control parsley-validated select2" id="role">
+                                                                        <% for(var i=0;i<findData.length;i++){ %>
+                                                                        <option value="<%- findData[i].id %>"><%- findData[i].userType %></option>
+                                                                        <% } %>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                           
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="dob">
+                                                                    D.O.B <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text"  autocomplete="off" id="dob" name="dob" class="form-control"
+                                                                        >
+            
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+                                                <div class="tab-pane" id="basictab2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="email">
+                                                                    Email <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <input type="email" id="email" name="email"
+                                                                        data-type="email" data-trigger="change"
+                                                                        data-required="true"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="name">Phone
+                                                                    Number <span class="text-danger">*</span></label>
+                                                                <div class="col-md-3">
+                                                                    <input autocomplete="off" type="text"
+                                                                        id="countryCode" maxlength="4"    onkeyup="this.value=this.value.replace(/[^\d]/,'')" name="countryCode" 
+                                                                        value="91"  
+                                                                        class="form-control" />
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="number"    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0"  maxlength="10" id="phoneNumber"
+                                                                        name="phoneNumber" data-trigger="change"
+                                                                        data-type="phone" data-required="true"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="address">Address: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <textarea id="address" name="address"
+                                                                        data-trigger="keyup" data-rangelength="[10,200]"
+                                                                        class="form-control parsley-validated"></textarea>
+
+                                                                </div>
+                                                            </div>
+                                                           
+
+
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+
+                                                <div class="tab-pane" id="basictab4">
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="image">Upload
+                                                                    Image: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-3">
+                                                                    <input class="custom-file-input1" id="image"
+                                                                        type="file" name="image">
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="userName">
+                                                                    Id Proof Type:</label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" id="idProofName"
+                                                                        name="idProofName" data-trigger="change"
+                                                                        class="form-control parsley-validated" />
+
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="userName">
+                                                                    Upload Id Proof:</label>
+                                                                <div class="col-md-9">
+                                                                    <input id="idProof" type="file" name="idProof" />
+
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+                                                <div class="tab-pane" id="basictab3">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="text-center">
+                                                                <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
+                                                                <h3 class="mt-0">Please wait..We are adding staff member for your Vendor!</h3>
+
+
+                                                                
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+                                                <!-- <ul class="list-inline wizard mb-0">
+                                                    <li class="previous list-inline-item">
+                                                        <a href="javascript: void(0);"
+                                                            class="btn btn-secondary">Previous</a>
+                                                    </li>
+                                                    <li class="next list-inline-item float-right">
+                                                        <a href="javascript: void(0);"
+                                                            class="btn btn-secondary">Next</a>
+                                                    </li>
+                                                </ul> -->
+
+                                            </div> <!-- tab-content -->
+                                        </div> <!-- end #basicwizard-->
+                                    </form>
+
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+
+
+                    </div>
+                    <!-- end row -->
+
+
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <%- include('../partials/footer'); -%>
+
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+
+    <%- include('../partials/commonJs'); -%>
+
+
+</body>
+
+
+<script type="text/javascript">
+    $('#adduser').validate({
+            rules: {
+                firstName: {
+                    required: true,
+                },
+                lastName: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                image: {
+                    required: true,
+                   // minlength: 5
+                },
+                phoneNumber: {
+                    required: true,
+                   // minlength: 10,
+                    maxlength: 10
+                },
+                dob: {
+                    required: true,
+                   // minlength: 5
+                },
+                address: {
+                    required: true,
+                   // minlength: 5
+                },
+
+            },
+            messages: {
+                firstName: {
+                    required: "Please enter a first name",
+                   // email: "Please enter a vaild email address"
+                },
+                lastName: {
+                    required: "Please enter a last name",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                image: {
+                    required: "Please select an image",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                phoneNumber: {
+                    required: "Please enter phone no.",
+                    maxlength: "Your phone no. must be at least 10"
+                },
+                dob: {
+                    required: "Please select dob",
+                },
+                address: {
+                    required: "please enter address",
+                },
+            },
+
+            submitHandler: function (form) {
+           
+                $('#basictab1').removeClass('active')
+                $('#basictab2').removeClass('active')
+                $('#basictab4').removeClass('active')
+
+                $('#basictab3').addClass('active')
+
+
+                setTimeout(function(){
+            var tempform = $('#adduser');
+            var dob=$('#dob').val()
+if(calculateAge(new Date(dob))<18)
+{
+    showToastError("Sorry, we are not able to add an employee whose age is below 18 years")
+    return;
+}
+
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>employees/add',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+
+                            showToastSuccess(response.message)
+
+                            // window.location.href = "<%-adminpath%>employees/view/" + id;
+                            setTimeout(function(){
+                                window.location.href = "<%-adminpath%>employees";
+
+
+                            },1000)
+
+
+                        } else {
+                            showToastError(response.message)
+                        }
+                    },
+
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+               
+
+
+                }); 
+        }
+    ,1000);
+
+            }
+        });
+    
+    
+</script>
+
+
+</html>
+
+
+<script type="text/javascript">
+
+    // $("#dob").datepicker({ maxDate: 1 });
+    // $("#dob").flatpickr();
+    $("#dob").flatpickr({maxDate: "today"});
+
+
+    // $('#adduser').submit(function () {
+    //     y
+
+    //     var tempform = $('#adduser');
+
+    //     tempform.parsley('validate');
+
+    //     if (tempform.parsley('isValid')) {
+    //         var form_data = new FormData(tempform[0]);
+    //         $('#loading1').show()
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '<%-adminpath%>employees/add',
+    //             dataType: 'json',
+    //             data: form_data,
+    //             contentType: false,
+    //             cache: false,
+    //             processData: false,
+    //             success: function (response) {
+    //                 $('#loading1').hide()
+    //                 if (response.code == 200) {
+
+    //                     showToastSuccess(response.message)
+
+    //                     window.location.href = "<%-adminpath%>employees";
+
+    //                 } else {
+    //                     showToastError(response.message)
+    //                 }
+    //             },
+
+    //             error: function (response) {
+    //                 $('#loading1').hide()
+    //                 var errorResponse = JSON.parse(response.responseText)
+    //                 showToastError(errorResponse.message)
+
+
+    //             }
+    //         });
+    //     }
+    // });
+
+
+</script>
+

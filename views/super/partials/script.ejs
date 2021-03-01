@@ -1,0 +1,85 @@
+<%- include('../partials/rightBar'); -%>
+
+
+<!-- Vendor js -->
+  <script src="/dist/assets/js/vendor.min.js"></script>
+
+  <!-- Plugins js-->
+  <script src="/dist/assets/libs/flatpickr/flatpickr.min.js"></script>
+  <script src="/dist/assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+        <script src="/dist/assets/libs/clockpicker/bootstrap-clockpicker.min.js"></script>
+    <script src="/dist/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+  <script src="/dist/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+  <script src="/dist/assets/libs/selectize/js/standalone/selectize.min.js"></script>
+
+  <!-- Dashboar 1 init js-->
+  <script src="/dist/assets/js/pages/dashboard-1.init.js"></script>
+<script src="/plugins/toastr/toastr.min.js"></script>
+  <!-- App js-->
+  <script src="/dist/assets/js/app.min.js"></script>
+<script src="/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="/dist/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+<script src="/dist/assets/js/pages/datatables.init.js"></script>
+<script src="/dist/assets/js/pages/form-pickers.init.js"></script>
+<script src="/dist/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="/dist/js/jquery.form.js"></script>
+<script src="/dist/assets/libs/dropify/js/dropify.min.js"></script>
+<script src="/dist/assets/libs/dropzone/min/dropzone.min.js"></script>
+<script src="/dist/assets/js/pages/form-fileuploads.init.js"></script>
+
+
+
+
+<!-- Plugins js-->
+<script src="/dist/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+<!-- Init js-->
+<script src="/dist/assets/js/pages/form-wizard.init.js"></script>
+<script src="/dist/assets/libs/parsleyjs/parsley.min.js"></script>
+
+<!-- google maps api -->
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyA7Zj-PTZm4sDG-eoiLPA-XohvgxBe95wU&libraries=places,geometry,drawing&sensor=false"></script>
+<script src="https://cdn.tiny.cloud/1/mxnnylag9k6l40s8knvvd2kdt332srgeuntcttn7g7rkixvq/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
+<!-- gmap js-->
+<script src="/dist/assets/libs/gmaps/gmaps.min.js"></script>
+
+<!-- Init js-->
+<script src="/dist/assets/js/pages/google-maps.init.js"></script>
+
+<script src="/dist/assets/libs/select2/js/select2.min.js"></script>
+<script src="/dist/assets/libs/summernote/summernote-bs4.min.js"></script>
+<script src="/dist/assets/js/pages/add-product.init.js"></script>
+
+<script type="text/javascript" src="/dist/assets/js/intlTelInput.min.js"></script>
+<script type="text/javascript" src="/dist/assets/js/intlTelInput-jquery.min.js"></script>
+  <!-- Chart JS -->
+<script src="/dist/assets/libs/chart.js/Chart.bundle.min.js"></script>
+
+<script>
+
+</script>
+<script>
+  
+  $("#countryCode").intlTelInput({
+        initialCountry: "in",
+    });
+    var input = document.querySelector("#countryCode");
+    input.addEventListener("countrychange", function () {
+        $("#countryCode").val($("#countryCode").intlTelInput("getSelectedCountryData").dialCode);
+
+    });
+
+</script>
+

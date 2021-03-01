@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Vendors</a></li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="form-label">Vendors</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+
+
+                      
+                        <!-- end row -->    
+                    <!-- end row -->
+                    <%-include ('../partials/flashMessage')%>
+                   
+
+                    <div class="row" id="appendData">
+                       
+
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <h4 class="header-title mb-3">Total  Orders</h4>
+
+                                    <div id="donut-chart1" style="height: 300px;" data-colors="#f4f8fb,#3283f6,#44cf9c" dir="ltr"></div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-widgets">
+                                            <a href="javascript: void(0);" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
+                                            <a data-toggle="collapse" href="#cardCollpase19" role="button" aria-expanded="false" aria-controls="cardCollpase19"><i class="mdi mdi-minus"></i></a>
+                                            <a href="javascript: void(0);" data-toggle="remove"><i class="mdi mdi-close"></i></a>
+                                        </div>
+                                        <h4 class="header-title mb-0">Total Orders(Past 24 hours)</h4>
+
+                                        <div id="cardCollpase19" class="collapse pt-3 show" dir="ltr">
+                                            <div id="statPast" class="apex-charts" data-colors="#3283f6,#4fc6e1,#4a81d4,#00b19d,#f1556c"></div>
+                                        </div> <!-- collapsed end -->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <h4 class="header-title mb-3">Rating Comparison</h4>
+
+                                    <div id="pie-chart1" style="height: 300px;" data-colors="#f4f8fb,#3283f6,#44cf9c" dir="ltr"></div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div>
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-widgets">
+                                        <a href="javascript: void(0);" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
+                                        <a data-toggle="collapse" href="#cardCollpase5" role="button" aria-expanded="false" aria-controls="cardCollpase5"><i class="mdi mdi-minus"></i></a>
+                                        <a href="javascript: void(0);" data-toggle="remove"><i class="mdi mdi-close"></i></a>
+                                    </div>
+                                    <h4 class="header-title mb-0">Feedbacks Comparison</h4>
+
+                                    <div id="cardCollpase5" class="collapse pt-3 show" dir="ltr">
+                                        <div id="ratComapre" class="apex-charts" data-colors="#3283f6,#44cf9c,#CED4DC"></div>
+                                    </div> <!-- collapsed end -->
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        
+                        <div id="accordion" class="table-responsive">
+                            <table id="demo-foo-pagination"
+                            data-page-size="30"  class="table  nowrap dataTable no-footer w-100 toggle-arrow-tiny">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th >Name</th>
+                                        <th >Image</th>
+                                        <th >Rating</th>
+                                        <th >Total Orders</th>
+                                        <th >Maximum Today Orders</th>
+                                        <th>Food Quantity Rating</th>
+                                        <th >Service Quality Rating</th>
+                                        <th >Packing Pres Rating
+                                        </th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody id="compareData">
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                      
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+     
+   
+    
+
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>
+        <script src="/dist/assets/libs/d3/d3.min.js"></script>
+        <script src="/dist/assets/libs/c3/c3.min.js"></script>
+        <!-- Init js -->
+
+        <script src="/dist/assets/js/pages/c3.init.js"></script>
+        <script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+        <script src="https://apexcharts.com/samples/assets/ohlc.js"></script>
+
+        <!-- init js -->
+
+</body>
+
+</html>
+
+
+<script>
+   
+
+
+   compareCompany()
+
+    
+
+
+    function compareCompany() 
+    {
+        var array=getURLParameter('array');
+        var id=[]
+        var urlArray=array.split(",")
+        if(urlArray.length==1) id.push(urlArray)
+        else id=urlArray
+        if(id.length == 1)
+        {
+            showToastError("Sorry! Minimum two Vendors are allowed to compare!");
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath %>compareRestaurants',
+            dataType: 'json',
+            data: { 'restaurantId': id },
+            success: function (response) {
+                console.log(response);
+               var ratingArray=[]
+               var restroArray=[]
+               var ordersArray=[]
+               var packing=[]
+               var quality=[]
+               var quantity=[]
+               var past24=[]
+
+               var html=''
+                if (response.code == '200') {
+                    var data = response.body;
+                      for (var i = 0; i < data.length; i++) {
+                        html += '<tr> '+
+                        '<td class="font-18 ">'+data[i].companyName+'</td><td><img class="avatar-xl" title="'+data[i].companyName+'" alt="'+data[i].companyName+'" src="'+data[i].logo1+'"></td>';
+                        html +=  '<td>'+data[i].rating+'</td>';
+                        html +=  '<td>'+data[i].totalOrders+'</td>';
+                        html +=  '<td>'+data[i].totalOrders24+'</td>';
+                        html +=  '<td>'+data[i].foodQuantityRating+'</td>';
+                        html +=  '<td>'+data[i].foodQualityRating+'</td>';
+                        html +=  '<td>'+data[i].packingPresRating+'</td>';
+                        html +=  '</tr>';
+                        ratingArray.push(parseFloat(data[i].rating).toFixed(1))
+                        packing.push(parseFloat(data[i].packingPresRating).toFixed(1))
+                        quantity.push(parseFloat(data[i].foodQuantityRating).toFixed(1))
+                        quality.push(parseFloat(data[i].foodQualityRating).toFixed(1))
+                        past24.push(parseInt(data[i].totalOrders24))
+
+                        restroArray.push(data[i].companyName)
+                        ordersArray.push(data[i].totalOrders)
+                    }
+                    
+                    $('#compareData').html(html);
+                    set24Stat(restroArray,past24)
+                    setChart(restroArray,ratingArray,packing,quantity,quality)
+
+                    setRating(restroArray,ratingArray,ordersArray)
+                }
+                else {
+
+                    showToastError(response.message)
+                }
+            },
+
+            error: function (response) {
+                showToastError(response.message)
+
+            }
+        });
+
+    }
+
+  
+
+    function setRating(restro,dataRating,dataOrders)
+    {
+
+        var multArray=[]
+        var multArrayOrders=[]
+
+        for(var k=0;k<restro.length;k++)
+        {
+        multArray.push([restro[k],dataRating[k] ])
+        multArrayOrders.push([restro[k],dataOrders[k] ])
+
+        }
+   var t=["#4a81d4","#1abc9c","#f1556c"];  
+c3.generate({bindto:"#pie-chart1",
+data:{columns:multArray,
+type:"pie"},color:{pattern:t},pie:{label:{show:!1}}})
+
+
+
+    c3.generate({bindto:"#donut-chart1",data:{columns:multArrayOrders,type:"donut"},donut:{title:"Total Orders"
+    ,width:15,label:{show:!1}},color:{pattern:t}});t=["#f4f8fb","#4a81d4","#1abc9c"];
+
+
+
+
+
+
+
+    }
+   
+    function set24Stat(restro,past24)
+    {
+
+        $("#statPast").html('')
+        colors=["#6658dd","#4fc6e1","#4a81d4","#00b19d","#f1556c"];
+
+        
+options={chart:{height:320,type:"donut"},series:past24,
+legend:{show:!0,position:"bottom",horizontalAlign:"center",
+verticalAlign:"middle",floating:!1,fontSize:"14px",offsetX:0,
+offsetY:2},labels:restro,
+colors:colors,responsive:[{breakpoint:100,options:{chart:{height:240},
+egend:{show:!1}}}],fill:{type:"gradient"}};
+(chart=new ApexCharts(document.querySelector("#statPast"),options)).render();
+        
+    }
+
+    function setChart(restro,dataRating,packing,quality,quantity)
+    {
+
+       
+
+        $('#ratComapre').html('')
+        colors=["#6658dd","#1abc9c","#CED4DC",'#f1556c'];
+
+var options={chart:{height:380,type:"bar",
+toolbar:{show:!1}},
+plotOptions:{bar:{horizontal:!1,endingShape:"rounded",columnWidth:"55%"}},
+dataLabels:{enabled:!1},stroke:{show:!0,width:2,colors:["transparent"]},
+colors:colors,series:[
+{name:"Rating",data:dataRating},
+{name:"Food Quantity",data:quantity},
+{name:"Service Presentation",data:packing},
+{name:"Fod Quality",data:quality}],
+xaxis:{categories:restro},
+legend:{offsetY:5},yaxis:{title:{text:""}},
+fill:{opacity:1},grid:{row:{colors:["transparent","transparent"],
+opacity:.2},borderColor:"#f1f3fa",padding:{bottom:10}},
+tooltip:{y:{formatter:function(e){return e+""}}}};
+
+new ApexCharts(document.querySelector("#ratComapre"),options).render();
+    }
+</script>

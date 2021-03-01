@@ -1,0 +1,379 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+   <%-include ('../partials/header')%>
+    <body style="overflow: hidden;">
+        
+
+       
+
+        <div id="page-wrapper" class="demo-example">
+
+           
+
+            <!-- #page-header -->
+
+            <%-include ('../partials/side_bar')%>
+            <!-- #page-sidebar -->
+            <div id="page-content-wrapper">
+                <div id="page-title">
+
+
+    <div class=" text-transform-upr font-size-15 font-bold primary-font pad10A" >Edit SubCategory</div>
+
+    
+
+                </div>
+                   <!-- #page-title -->
+<div id="page-content">
+
+<%-include ('../partials/flashMessage')%>
+<% 
+if(data==undefined || data==null || data=='{}' || data.length==0) {%>
+
+    <%-include ('../partials/norecord')%>
+
+
+<%}else {
+    var connectedCat=JSON.parse(data.connectedCat)%>
+
+
+    <div class="large-box">
+        <div class="pad10A">
+            
+
+                <!-- <form id="demo-form" action=""  method="" /> -->
+                <form  role="form" onsubmit="return false"  class="col-md-12"  id="adduser" >
+                    <input type="hidden"  name="serviceId" id="serviceId"  value="<%-data.id%>"  />
+                    <input type="hidden"  name="parentId" id="parentId"  />
+
+
+
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Category:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Category" data-required="true"  onchange="getSubCat()" class="chosen-select" name="category" id="category">
+                               
+
+
+                                <%for(var t=0;t<catData.length;t++){%>
+                                    <option <%if(connectedCat.includes(catData[t].id)){%> selected <%}%>  value="<%-catData[t].id%>" /><%-catData[t].name%> 
+                                   
+                            <%}%>
+                
+                       </select>                        </div>
+                    </div>
+
+
+                <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Sub-Category :
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Sub-Category"   onchange="getSubCatLevel2()"   name="subcat1"  class="chosen-select" id="subcat1">
+                              
+                            
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-row" id="subcat2Div" style="display:none">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                 Next Sub Categoty:
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Sub-Category" name="subcat2"  class="chosen-select" id="subcat2">
+                              
+                            
+                            </select>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Sub-Category Name:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <input type="text" id="serviceName"  value="<%-data.name%>" data-rangelength="[2,100]" name="serviceName"  data-trigger="change" data-required="true" class="parsley-validated" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Icon:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-4">
+                            <input type="file" id="icon"   name="icon"  />
+                        </div>         
+                        <div class="form-group col-md-4" <% if (data.icon =="") {%> style="display :none"  <%}%>  > 
+                            <label>Uploaded Icon </label>
+                            <div class="fm-admin-file">
+                                    <img id="myIcon" src="<%=data.icon%>" alt="Icon" style="width:50%;max-width:100px">
+
+                            </div>
+                        </div>
+                                
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Thumbnail:
+                            </label>
+                        </div>
+                        <div class="form-input col-md-4">
+                            <input type="file"  id="thumbnail" name="thumbnail"  />
+                        </div>
+
+                        <div class="form-group col-md-4" <% if (data.thumbnail =="") {%> style="display :none"  <%}%>  > 
+                            <label>Uploaded Thumbnail </label>
+                            <div class="fm-admin-file">
+                                    <img id="myThumbnail" src="<%=data.thumbnail%>" alt="Icon" style="width:50%;max-width:100px">
+
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                    
+                   
+
+                    
+
+
+                   
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="" class="label-description">
+                                Description:
+                                <span>10 chars min, 1000 max</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+
+                            <textarea id="description" name="description" data-trigger="keyup" data-rangelength="[10,1000]" class="parsley-validated"><%-data.description%></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="divider"></div>
+                    <div class="form-row">
+                        <input type="hidden" name="superhidden" id="superhidden" />
+                        <div class="form-input col-md-8 col-md-offset-6">
+                            <!-- //onclick="javascript:$(&apos;#demo-form&apos;).parsley( &apos;validate&apos; );" -->
+                            <!-- onclick="javascript:$('#adduser').parsley('validate' );"  -->
+                            <button  type="button" onclick="window.history.back();"   class="btn ui-state-default medium bg-red mrg15R">
+                                <span class="button-content">Cancel</span>
+                            </button>
+                            <button  type="submit" class="btn ui-state-default medium  primary-bg">
+                                <span class="button-content">Submit</span>
+                            </button>
+                            </div>
+                    </div>
+
+                </form>
+
+        </div>
+
+       
+    </div>
+
+<%}%>
+
+                	</div><!-- #page-content -->
+            </div><!-- #page-main -->
+        </div><!-- #page-wrapper -->
+
+    </body>
+</html>
+
+
+<script type="text/javascript">
+    var CAT='<%-connectedCat%>'
+    getSubCat()
+    getSubCatLevel2()
+$('#parentId').val(getURLParameter('parent'))
+
+    
+      $('#adduser').submit( function() {
+       
+       
+            var tempform = $('#adduser');
+           
+            tempform .parsley('validate' );
+
+            if(tempform.parsley('isValid' ))
+            {
+                var ext = $('#icon').val().split('.').pop().toLowerCase();
+                if(ext==null || ext=="") ext=$('#myIcon').attr('src').split('.').pop().toLowerCase();
+                var ext1 = $('#thumbnail').val().split('.').pop().toLowerCase();
+                if(ext1==null || ext1=="") ext1=$('#myThumbnail').attr('src').split('.').pop().toLowerCase();
+
+
+                if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1    ||  $.inArray(ext1.trim(), ['gif','png','jpg','jpeg']) == -1     ) {
+                    showToastError('Please select only jpg and png files for image!')
+                return false;
+            }
+
+
+            var form_data = new FormData(tempform[0]);
+            $('#loading1').show()
+            var id=$('#serviceId').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>subcategory/update',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $(".overlay").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+
+window.location.reload()                       
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+
+                error: function(response)
+                {
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+      });
+    
+
+
+      function getSubCat()
+{
+    var id=$('#category').val();
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>subcategory/getSubCat',
+            dataType: 'json',
+            data: {'category':id},
+            success: function (response) {
+                var dataAppend=null
+                var data=response.body
+                if (response.code == '200') {
+                    $('#subcat1').html("")
+        var dataAppend='<option value="">Nothing Selected</option>';
+                  for(var k=0;k<data.length;k++)
+                    {
+                        if(CAT.includes(data[k].id))
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" selected>'+data[k].name+'</option>';
+            else    dataAppend=dataAppend+'<option value="'+data[k].id+'" >'+data[k].name+'</option>';
+
+                }
+                $('#subcat1').html(dataAppend)
+                $('.chosen-select').trigger("chosen:updated");
+
+                    }
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+
+
+
+
+    function getSubCatLevel2(id)
+{
+    var id=$('#subcat1').val();
+
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>subcategory/getSubCat',
+            dataType: 'json',
+            data: {'category':id},
+            success: function (response) {
+                var dataAppend=null
+                var data=response.body
+                if (response.code == '200') {
+                    $('#subcat2').html("")
+                    $('#subcat2Div').hide()
+
+                    var dataAppend='<option value="">Nothing Selected</option>';
+
+                  for(var k=0;k<data.length;k++)
+                    {
+                        if(CAT.includes(data[k].id))
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" selected>'+data[k].name+'</option>';
+            else    dataAppend=dataAppend+'<option value="'+data[k].id+'" >'+data[k].name+'</option>';
+
+                }
+                $('#subcat2').html(dataAppend)
+                $('.chosen-select').trigger("chosen:updated");
+             if(data.length>0) $('#subcat2Div').show()
+
+                    }
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+
+
+
+
+
+  
+    </script>
+

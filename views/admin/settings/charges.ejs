@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">Service Charge</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Service Charges</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form  role="form"  onsubmit="return false"  id="addCharges"   enctype="multipart/form-data">
+                                            <input  type="hidden"  <% if(data){%> value="<%-data.id%>" <%}%>  id="chargesId"  name="chargesId"  class="form-control" />    
+
+                                        <div class="form-group">
+                                            <p class="f-500 c-black m-b-10">Service Distance (in Km)  <span class="text-danger m-l-3" >*</span> </p>
+                                            <div class="fg-line">
+                                                <input    type="text" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');"  <% if(data){%> value="<%-data.radius%>" <%}%>   min="1" id="radius" placeholder="Service distance"  name="radius"  class="form-control" />    
+                                            </div> 
+                                        </div>
+                                        
+                                     
+                                        <div class="form-group">
+                                            <p class="f-500 c-black m-b-10">Free service distance (in Km) <span class="text-danger m-l-3" >*</span> </p>
+                                            <div class="fg-line">
+                                                <input  type="text" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');"  <% if(data){%> value="<%-data.freeUptoDistance%>" <%}%>       min="0" id="freeUptoDistance" placeholder="Free distance" name="freeUptoDistance"  class="form-control" />    
+                                            </div> 
+                                        </div>
+                                        
+                                        <div class="form-group mb-0">
+                                            <label>Extra charges per km</label>
+                                            <input   type="text" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');"   <%if(data){%> value="<%-data.extraDistanceCharges%>" <%}%>    min="0" id="extraDistanceCharges" placeholder="Extra charges"  name="extraDistanceCharges"  class="form-control" />    
+
+                                        </div>
+
+                                        <div class="col-12 mt-3 ">
+                                            <div class="text-center mb-3">
+                                                <button type="button"  onclick="window.history.back();" class="btn w-sm btn-light waves-effect">Cancel</button>
+                                                <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                               
+                                            </div>
+                                        </div> <!-- end col -->
+                                  </form>
+                                    
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+<!-- Modal -->
+<!-- /.modal -->
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+    
+$("#addCharges").validate({
+    rules: {
+        freeUptoDistance: {
+          required: true
+        },
+        extraDistanceCharges: {
+          required: true
+        },
+        radius: {
+          required: true
+        },
+        
+
+    },
+    messages: {
+        freeUptoDistance: {required: "This field is required"},
+        extraDistanceCharges: {required: "This field is required"},
+        radius: {required: "This field is required"},
+
+    },
+    submitHandler: function (form) {
+
+        var tempform = $('#addCharges');
+        var form_data = new FormData(tempform[0]);
+        $("#loading1").show();
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>settings/chargesUpdate',
+            dataType: 'json',
+            data: form_data,
+            contentType:false,
+            cache:false,
+            processData:false,
+            success: function (response) {
+                $("#loading1").hide();
+                if (response.code == 200) {
+            
+                    showToastSuccess(response.message)
+
+                    // window.location.href="<%-adminpath%>deals";
+                   
+                } else {
+
+                    showToastError(response.message)
+                }
+            },
+            error: function(response)
+            {
+                $('#loading1').hide()
+
+               var errorResponse=JSON.parse(response.responseText)
+               showToastError(errorResponse.message)
+
+
+            }
+        });
+    
+}
+});
+
+
+</script>
+</body>
+
+</html>

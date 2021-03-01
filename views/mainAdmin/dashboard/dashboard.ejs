@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/header'); -%>
+
+<style>
+    .lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+</style>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <%- include('../partials/dashboardHeader'); -%>
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                      
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <form class="form-inline" onkeypress="return event.keyCode != 13">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <input type="text" class="form-control border-0" placeholder="Select date in range" id="range-datepicker">
+                                                    <div class="input-group-append">
+                                                        <span  onclick="getFilter()"  class="input-group-text bg-secondary border-secondary text-white">
+                                                            <i class="mdi mdi-calendar-range"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="javascript: void(0);"  onclick="window.location.reload()" class="btn btn-secondary btn-sm ml-2">
+                                                <i class="mdi mdi-autorenew"></i>
+                                            </a>
+                                            
+                                        </form>
+                                    </div>
+                                    <h4 class=form-label">Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="row">
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="avatar-lg rounded-circle bg-primary-info border-primary border">
+                                                <i class="fe-bar-chart-line- font-22 avatar-title text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup" id="mTotalProducts" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Total Vendors</p>
+                                            </div>
+                                        </div>
+
+                                      
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                                <i class="fe-users font-22 avatar-title text-info"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <p class="text-muted mb-1 text-truncate">Total Users</p>
+                                            </div>
+                                        </div>
+
+                                      
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                              
+                            </div> <!-- end col-->
+
+
+                           
+
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                                <i class="fe-star font-22 avatar-title text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup" id="mTotalProducts" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Avg Rating</p>
+                                            </div>
+                                        </div>
+
+                                      
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+                          
+                          
+                           
+
+
+
+                     
+
+
+
+
+                        
+                        
+                  
+
+                
+
+                        <!-- end row -->
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+            
+        </div>
+        <!-- END wrapper -->
+        <!-- Right modal content -->
+        <div id="right-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-right" style="width: 100%">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <h4 class="header-title mt-5">Top 5 <small><b>Rating Basis</b></small> </h4>
+                            <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Vendor Name </th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableTop5rating">
+                                </tbody>
+                            </table>
+                           
+                            <h4 class="header-title mb-2">Top 5 <small><b>Orders Basis</b></small></h4>
+                            <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Vendor Name </th>
+                                        <th>Orders</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableTop5order">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+         <!-- Right modal content -->
+        <div id="left-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-right" style="width: 100%">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <h4 class="header-title mt-5">Bottom 5 <small><b>Rating Basis</b></small> </h4>
+                            <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Vendor Name </th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablebottom5rating">
+                                </tbody>
+                            </table>
+                           
+                            <h4 class="header-title mb-2">Bottom 5 <small><b>Orders Basis</b></small></h4>
+                            <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Vendor Name </th>
+                                        <th>Orders</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablebottom5order">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+        
+        <script>
+            /*
+            *@role Get Top List Vendors
+            */
+            $(document).ready(function(){
+                showtop();
+                showbottom();
+                getRevenue();
+                // Global Options:
+                Chart.defaults.global.defaultFontColor = 'black';
+                Chart.defaults.global.defaultFontSize = 12;
+
+            });
+
+
+            function getRevenue()
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: '<%-superadminpath %>getrevenue',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#loading1').hide()
+                        if (response.code == '200') {
+                            var data=response.body
+                              //Total Revenue
+                            var canvasBae = document.getElementById("barChart");
+                            var ctx = canvasBae.getContext('2d');
+
+                            var dataChart = {
+                              labels: data.name,
+                              datasets: [{
+                                  label: "Revenue",
+                                  fill: false,
+                                  lineTension: 0.1,
+                                  backgroundColor: "rgba(225,0,0,0.4)",
+                                  borderColor: "red", // The main line color
+                                  borderCapStyle: 'square',
+                                  borderDash: [], // try [5, 15] for instance
+                                  borderDashOffset: 0.0,
+                                  borderJoinStyle: 'miter',
+                                  pointBorderColor: "black",
+                                  pointBackgroundColor: "white",
+                                  pointBorderWidth: 1,
+                                  pointHoverRadius: 4,
+                                  pointHoverBackgroundColor: "red",
+                                  pointHoverBorderColor: "brown",
+                                  pointHoverBorderWidth: 2,
+                                  pointRadius: 4,
+                                  pointHitRadius: 10,
+                                  // notice the gap in the data and the spanGaps: true
+                                  data: data.totalSum,
+                                  spanGaps: true,
+                                }]
+                            };
+
+                            // Notice the scaleLabel at the same level as Ticks
+                            var optionBar = {
+                              scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            },
+                                            scaleLabel: {
+                                                 display: true,
+                                                 labelString: 'Vendors Revenue',
+                                                 fontSize: 10 
+                                              }
+                                        }]            
+                                    }  
+                            };
+
+                            // Chart declaration:
+                            var BarChart = new Chart(ctx, {
+                              type: 'line',
+                              data: dataChart,
+                              options: optionBar
+                            });
+                        }
+                        else{
+                           
+                            showToastError(response.message)
+                        }
+                    },
+                });
+            }
+            function showTopGraphs(data)
+            {
+                var options = {
+                    maintainAspectRatio: !1,
+                    legend: {
+                        display: !1
+                    },
+                    // yAxes: [{
+                    //             ticks: {
+                    //                 beginAtZero:true
+                    //             },
+                    //             scaleLabel: {
+                    //                  display: true,
+                    //                  labelString: 'Revenue / Rating',
+                    //                  fontSize: 10 
+                    //               }
+                    //         }]  
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                display: true
+                            },
+                            stacked: true,
+                            ticks: {
+                                beginAtZero:true
+                            },
+                        }],
+                        xAxes: [{
+                            barPercentage: .7,
+                            categoryPercentage: .5,
+                            stacked: true,
+                            gridLines: {
+                                color: "rgba(0,0,0,0.01)"
+                            }
+                        }]
+                    }
+                };
+                //Show Bar Chart
+                var canvas = document.getElementById('ratingBasis');
+                var canvas = canvas.getContext('2d');
+                var t = {
+                    labels: data.rating.labels,
+                    
+                    datasets: [{
+                        label: "Rating",
+                        backgroundColor: '#4a81d4',
+                        borderColor: '#4a81d4',
+                        hoverBackgroundColor: '#4a81d4',
+                        hoverBorderColor: '#4a81d4',
+                        data: data.rating.ratedata
+                    }]
+                };
+                var myBarChart = new Chart(canvas, {
+                    type: 'bar',
+                    data: t,
+                    options: options
+                });
+                //Order Basis
+                var canvasOrder = document.getElementById('orderBasis');
+                var torder = {
+                    labels: data.orders.labels,
+                    datasets: [{
+                        label: "Orders",
+                        backgroundColor: '#ebeff2',
+                        borderColor: '#ebeff2',
+                        hoverBackgroundColor: '#ebeff2',
+                        hoverBorderColor: '#ebeff2',
+                        data: data.orders.ratedata
+                    }]
+                };
+                var myBarChart = new Chart(canvasOrder, {
+                    type: 'bar',
+                    data: torder,
+                    options: options
+                });
+            }
+            function showtop()
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: '<%-superadminpath %>getToprestaurants',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#loading1').hide()
+                        if (response.code == '200') {
+                            var data=response.body
+                            console.log(data);
+                            top5RestData(data.topr,1);
+                            top5RestOrder(data.topo,1);
+                            showTopGraphs(data);
+                        }
+                        else{
+                           
+                            showToastError(response.message)
+                        }
+                    },
+                });
+            }
+
+            function showBottomGraphs(data)
+            {
+                var options = {
+                    maintainAspectRatio: !1,
+                    legend: {
+                        display: !1
+                    },
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                display: true
+                            },
+                            stacked: true,
+                            ticks: {
+                                beginAtZero:true
+                            },
+                        }],
+                        xAxes: [{
+                            barPercentage: .7,
+                            categoryPercentage: .5,
+                            stacked: true,
+                            gridLines: {
+                                color: "rgba(0,0,0,0.01)"
+                            }
+                        }]
+                    }
+                };
+                //Show Bar Chart
+                var canvas = document.getElementById('bottomratingBasis');
+                var t = {
+                    labels: data.rating.labels,
+                    datasets: [{
+                        label: "Rating",
+                        backgroundColor: '#fa5c7c',
+                        borderColor: '#fa5c7c',
+                        hoverBackgroundColor: '#fa5c7c',
+                        hoverBorderColor: '#fa5c7c',
+                        data: data.rating.ratedata
+                    }]
+                };
+                var myBarChart = new Chart(canvas, {
+                    type: 'bar',
+                    data: t,
+                    options: options
+                });
+                //Order Basis
+                var canvasOrder = document.getElementById('bottomorderBasis');
+                var torder = {
+                    labels: data.orders.labels,
+                    datasets: [{
+                        label: "Orders",
+                        backgroundColor: '#4fc6e1',
+                        borderColor: '#4fc6e1',
+                        hoverBackgroundColor: '#4fc6e1',
+                        hoverBorderColor: '#4fc6e1',
+                        data: data.orders.ratedata
+                    }]
+                };
+                var myBarChart = new Chart(canvasOrder, {
+                    type: 'bar',
+                    data: torder,
+                    options: options
+                });
+            }
+            /*
+            *@role Get Bottom List Vendors
+            */
+            function showbottom()
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: '<%-superadminpath %>getbottomrestaurants',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#loading1').hide()
+                        if (response.code == '200') {
+                            var data=response.body
+                            console.log(data);
+                            top5RestData(data.topr,2);
+                            top5RestOrder(data.topo,2);
+                            showBottomGraphs(data);
+                        }
+                        else{
+                           
+                            showToastError(response.message)
+                        }
+                    },
+                });
+            }
+            function top5RestData(data,status)
+            {
+                var html=""
+                for(var k=0;k<data.length;k++)
+                {
+                    html=html + `<tr>
+                        <td>
+                            ${data[k].companyName}
+                        </td>
+                        <td>
+                           ${getRating(data[k].rating)}
+                        </td>
+                    </tr>`;
+                }
+                if(status == '1')
+                {
+                    $('#tableTop5rating').html(html)
+                }else{
+                    $('#tablebottom5rating').html(html)
+                }
+                
+            }
+            function top5RestOrder(data,status)
+            {
+                var html=""
+                for(var k=0;k<data.length;k++)
+                {
+                    html=html + `<tr>
+                        <td>
+                            ${data[k].companyName}
+                        </td>
+                        <td>
+                           ${data[k].totalOrders}
+                        </td>
+                    </tr>`;
+                }
+                if(status == '1')
+                {
+                    $('#tableTop5order').html(html)
+                }else{
+                    $('#tablebottom5order').html(html)
+                }
+            }
+            var filterName="DAY"
+           
+
+            var countLoad=0
+            getFilter()
+            function getFilter()
+            {
+                
+                var fromDate=""
+                var toDate=""
+                var rangeDatePicker=[]
+                var cid= $('#cname').val();
+                var rangeDatePicker=$('#range-datepicker').val().split("to");
+                if(rangeDatePicker.length>1){ fromDate=rangeDatePicker[0];
+                toDate=rangeDatePicker[1];}
+                // if(countLoad>0)
+                $('#loading1').show()
+                    //alert(fromDate)
+                    $.ajax({
+                        type: 'POST',
+                        url: '<%-superadminpath%>dashboard',
+                        dataType: 'json',
+                        data: {'fromDate':fromDate ,'toDate':toDate,'filterName':filterName,'cid':cid     },
+                        success: function (response) {
+                            $('#loading1').hide()
+                            if (response.code == '200') {
+                                var data=response.body
+
+                                top5UsersData(data.top5UserStat)
+                                setAnalyticsParent(data.revenuAnalyticsParent)
+                                setTop5Satt(data.top5UserStat)
+                                setRatingsBar(data.ratingsData)
+                                setAnalytics(data.revenuAnalytics)
+                                setTotalRevenue(data.targetSales,data.paymentStat)
+                            }
+                            else{
+                               
+                                showToastError(response.message)
+                            }
+                        },
+            
+                        error :function(response)
+                        {
+                            $('#loading1').hide()
+            
+                            showToastError(response.message)
+            
+                        }
+                    });
+                }
+                
+                function setTotalRevenue(target,paymentStat)
+                {
+                    $("#total-revenue1").html('');
+                    var sum=0
+                    var escrow=0
+                    var escrow=0
+                    var count=0
+                    if(target != null)
+                    {
+                        var target=(target.targetSales!=null)?target.targetSales:0
+                    }else{
+                        var target=0
+                    }
+                   
+                    for(var k=0;k<paymentStat.length;k++)
+                    {
+                        sum=sum+paymentStat[k].totalSum
+                        count=count+paymentStat[k].count
+                    }
+
+                    var achratget=target-count
+
+                    if(achratget>=0) $('#sucessTarget').show()
+                     else $('#failedTarget').hide()
+                    $('#totalSales').html('<%-CURRENCY%>'+sum.toFixed(2))
+                    $('#achTarget').html(count)
+                    $('#salesTarget').html(target)
+                    $('#expTarget').html(achratget)
+
+                    
+                   var revenuPer= (count/target)*100;
+                   
+                   if(isNaN(revenuPer))
+                   {
+                    var revenuPer= 0;
+                   }else{
+                    var revenuPer= revenuPer;
+                   }
+                    var options = {
+                      chart: {
+                        height: 200,
+                        type: 'radialBar',
+                        stacked: false
+                      },
+                      plotOptions:{radialBar:{hollow:{size:"65%"}}},
+                      colors:colors,labels:["Revenue"],
+                      series: [revenuPer.toFixed(1)],
+                      colors:["#1abc9c","#4a81d4"]
+                    }
+
+                    var chartApex = new ApexCharts(document.querySelector("#total-revenue1"), options);
+                    chartApex.render();
+                    $('#escrow').html(revenuPer)
+                }
+                function setRatingsBar(data)
+                {
+                    console.log(data);
+                    $("#apex-bar").html('');
+                    var  options={chart:
+                    {height:320,
+                    type:"bar",
+                    toolbar:{show:!1}},
+                    plotOptions:{bar: {horizontal:!0,distributed: true}},
+                    dataLabels:{enabled:!1},
+                    series:[{data:[data.avgRating,data.foodQuality,data.foodQuantity,data.packingPres]}],
+                    colors: ['#41B883', '#E46651', '#f7b84b','#6658dd'],
+
+                    xaxis:{categories:["Overall","Service Quality","Service Delivery","Service Presentation"]},
+                    states:{hover:{filter:"none"}},
+        
+                    grid:{borderColor:"#f1f3fd"}}
+                  
+                    var charts=new ApexCharts(document.querySelector("#apex-bar"),options).render();         
+                }
+
+                function setAnalytics(data)
+                {
+                    $("#sales-analytics1").html('');
+                    var paymentData=[]
+                    var labels=[""]
+                    var paymentData=[]
+                    var orderCountData=[]
+                    var labelsArray=[]
+
+                    var min= Math.min.apply(Math, data.map(function(o) { return o[filterName]; }))
+                    var max= Math.max.apply(Math, data.map(function(o) { return o[filterName]; }))
+                  
+
+                    if(min==max) min=0
+                    var diff=max-min
+                    for(var k=0;k<=diff;k++)
+                    {   
+                        const found =data.find( ( filters ) => filters[filterName] ===(min+k) );
+                        if(found)  
+                        {
+                            paymentData.push(found.totalSum)
+                            orderCountData.push(found.count)
+                            var date=format(new Date(found.createdAt))
+                            if(filterName=="DAY")labelsArray.push(date)
+                            if(filterName=="MONTH")labelsArray.push(date.split("-")[1])
+                            if(filterName=="YEAR")labelsArray.push(date.split("-")[2])
+                            if(filterName=="WEEK"){labelsArray.push("WEEK "+(k+1))}
+                        }
+                    }
+                    var options = {
+                        series: [{
+                 			name: "Revenue",
+                 			type: "column",
+                 			data:paymentData
+                 		},
+
+                 		{
+                 			name: "Sales",
+                 			type: "line",
+                 			data: orderCountData
+                 		}
+                     	],
+                     	chart: {
+                     		height: 378,
+                     		type: "line"
+                     	},
+                     	stroke: {
+                     		width: [1, 2]
+                     	},
+                     	plotOptions: {
+                     		bar: {
+                                 columnWidth: "10%",
+                                 distributed:true
+                     		}
+                     	},
+                         colors: ['#41B883', '#E46651', '#f7b84b','#6658dd'],
+                     	dataLabels: {
+                     		enabled: !0,
+                     		enabledOnSeries: [1]
+                     	},
+                     	labels: labelsArray,
+                     	xaxis: {
+                     		type: "string"
+                     	},
+                     	legend: {
+                     		offsetY: 7
+                     	},
+                     	grid: {
+                     		padding: {
+                     			bottom: 20
+                     		}
+                     	},
+                     	fill: {
+                     		type: "gradient",
+                     		gradient: {
+                     			shade: "light",
+                     			type: "horizontal",
+                     			shadeIntensity: .25,
+                     			gradientToColors: void 0,
+                     			inverseColors: !0,
+                     			opacityFrom: .75,
+                     			opacityTo: .75,
+                     			stops: [0, 0, 0]
+                     		}
+                     	}, yaxis: [{
+                     		title: {
+                     			text: "Net Revenue"
+                     		}
+                     	}, {
+                     		opposite: !0,
+                     		title: {
+                     			text: "Number of Sales"
+                     		}
+                     	}]
+                    };
+                    var chartApex = new ApexCharts(document.querySelector("#sales-analytics1"), options);
+                    chartApex.render();
+                }
+
+                function setAnalyticsParent(data)
+                {
+                    $("#sales-analytics2").html('');
+                    var paymentData=[]
+                    var labels=[""]
+                    var paymentData=[]
+                    var orderCountData=[]
+                    var labelsArray=[]
+
+                    var min= Math.min.apply(Math, data.map(function(o) { return o[filterName]; }))
+                    var max= Math.max.apply(Math, data.map(function(o) { return o[filterName]; }))
+                  
+
+                    if(min==max) min=0
+                    var diff=max-min
+                    for(var k=0;k<=diff;k++)
+                    {   
+                        const found =data.find( ( filters ) => filters[filterName] ===(min+k) );
+                        if(found)  
+                        {
+                            paymentData.push(found.totalSum.toFixed(1))
+                            orderCountData.push(found.count)
+                            var date=format(new Date(found.createdAt))
+                            if(filterName=="DAY")labelsArray.push(date)
+                            if(filterName=="MONTH")labelsArray.push(date.split("-")[1])
+                            if(filterName=="YEAR")labelsArray.push(date.split("-")[2])
+                            if(filterName=="WEEK"){labelsArray.push("WEEK "+(k+1))}
+                        }
+                    }
+                    var options = {
+                        series: [{
+                 			name: "Revenue",
+                 			type: "column",
+                 			data:paymentData
+                 		},
+
+                 		{
+                 			name: "Sales",
+                 			type: "line",
+                 			data: orderCountData
+                 		}
+                     	],
+                     	chart: {
+                     		height: 378,
+                     		type: "line"
+                     	},
+                     	stroke: {
+                     		width: [1, 2]
+                     	},
+                     	plotOptions: {
+                     		bar: {
+                                 columnWidth: "10%",
+                                 distributed:true
+                     		}
+                     	},
+                         colors: ['#41B883', '#E46651', '#f7b84b','#6658dd'],
+                     	dataLabels: {
+                     		enabled: !0,
+                     		enabledOnSeries: [1]
+                     	},
+                     	labels: labelsArray,
+                     	xaxis: {
+                     		type: "string"
+                     	},
+                     	legend: {
+                     		offsetY: 7
+                     	},
+                     	grid: {
+                     		padding: {
+                     			bottom: 20
+                     		}
+                     	},
+                     	fill: {
+                     		type: "gradient",
+                     		gradient: {
+                     			shade: "light",
+                     			type: "horizontal",
+                     			shadeIntensity: .25,
+                     			gradientToColors: void 0,
+                     			inverseColors: !0,
+                     			opacityFrom: .75,
+                     			opacityTo: .75,
+                     			stops: [0, 0, 0]
+                     		}
+                     	}, yaxis: [{
+                     		title: {
+                     			text: "Net Revenue"
+                     		}
+                     	}, {
+                     		opposite: !0,
+                     		title: {
+                     			text: "Number of Sales"
+                     		}
+                     	}]
+                    };
+                    var chartApex = new ApexCharts(document.querySelector("#sales-analytics2"), options);
+                    chartApex.render();
+                }
+
+
+
+                function setTop5Satt(data)
+                {
+                    var name = data.map(row => row.user.firstName);
+                    var orders = data.map(row => row.count);
+                    var money = data.map(row => row.totalSum.toFixed(1));
+
+          colors=["#6658dd","#1abc9c"];
+        //  options={chart:{height:380,type:"line",padding:{right:0,left:0},stacked:!1,
+        //  toolbar:{show:!1}},stroke:{width:[0,2,4],curve:"smooth"},
+        //  plotOptions:{bar:{columnWidth:"50%"}},colors:colors,
+        //  series:[{name:"Money",type:"column",
+        //  data:money},
+        //  {name:"Orders",type:"area",
+        //  data:orders}
+        //  ],
+        //  fill:{opacity:[.85,.25,1],gradient:{inverseColors:!1,shade:"light",type:"vertical",
+        //  opacityFrom:.85,opacityTo:.55,stops:[0,100,100,100]}},
+        //  labels:name,
+        //  markers:{size:0},legend:{offsetY:7},yaxis:{title:{text:"Points"}},tooltip:{shared:!0,intersect:!1,
+        //     y:{formatter:function(e){return void 0!==e?e.toFixed(0)+" points":e}}},grid:{borderColor:"#f1f3fa",padding:{bottom:10}}};
+
+
+
+        options={chart:{height:400,type:"line",padding:{right:0,left:0},
+        stacked:!1,toolbar:{show:!1}},stroke:{width:[0,2,4],
+            curve:"smooth"},plotOptions:{bar:{columnWidth:"50%"}},
+            colors:colors,series:[{name:"Orders",type:"column",
+            data:orders},
+            {name:"Spent Money",type:"area",data:money}
+            ],
+            fill:{opacity:[.85,.25,1],gradient:{inverseColors:!1,shade:"light",type:"vertical",
+            opacityFrom:.85,opacityTo:.55,stops:[0,100,100,100]}},
+            labels:name,
+            markers:{size:0},legend:{offsetY:7},xaxis:{type:"text"},
+            yaxis:{title:{text:"Points"}},
+            tooltip:{shared:!0,intersect:!1,y:{formatter:function(e)
+                {return void 0!==e?(e).toFixed(0)+" points":e}}},grid:{borderColor:"#f1f3fa",padding:{bottom:10}}};
+ var chartApex = new ApexCharts(document.querySelector("#top5Apex"), options);
+                    chartApex.render();
+
+
+                }
+
+                function top5UsersData(data)
+                {
+                    var html=""
+                    for(var k=0;k<data.length;k++)
+                    {
+               html=html + `<tr>
+                                                    <td style="width: 36px;">
+                                                        <img   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';"  src="${data[k].user.image}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                    </td>
+    
+                                                    <td>
+                                                        <h5 class="m-0 font-weight-normal">${data[k].user.firstName + " " +data[k].user.lastName}</h5>
+
+                                                        <p class="mb-0 text-muted"><small>${data[k].user.countryCode+"-"+data[k].user.phoneNumber}
+</small></p>
+                                                        <p class="mb-0 text-muted"><small>Member Since ${format(new Date(data[k].user.createdAt))}</small></p>
+                                                    </td>
+    
+                                                    <td>
+                                                        <h5 class="m-0 font-weight-normal">${ata[k].company?data[k].company.companyName:""}</h5>
+                                                    </td>
+
+                                                 
+                                                    <td>
+                                                       <%-CURRENCY%>${data[k].totalSum}
+                                                    </td>
+    
+                                                   
+    
+                                                    <td>
+                                                        ${data[k].count}
+                                                    </td>
+    
+                                                   
+                                                </tr>`;
+    
+
+                }
+            
+
+            $('#tableTop5users').html(html)
+                }
+                
+                function setFilterName(filter)
+                {
+         filterName=filter
+//window.location.href="<%-adminpath%>?filterName="+filterName
+      getFilter()
+                }
+
+                
+           </script>
+        <script src="/dist/assets/libs/apexcharts/apexcharts.min.js"></script>
+        <script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+        <script src="https://apexcharts.com/samples/assets/ohlc.js"></script>
+
+        <!-- init js -->
+        <script src="/dist/assets/js/pages/apexcharts.init.js"></script>
+        
+    </body>
+</html>

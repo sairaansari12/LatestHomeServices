@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">Vendor Settings</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="form-label">Vendor Settings</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form  role="form"  onsubmit="return false"  id="updateRest"   enctype="multipart/form-data">
+                                            <input  type="hidden"  <% if(compData){%> value="<%-compData.id%>" <%}%>  id="chargesId"  name="chargesId"  class="form-control" />    
+                                                
+                                    
+                                                <div class="form-row form-group">
+                                                    <div class="form-label col-md-4">
+                                                        <label for="">
+                                                            Open Timing:
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-input col-md-8">
+                                                        <input  required type="text" id="startTime"  class="form-control"  <%if(compData){%>  value="<%-compData.startTime%>" <%}%>  name="startTime"    />
+                                    
+                                                    </div>
+                                                   
+                                                </div>
+                                    
+                                               
+                                              
+                                                
+                                                <div class="form-row form-group">
+                                                    <div class="form-label col-md-4">
+                                                        <label for="">
+                                                            Close Timings:
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-input col-md-8">
+                                                        <input  required type="text" id="endTime"   <%if(compData){%>  value="<%-compData.endTime%>" <%}%> class="form-control" name="endTime"  />
+                                    
+                                                    </div>
+                                                   
+                                                </div>
+                                                <div class="form-row form-group">
+                                                    <div class="form-label col-md-4">
+                                                        <label for="">
+                                                           Delivery Types:
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-input radio radio-primary  mb-2 col-md-8">
+                                                        <% var tags=[{id:0,name:'Visit Vendor'}, {id:1,name:'Visit Home'},{id:2,name:'Both'}]
+                                                        
+                                                        for(var p =0;p<tags.length;p++){ %>
+                                                        <input id="checkboxpp<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="deliveryType" type="radio"   <%if(compData && compData.deliveryType.toString().includes(tags[p].id)){ %> checked <%}%>>
+                                                        <label for="checkboxpp<%-p%>">
+                                                            <%-tags[p].name%>
+                                                        </label>    
+                                                        <%}%>        
+                                                    </div>
+                                                   
+                                               
+                                                
+                                                 
+                                             
+                                                    <div class="col-12 mt-3 ">
+                                                        <div class="text-center mb-3">
+                                                            <button type="button"  onclick="window.history.back();" class="btn w-sm btn-light waves-effect">Cancel</button>
+                                                            <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                                           
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                    
+                                                </form>
+                                    
+                                              </div>
+                    
+                                       
+                                  </form>
+                                    
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+<!-- Modal -->
+<!-- /.modal -->
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+    $("#startTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+$("#endTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+$("#updateRest").validate({
+    rules: {
+        startTime: {
+          required: true
+        },
+        endTime: {
+          required: true
+        },
+       
+
+    },
+    messages: {
+        startTime: {required: "This field is required"},
+        endTime: {required: "This field is required"},
+
+    },
+    submitHandler: function (form) {
+
+        var tempform = $('#updateRest');
+        var form_data = new FormData(tempform[0]);
+        $("#loading1").show();
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>settings/updateRestSettings',
+            dataType: 'json',
+            data: form_data,
+            contentType:false,
+            cache:false,
+            processData:false,
+            success: function (response) {
+                $("#loading1").hide();
+                if (response.code == 200) {
+            
+                    showToastSuccess(response.message)
+
+                    // window.location.href="<%-adminpath%>deals";
+                   
+                } else {
+
+                    showToastError(response.message)
+                }
+            },
+            error: function(response)
+            {
+                $('#loading1').hide()
+
+               var errorResponse=JSON.parse(response.responseText)
+               showToastError(errorResponse.message)
+
+
+            }
+        });
+    
+}
+});
+
+
+</script>
+</body>
+
+</html>

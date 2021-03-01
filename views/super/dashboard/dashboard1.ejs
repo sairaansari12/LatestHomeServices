@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Delivery</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form onkeypress="return event.keyCode != 13" class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control border" id="dash-daterange">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text bg-blue border-blue text-white">
+                                                        <i class="mdi mdi-calendar-range"></i>
+                                                    </span>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <h4 class=form-label">Dashboard <small>Stats and Revenues</small></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card-box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
+                                            <i class="fe-arrow-up font-22 avatar-title text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-right">
+                                            <p class="text-muted mb-1 text-truncate">Top 5 Resturants</p>
+                                        </div>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end widget-rounded-circle-->
+                        </div> <!-- end col-->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card-box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="avatar-lg rounded-circle bg-soft-success border-success border">
+                                            <i class="fe-shopping-cart font-22 avatar-title text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"  data-plugin="counterup" id="totalOrders">0</h3>
+                                            <p class="text-muted mb-1 text-truncate">Total Sales</p>
+                                        </div>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end widget-rounded-circle-->
+                        </div> <!-- end col-->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card-box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                            <i class="fe-bar-chart-line- font-22 avatar-title text-info"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1"><span data-plugin="counterup">0.58</span>%</h3>
+                                            <p class="text-muted mb-1 text-truncate">Conversion</p>
+                                        </div>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end widget-rounded-circle-->
+                        </div> <!-- end col-->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card-box">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="avatar-lg rounded-circle bg-soft-warning border-warning border">
+                                            <i class="fe-eye font-22 avatar-title text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-right">
+                                            <h3 class="text-dark mt-1" id="totalUsers">0</h3>
+                                            <p class="text-muted mb-1 text-truncate">Total Users</p>
+                                        </div>
+                                    </div>
+                                </div> <!-- end row-->
+                            </div> <!-- end widget-rounded-circle-->
+                        </div> <!-- end col-->
+                    </div>
+                    <!-- end row-->
+
+                    <div class="row">
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card-box">
+                                <h4 class="header-title">Category</h4>
+                                <div class="mt-4">
+                                    <div class="chart-alt"  id="categoryPieStat" ><span>55</span>%</div>
+                                </div>
+                            </div> <!-- end card-box -->
+                        </div> <!-- end col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card-box">
+                                <h4 class="header-title">Orders</h4>
+                                <div class="mt-4">
+                                    <div class="chart-alt"   id="orderPieStat"><span>46</span>%</div>
+                                </div>
+                            </div> <!-- end card-box -->
+                        </div> <!-- end col -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card-box">
+                                <h4 class="header-title">Payments</h4>
+                                <div class="mt-4">
+                                   <div class="chart-alt"   id="paymentPieStat" ><span>92</span>%</div>
+                                </div>
+                            </div> <!-- end card-box -->
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+ <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <div class="dropdown float-right">
+                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="mdi mdi-dots-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="header-title mb-0">Total Revenue</h4>
+
+                                    <div class="widget-chart text-center" dir="ltr">
+                                        
+                                        <div id="total-revenue" class="mt-0"  data-colors="#f1556c"></div>
+
+                                        <h5 class="text-muted mt-0">Total sales made today</h5>
+                                        <h2>$178</h2>
+
+                                        <p class="text-muted w-75 mx-auto sp-line-2">Traditional heading elements are designed to work best in the meat of your page content.</p>
+
+                                        <div class="row mt-3">
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Target</p>
+                                                <h4><i class="fe-arrow-down text-danger mr-1"></i>$7.8k</h4>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Last week</p>
+                                                <h4><i class="fe-arrow-up text-success mr-1"></i>$1.4k</h4>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Last Month</p>
+                                                <h4><i class="fe-arrow-down text-danger mr-1"></i>$15k</h4>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col-->
+
+                            <div class="col-lg-8">
+                                <div class="card-box pb-2">
+                                    <div class="float-right d-none d-md-inline-block">
+                                        <div class="btn-group mb-2">
+                                            <button type="button" class="btn btn-xs btn-light">Today</button>
+                                            <button type="button" class="btn btn-xs btn-light">Weekly</button>
+                                            <button type="button" class="btn btn-xs btn-secondary">Monthly</button>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="header-title mb-3">Sales Analytics</h4>
+
+                                    <div dir="ltr">
+                                        <div id="sales-analytics" class="mt-4" data-colors="#1abc9c,#4a81d4"></div>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row -->
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card-box">
+                                <h4 class="header-title mb-3">Order Stats</h4>
+
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                                        <tbody id="orderStatListing">
+                       
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+    <!-- /Right-bar -->
+
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    <script>
+
+var date=new Date()
+$('#dash-daterange').val(date)
+var weekdate=new Date(date.getTime() - (7 * 24 * 60 * 60 * 1000))
+$('#dash-daterange').val(weekdate)
+var countLoad=0
+getFilter()
+
+        function morisLine(data)
+        {
+            var filterName=$('#filterName').val()
+            $("#color-bar1").empty();
+
+            var graphData=[]
+            var min= Math.min.apply(Math, data.map(function(o) { return o[filterName]; }))
+            var max= Math.max.apply(Math, data.map(function(o) { return o[filterName]; }))
+          
+           if(min==max) min=0
+            var diff=max-min
+
+
+            for(var k=0;k<=diff;k++)
+            {   
+
+
+            const found =data.find( ( filters ) => filters[filterName] ===(min+k) );
+
+
+            if(found)  
+            graphData.push({filterName1:min+k,value:found.count})
+            else graphData.push({filterName1:min+k,value:0})
+
+            }
+
+
+           // if(graphData.length<2)  graphData.splice(0,0,{filterName1:0,value:0})
+
+        new Morris.Line({
+  // ID of the element in which to draw the chart.
+  element: 'color-bar1',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+//   data: [
+//     { day: 'Day1', value: 0 },
+//     { day: '2009', value: 1 },
+//     { day: '2010', value: 3 },
+//     { day: '2011', value: 4},
+//     { day: '2012', value: 20 }
+//   ],
+ data: graphData,
+  // The name of the data record attribute that contains x-values.
+  xkey: 'filterName1',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: ['value'],
+  parseTime: false,
+
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  xLabels: ['Count'],
+  labels: ['Count'],
+
+});
+
+        }
+
+
+
+  
+function getFilter(currentPage)
+    {
+        var filterName=$('#filterName').val();
+        var fromDate=$('#dash-daterange').val();
+        var toDate=$('#dash-daterange').val();
+
+        if(fromDate!="" && toDate!="")
+        {
+            if(countLoad>0)$('#loading1').show()
+            countLoad++;
+
+        //alert(fromDate)
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>dashboard',
+            dataType: 'json',
+            data: {'fromDate':fromDate,'filterName':filterName ,'toDate':toDate},
+            success: function (response) {
+                $('#loading1').hide()
+                if (response.code == '200') {
+                    var data=response.body
+                    //console.log(data)
+                 //morisLine(data.ordersDataStat)
+                orderstat(data.ordersDataStat)
+                //pieStat(data)
+                // sparkStat(data)
+
+                //$('#morisDate').html(format(new Date(fromDate)) +' To '+format(new Date(toDate)))
+                // $('#sparkUserDate').html(format(new Date(fromDate)) +' To '+format(new Date(toDate)))
+                // $('#sparkPaymentDate').html(format(new Date(fromDate)) +' To '+format(new Date(toDate)))
+                // $('#sparkCategoryDate').html(format(new Date(fromDate)) +' To '+format(new Date(toDate)))
+                $('#totalOrders').html(data.mainTotalOrder);
+                $('#totalUsers').html(data.mainTotalUser);
+                var earnings=data.ordersDataStat.map(item => item.totalSum).reduce(function(acc, val) { return acc + val; }, 0)
+                $('#totalEarnings').html('<%-CURRENCY%>'+earnings); 
+
+                }
+                else{
+                   
+                    showToastError(response.message)
+                }
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+                showToastError(response.message)
+
+            }
+        });
+    }
+    else{
+        showToastError("Please select dates")
+ 
+    }
+    }
+    
+
+
+
+function pieStat(data)
+
+{
+    $("#categoryPieStat").data("easyPieChart").update(((data.totalStatCategory*100)/data.mainTotalCategory));
+    $("#orderPieStat").data("easyPieChart").update(((data.totalStatOrder*100)/data.mainTotalOrder));
+    $("#paymentPieStat").data("easyPieChart").update( data.totalStatPayment!=0? ((data.totalStatPayment*100)/data.mainTotalPayment):0)
+
+             //$("#categoryPieStat").data("data-percent",((data.totalStatCategory*100)/data.mainTotalCategory).toString());
+            // $("#orderPieStat").attr("data-percent",((data.totalStatorder*100)/data.mainTotalorder));
+            // $("#payemntPieStat").attr("data-percent",((data.totalStatPayment*100)/data.mainTotalPayment));
+
+
+}
+
+function orderstat(data)
+{
+    var appendData=""
+                        var color=["blue","black","red","orange","blue","green"]
+                        var status=["Pending","Confirmed","Cancelled-User","Precessing","Cancelled-Company","Completed"]
+                        var totalCount=[0,0,0,0,0]
+                        var totalSum=[0,0,0,0,0]
+
+                        for(var t=0; t<data.length; t++)
+                        {
+                         
+                            var index=parseInt(data[t].progressStatus)
+                            totalCount[index]=totalCount[index]+ data[t].count
+                            totalSum[index]=totalSum[index]+ data[t].totalSum
+
+                        
+                        
+                        }
+                        for(var k=0;k<5;k++){
+                          
+                      appendData= appendData+'<tr>'+
+                            '<td>'+(k+1)+'</td>'+
+                            '<td class="font-bold text-left">'+status[k]+' Orders</td>'+
+                            '<td class="text-left"><a href="javascript:;" title="">'+totalSum[k]+'<%-CURRENCY%></a></td>'+
+                            '<td><div class="label bg-'+color[k]+'">+'+totalCount[k]+'</div></td>'+
+                           
+                        '</tr>'
+                       }
+
+                       $('#orderStatListing').html(appendData);
+}
+
+
+function sparkStat(data)
+
+{
+
+var orderStats=[];
+var userStatsActive=[];
+var userStatsLeft=[];
+var paymentStat=[];
+var categoryStat=[];
+
+
+
+// userStatsActive=data.userDataStat.map(item => item.count)
+
+
+
+
+userStatsActive=getDataSpark(data.userDataStat)
+paymentStat=getDataSpark(data.paymentDataStat)
+categoryStat=getDataSpark(data.categoryDataStat)
+
+
+//console.log(userStatsActive)
+$('#userSparksStat').sparkline(userStatsActive,{ type: 'line',width: '100%',height: '55',lineColor: '#fff'});
+$('#paymentSparksStat').sparkline(paymentStat,{ type: 'line',width: '100%',height: '55',lineColor: '#fff'});
+$('#categorySparksStat').sparkline(categoryStat,{ type: 'bar',width: '100%',height: '55',lineColor: '#fff'});
+$('#userTotalHeading').html(data.totalStatUser);
+$('#categoryTotalHeading').html(data.totalStatCategory);
+$('#paymentTotalHeading').html(data.totalStatPayment);
+
+
+
+}
+
+function getDataSpark(data)
+{
+    var arrayActive=[]
+        var filterName=$('#filterName').val()
+
+    var min= Math.min.apply(Math, data.map(function(o) { return o[filterName]; }))
+   var max= Math.max.apply(Math, data.map(function(o) { return o[filterName]; }))
+          
+            if(min==max) min=0
+            var diff=max-min
+            for(var k=0;k<=diff;k++)
+            {   
+            const found =data.find( ( filters ) => filters[filterName] ===(min+k) );
+            if(found)  
+            arrayActive.push(found.count)
+            else arrayActive.push(0)
+            }
+
+            return arrayActive;
+}
+
+    </script>
+
+</body>
+
+</html>

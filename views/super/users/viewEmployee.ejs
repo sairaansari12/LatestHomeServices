@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <%- include('../partials/dashboardHeader'); -%>
+
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Employee</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Listing</a></li>
+                                        <li class="breadcrumb-item active">View</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Profile</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-lg-4 col-xl-4">
+                            <div class="card-box text-center">
+                                <!-- <img src="/dist/assets/images/users/user-1.jpg"
+                                    class="rounded-circle avatar-lg img-thumbnail" alt="profile-image"> -->
+                                  
+                                        <img src="<%-data.image %>"  alt="profile-image" onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';"  class=" img-fluid">
+                                                          
+                                    
+
+                                <h4 class="mb-0"> <%-data.firstName %> <%-data.lastName%></h4>
+                                <!-- <p class="text-muted">@webdesigner</p> -->
+
+
+
+                                <!-- <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light">Follow</button>
+                                    <button type="button" class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button> -->
+
+                         
+
+                            </div> <!-- end card-box -->
+
+                         
+                        </div> <!-- end col-->
+
+
+
+
+
+
+                        <div class="col-lg-8 col-xl-8">
+                            <div class="card-box">
+                                <ul class="nav nav-pills navtab-bg nav-justified">
+
+                                    <li class="nav-item">
+                                        <a href="#justified-tabs-0" id="justified-tabs-00" title="Tab 2"
+                                            data-toggle="tab" class="nav-link active">
+                                            
+                                            Basic Info
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#justified-tabs-1" id="justified-tabs-11" title="Tab 1"
+                                            data-toggle="tab" class="nav-link">
+                                            <i class=" fas fa-pause"></i> Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#justified-tabs-2" id="justified-tabs-22" title="Tab 2"
+                                            data-toggle="tab" class="nav-link">
+                                            <i class=" fas fa-star"></i>
+                                            Ratings
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#justified-tabs-3" id="justified-tabs-33" title="Tab 2"
+                                            data-toggle="tab" class="nav-link">
+                                            <i class=" fas fa-setting"></i>
+                                            Setting
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+
+                                    <%   var status=(data.status)==0?' Inactive':  'Active';
+                                    %>
+                                    <div class="tab-pane show active" id="justified-tabs-0">
+                                        <a href="javascript:void(0)"  onclick="deleteEmployee('<%-data.id%>')" class="btn float-right btn-danger waves-effect waves-light"><i class="mdi mdi-delete  mr-1"></i>Delete</a>
+                                        <a href="javascript:void(0)"  onclick="empStatusChange('<%-data.id%>','<%-data.status%>')" class="btn btn-primary float-right waves-effect waves-light mr-1 "><i class="mdi mdi-cog mr-1"></i><%-status%></a>
+
+                        
+                                            <div class="card-box">
+                                                <div class="text-left mt-3">
+                                                    <!-- <h4 class="font-13 text-uppercase">About Me :</h4>
+                                                    <p class="text-muted font-13 mb-3">
+                                                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the
+                                                        1500s, when an unknown printer took a galley of type.
+                                                    </p> -->
+                                                    <p class=" mb-2 font-15"><strong>Full Name :</strong> <span class="ml-2">
+                                                            <%-data.firstName %> <%-data.lastName%></span></p>
+                
+                                                    <p class=" mb-2 font-15"><strong>Mobile :</strong><span
+                                                            class="ml-2">+<%-data.countryCode %>
+                                                            <%-data.phoneNumber %></span></p>
+                
+                                                    <p class="mb-2 font-15"><strong>Email :</strong> <span
+                                                            class="ml-2 "><%-data.email %></span></p>
+                                                    <p class=" mb-2 font-15"><strong>D.O.B :</strong> <span
+                                                            class="ml-2 "><%-data.dob %></span></p>
+                
+                                                    <p class=" mb-1 font-15"><strong>Address :</strong> <span
+                                                            class="ml-2"><%-data.address %></span></p>
+
+                                                              </div>  
+                                                
+                                                
+
+                                                <div class="inbox-widget" data-simplebar style="max-height: 350px;">
+                                                   
+
+                                                    <div class="inbox-item">
+                                                    <p class="mt-1 font-15"><strong>Ratings :</strong> <span
+                                                        class="ml-2"><%-data.rating%> / 5</span>&nbsp&nbsp;<span><%-commonMethods.getRating(data.rating)%></span></p>
+                                                    </div>
+
+                                                    <div class="inbox-item">
+                                                        <p class="mb-2 font-15"><strong>Total Received Ratings :</strong>
+                                                            <span id="totalOrders"><%-data.totalRatings%></span></p>
+                                                    </div>
+
+                                                    <div class="inbox-item">
+                                                        <p class="mb-2 font-15"><strong>Total Orders :</strong>
+                                                            <span id="totalOrders"><%-data.totalOrders%></span></p>
+                                                    </div>
+                
+                
+                                                  
+                                                </div>
+                                                <!-- end inbox-widget -->
+                
+                                            </div> <!-- end card-box-->
+                
+
+
+                                      
+
+                                    </div>
+                                    <div class="tab-pane" id="justified-tabs-1">
+
+                                        <h5 class="mb-3 mt-4 text-uppercase"><i class="mdi mdi-cards-variant mr-1"></i>
+                                            Orders</h5>
+
+                                            <div class="row mb-2">
+                                                <div class="col-lg-12">
+                                                    <form class="form-inline">
+                                                        <div class="form-group  mx-sm-1 mb-2">
+                                                            <label for="inputPassword2" class="sr-only">Search</label>
+                                                            <input type="search" class="form-control" id="search" name="search"
+                                                                placeholder="Search...">
+                                                        </div>
+                                                        <div class="form-group  mx-sm-1 mb-2">
+                                                            <label for="status-select" class="mr-2">Status</label>
+                                                            <select class="custom-select" id="status-select">
+                                                                <option value="" />All
+                                                                <%for(var k=0;k<options.length;k++)
+                                                            {%>
+                                                                <option value="<%-options[k].id%>"> <%-options[k].statusName%> </option>
+
+
+                                                            <%}%>
+                                                            </select>
+                                                        </div>
+            
+                                                        <div class="col-lg-2">
+                                                            <div class="text-lg-left">
+                                                                <a onclick="getFilter(1)" href="javascript:;"><button type="button"
+                                                                        class="btn btn-light waves-effect mb-2">Filter</button></a>
+                                                            </div>
+                                                        </div><!-- end col-->
+                                                    </form>
+                                                </div>
+            
+                                            </div>
+
+
+                                        <div class="table-responsive" id="justified-tabs-1">
+                                            <table class="table table-borderless mb-0">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th style="width: 125px;">Order No</th>
+                                                        <th style="width: 125px;">Customer Name</th>
+                                                        <!-- <th style="width: 125px;">Service Date</th> -->
+                                                        <th style="width: 150px;">Contact</th>
+                                                        <th style="width: 100px;">Price</th>
+                                                        <th style="width: 125px;">address </th>
+                                                        <!-- <th style="width: 125px;">Order Date </th> -->
+                                                        <th style="width: 150px;">Order Status </th>
+                                                        <th style="width: 120px;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="orderData">
+                                                </tbody>
+
+                                                
+                                            </table>
+                                           
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12" id="append_pagination">
+                                        </div>
+                                    </div><!-- end tab-pane -->
+                                    <!-- end about me section content -->
+                                    </div>
+                                    <div class="tab-pane" id="justified-tabs-2">
+
+                                        <h5 class="mb-3 mt-4 text-uppercase"><i class="mdi mdi-cards-variant mr-1"></i>
+                                            Ratings</h5>
+                                            <a  class="float-right" href="<%-adminpath%>ratings/staff?id=<%-data.id%>&name=<%-data.firstName%>"><i class="mdi mdi-star mdi-spin mr-1"></i>
+                                                View All</a>
+                                            <div class="col-md-10  tab-content" id="appendData">
+                                                    <%for(var t=0;t<ratings.length;t++) {%>
+                                                  
+                                                        <div class="mt-3 ml-3">
+                                                            <div class="media">
+                                                                <img   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" class="d-flex mr-3 rounded-circle avatar-md" src="<%-ratings[t].image%>" alt="image">
+                                                                <div class="media-body">
+                                                                    <h5 class="mt-0">
+                                                                        <a href="#" class="text-dark"><%-ratings[t].user.firstName%></a>
+                                                                        
+                                                                    </h5>
+                                                                        <b class="font-14" >Rating On:</b>  <span class="text-muted"><%-commonMethods.format(new Date(ratings[t].createdAt))%></span>
+                                                                      </br>
+                
+                
+                                                                        <b><%-commonMethods.getRating(ratings[t].rating)%></b>
+                                            
+                                                                        <span><a href="#" class="text-muted"><%-ratings[t].rating%></a></span>
+                
+                                                                        <p class="font-13 mt-1">
+                                                                        <b>Emp Details:</b>
+                                                                        <br/>
+                                                                       
+                                                                        <b>Name:</b> <span class="text-muted "> <a href="<%-adminpath%>employees/view/<%-ratings[t].empId%>">  <%-data.firstName%></a></span></br>
+                                                                        </p>
+                
+                                                                    <p class="font-13">
+                                                                        <b>Order No:</b><a href="<%-adminpath%>orders/view/<%-ratings[t].orderId%>">  <%-ratings[t].order.orderNo%></a>
+                    
+                                                                    </p>
+                                                                      
+                                                                    <p class="font-13">
+                                                                        <b>Review:</b>
+                                                                        <br/>
+                                                                        <span class="text-muted"><%-ratings[t].review%></span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="height:0.5px;width:100%;background-color:#f3f7f9"></div>
+                                                        
+
+
+                                                       
+                                                    <%}%>                                              
+                                           
+                                        </div>
+                                    </div>
+
+
+                                    <!-- end timeline content-->
+
+                                    <div class="tab-pane " id="justified-tabs-3">
+
+
+                                        <form role="form" onsubmit="return false" class="form-bordered" id="adduser">
+                                            <!-- <form role="form" id="adduser" action="<%-adminpath%>employees/view/<%-data.id%>"
+                                                    method="POST"> -->
+                                                    <h5 class="mb-4 text-uppercase"><i
+                                                            class="mdi mdi-account-circle mr-1"></i>
+                                                        Personal Info</h5>
+                                                    <input type="hidden" name="empId" id="empId" value="<%-data.id%>" />
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="simpleinput">First Name</label>
+                                                            <input type="text" id="firstName"
+                                                                value="<%-data.firstName%>" name="firstName"
+                                                                data-trigger="change" data-required="true"
+                                                                class="form-control parsley-validated" />
+
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-email">Last Name</label>
+                                                            <input type="text" id="lastName" value="<%-data.lastName%>"
+                                                                name="lastName" data-trigger="change"
+                                                                class="form-control parsley-validated" />
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="simpleinput">Email</label>
+                                                            <input type="text" id="email" value="<%-data.email%>"
+                                                                name="email" data-type="email" data-trigger="change"
+                                                                data-required="true"
+                                                                class="form-control parsley-validated" />
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-email">D.O.B</label>
+                                                            <input type="text" id="dob" name="dob" autocomplete="off"
+                                                                data-trigger="change" data-required="true"
+                                                                value="<%-data.dob%>" class="form-control" />
+
+                                                        </div>
+
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="simpleinput">Role</label>
+                                                             <select name="role" class=" form-control parsley-validated select2" id="role">
+                                                                <% for(var i=0;i<roletypess.length;i++){ %>
+<option value="<%- roletypess[i].id %>" <% if(data.role == roletypess[i].id){ %> selected <% } %>><%- roletypess[i].userType %></option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+
+                                                       
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-3">
+                                                            <label for="simpleinput">Country Code</label>
+                                                            <input type="text" id="countryCode" maxlength="4" 
+                                                                value="<%-data.countryCode%>" name="countryCode"
+                                                                placeholder="91" data-trigger="change"
+                                                                data-required="true"
+                                                                onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+                                                                class="form-control parsley-validated" />
+                                                        </div>
+
+                                                        <div class="form-group col-md-9">
+                                                            <label for="example-email">Phone Number</label>
+                                                            <input type="number"    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0"  maxlength="10"  id="phoneNumber" name="phoneNumber"
+                                                                value="<%-data.phoneNumber%>" data-trigger="change"
+                                                                data-type="phone" data-required="true"
+                                                                class="form-control parsley-validated" />
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Upload Image</h5>
+
+                                  
+                                         
+                                                    <div   onclick="document.getElementById('image').click()" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"
+                                                    data-upload-preview-template="#uploadPreviewTemplate">
+                                                    <div class="fallback">
+                                                        <input name="image"   style="display:none" id="image"  type="file"  />
+                                                    </div>
+
+                                                    
+                                                    <div class="dz-message needsclick">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                        <h4>Click here to upload.</h4>
+                                                        <img  src="<%-data.image%> " class="avatar-xl"  id="myIcon"  alt="">
+
+                                                    </div>
+                                                  
+                                                   
+                
+                                                </div>
+                                                 
+                                                    
+
+
+
+
+
+                                                    <div class="row mt-2">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-email">Id Proof Type:</label>
+                                                            <input type="text" id="idProofName"
+                                                                value="<%-data.idProofName%>" name="idProofName"
+                                                                data-trigger="change"
+                                                                class="form-control parsley-validated" />
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-email">Id Proof:</label>
+
+                                                            <div class="form-input col-md-4">
+                                                                <input type="file" id="idProof" name="idProof" />
+                                                            </div>
+                                                            <div class="form-group col-md-6"
+                                                                <% if (data.idProof =="") {%> style="display :none" <%}%>  > 
+                                                        <label>Uploaded Proof </label>
+                                                        <div class="fm-admin-file">
+                                                                <img id="myIcon" src="<%=data.idProof%>" alt="Icon"
+                                                                style="width:50%;max-width:100px">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="simpleinput">Address</label>
+                                                <textarea id="address" name="address" data-trigger="keyup"
+                                                    data-rangelength="[10,200]"
+                                                    class="form-control parsley-validated"><%-data.address%></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <input type="hidden" name="superhidden" id="superhidden" />
+                                            <button type="submit"
+                                                class="btn btn-success waves-effect waves-light mt-2"><i
+                                                    class="mdi mdi-content-save"></i> Save</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <!-- end settings content-->
+
+                                </div> <!-- end tab-content -->
+                            </div> <!-- end card-box-->
+
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row-->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            2015 -
+                            <script>document.write(new Date().getFullYear())</script> &copy; CereHome theme by <a
+                                href="">Coderthemes</a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript:void(0);">About Us</a>
+                                <a href="javascript:void(0);">Help</a>
+                                <a href="javascript:void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+
+    <%- include('../partials/commonJs'); -%>
+
+
+    <script type="text/javascript">
+      $("#image").change(function() {
+  readURL(this,'myIcon');
+});
+    $("#dob").flatpickr();
+        $("#toDate").flatpickr();
+        $('#search').on('keyup', function () {
+                                    setTimeout(function () { getSearch(1) }, 800);
+                                });
+
+
+
+        $('#adduser').validate({
+            rules: {
+                firstName: {
+                    required: true,
+                },
+                lastName: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                image: {
+                    required: true,
+                   // minlength: 5
+                },
+                phoneNumber: {
+                    required: true,
+                   // minlength: 10,
+                    maxlength: 10
+                },
+                dob: {
+                    required: true,
+                   // minlength: 5
+                },
+                address: {
+                    required: true,
+                   // minlength: 5
+                },
+
+            },
+            messages: {
+                firstName: {
+                    required: "Please enter a first name",
+                   // email: "Please enter a vaild email address"
+                },
+                lastName: {
+                    required: "Please enter a last name",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                image: {
+                    required: "Please select an image",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                phoneNumber: {
+                    required: "Please enter phone no.",
+                    maxlength: "Your phone no. must be at least 10"
+                },
+                dob: {
+                    required: "Please select dob",
+                },
+                address: {
+                    required: "please enter address",
+                },
+            },
+
+            submitHandler: function (form) {
+            var id = $('#empId').val()
+            var tempform = $('#adduser');
+
+            tempform.parsley('validate');
+
+            if (tempform.parsley('isValid')) {
+
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>employees/update',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+
+                            //showToastSuccess(response.message)
+
+                            // window.location.href = "<%-adminpath%>employees/view/" + id;
+                            window.location.href = "<%-adminpath%>employees";
+
+
+                        } else {
+                            //showToastError(response.message)
+                        }
+                    },
+
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        //showToastError(errorResponse.message)
+
+
+                    }
+               
+
+
+            });
+        }
+    }
+    });
+        
+    
+        var currentPage = 1
+
+
+
+        function getFilter(currentPage) {
+            currentPage = currentPage
+            var limit = 10
+            $('#loading1').show()
+            var status = $('#status-select').val();
+                        var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var row = "";
+
+            //alert(fromDate)
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>employees/orders',
+                dataType: 'json',
+                data: { 'fromDate': fromDate, 'progressStatus': status, 'toDate': toDate, 'page': currentPage, 'limit': limit, 'empId': '<%-data.id%>' },
+                success: function (response) {
+                    $('#loading1').hide()
+
+                    if (response.code == '200') {
+
+                        
+                        var data1 = response.body.data
+                        var data = response.body.data.rows
+                        for (var t = 0; t < data.length; t++) {
+
+
+                            var status = data[t].orderStatus.statusName
+                           
+
+                            // var btnBg = getOrderColor(data.progressStatus)
+
+                            row = row + '<tr>' +
+                                '			<td><a href="<%-adminpath%>orders/view/' + data[t].id + '" >' + data[t].orderNo + ' </a></td>' +
+                                '			<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                // '			<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                '            <td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                '            <td>' + data[t].totalOrderPrice + '</td>' +
+                                '            <td>' + data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city + '</td>' +
+                                // '            <td>' + format(new Date(data[t].createdAt)) + '</td>' +
+                                '			<td>' +
+                                '<a href="javascript:;"   data-placement="bottom" id="block_status_' + data[t].id + '" >' +
+                                '                <input type="hidden"  value="' + data[t].progressStatus + '" id="block_statusvalue_' + data[t].id + '">' +
+                                '                <span class="button-content">' +
+                                '                    <i class="glyph-icon icon-cog float-left"></i>' +
+                                '<span id="block_statustext_' + data[t].id + '">' + status + ' <span>' +
+                                '                </span>' +
+                                '            </a>' + ' </td>' +
+                                '<td>' +
+                                '<a href="<%-adminpath%>orders/view/' + data[t].id + '" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                                '<a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" title="" class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                                '</td>' +
+
+                                '        </tr>';
+
+                        }
+
+                        if (row == "") {
+                            $('#orderData').html('&nbsp;&nbsp;No records found')
+
+                        }
+                        else $('#orderData').html(row);
+                        appendPagination(currentPage, Math.ceil(data1.count / limit))
+                        appendStat(response.body.counts)
+
+                    }
+                    else {
+
+                        // showToastError(response.message)
+                    }
+                },
+
+                error: function (response) {
+                    $('#loading1').hide()
+
+                    // showToastError(response.message)
+
+                }
+            });
+        }
+
+
+        function getSearch(currentPage) {
+                                    currentPage = currentPage
+                                    var search = $('#search').val()
+                                    var limit = 10
+                                    $('#loading1').show()
+                                    var status = $('#status').val();
+                                    var fromDate = $('#fromDate').val();
+                                    var toDate = $('#toDate').val();
+
+                                    //alert(fromDate)
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<%-adminpath%>orders/search',
+                                        dataType: 'json',
+                                        data: { 'search': search, 'page': currentPage, 'limit': limit },
+                                        success: function (response) {
+                                            console.log('heloooooo>>>>', response)
+
+                                            $('#loading1').hide()
+
+                                            if (response.code == '200') {
+
+                                                var row = "";
+                                                console.log('order search>>>>', response)
+                                                $('#orderData').html('')
+                                                var data1 = response.body.data
+                                                var data = response.body.data.rows
+                                                for (var t = 0; t < data.length; t++) {
+
+
+                                                    var status = "Pending"
+                                                    var Payment = "Failed"
+                                                    var paymentBg = "bg-red"
+                                                    if (data[t].progressStatus == "1") status = "Confirmed"
+                                                    if (data[t].progressStatus == "2") status = "Cancelled"
+                                                    if (data[t].progressStatus == "3") status = "Processing"
+                                                    if (data[t].progressStatus == "4") status = "Cancelled-Comapny"
+                                                    if (data[t].progressStatus == "5") status = "Completed"
+
+                                                    var btnBg = getOrderColor(data[t].progressStatus)
+                                                    if (data[t].payment && data[t].payment.transactionStatus == "1") {
+                                                        Payment = "Success"
+                                                        paymentBg = "bg-green"
+                                                    }
+
+
+                                                    row = row + '<tr id="row_' + data[t].id + '">' +
+                                                        '			<td>' + data[t].orderNo + ' </td>' +
+                                                        '			<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                                        '			<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                                        '            <td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                                        '            <td>' + data[t].totalOrderPrice + '</td>' +
+                                                        '            <td>' +
+                                                        '             <a href="javascript:;"  class="btn ' + paymentBg + ' font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                        '                <span class="button-content">' +
+                                                        '                    <i class="glyph-icon icon-money float-left"></i>' +
+                                                        '<span>' + Payment + ' <span>' +
+                                                        '                </span>' +
+                                                        '            </a></td>' +
+                                                        '            <td>' + (data[t].address != null ? data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city : "") + '</td>' +
+                                                        '            <td>' + format(new Date(data[t].createdAt)) + '</td>              ' +
+                                                        '              ' +
+                                                        '            <td>' +
+                                                        '             <a href="javascript:;"  class="btn ' + btnBg + ' font-size-10 pad5A tooltip-button  black-modal-60" data-placement="bottom" title="Open modal window"  id="block_status_' + data[t].id + '"  onclick="showModal(\'' + data[t].id + '\',\'' + data[t].progressStatus + '\')" >' +
+                                                        '                <input type="hidden"  value="' + data[t].progressStatus + '" id="block_statusvalue_' + data[t].id + '">' +
+                                                        '                <span class="button-content">' +
+                                                        '                    <i class="glyph-icon icon-cog float-left"></i>' +
+                                                        '<span id="block_statustext_' + data[t].id + '">' + status + ' <span>' +
+                                                        '                </span>' +
+                                                        '            </a>' +
+                                                        '             <div class="dropdown">' +
+                                                        '                <a href="javascript:;" title="" class="btn small bg-blue dropdown-toggle" data-toggle="dropdown">' +
+                                                        '                    <span class="button-content">' +
+                                                        '                        <i class="glyph-icon font-size-11 icon-cog"></i>' +
+                                                        '                        <i class="glyph-icon font-size-11 icon-chevron-down"></i>' +
+                                                        '                    </span>' +
+                                                        '                </a>' +
+                                                        '                <ul class="dropdown-menu float-right">' +
+                                                        '                    <li>' +
+                                                        '                        <a href="<%-adminpath%>orders/view/' + data[t].id + '" title="">' +
+                                                        '                            <i class="glyph-icon icon-edit mrg5R"></i>' +
+                                                        '                            View' +
+                                                        '                        </a>' +
+                                                        '                    </li>' +
+                                                        '                    <li class="divider"></li>' +
+                                                        '                    <li>' +
+                                                        '                        <a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" class="font-red" title="">' +
+                                                        '                            <i class="mdi mdi-delete"></i>' +
+                                                        '                            Delete' +
+                                                        '                        </a>' +
+                                                        '                    </li>' +
+                                                        '                </ul>' +
+                                                        '            </div>' +
+                                                        '            </td>		' +
+                                                        '        </tr>';
+
+                                                }
+
+                                                if (row == "") {
+                                                    $('#orderData').html('&nbsp;&nbsp;&nbsp;No matching records found')
+
+                                                }
+                                                else $('#orderData').html(row);
+                                                appendPagination(currentPage, Math.ceil(data1.count / limit))
+                                                appendStat(response.body.counts)
+
+                                            }
+                                            else {
+
+                                                // showToastError(response.message)
+                                            }
+                                        },
+
+                                        error: function (response) {
+                                            $('#loading1').hide()
+
+                                            // showToastError(response.message)
+
+                                        }
+                                    });
+                                }
+
+                                function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end mb-3">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+       
+           $("#append_pagination").html(fd)  
+    }
+  
+  
+
+        function appendStat(data) {
+            console.log(data)
+            var total = 0;
+            var count = 0
+            for (var k = 0; k < data.length; k++) {
+
+                if (data[k].progressStatus == "0") {
+                    $('#totalPendingCount').html(data[k].count)
+                    $('#totalPendingSum').html(data[k].totalSum)
+                }
+
+                if (data[k].progressStatus == "1") {
+                    $('#totalConfirmedCount').html(data[k].count)
+                    $('#totalConfirmedSum').html(data[k].totalSum)
+                }
+
+                if (data[k].progressStatus == "2") {
+                    $('#totalCancelledCount').html(data[k].count)
+                    $('#totalCancelledSum').html(data[k].totalSum)
+                }
+
+
+                if (data[k].progressStatus == "3") {
+                    $('#totalProcessingCount').html(data[k].count)
+                    $('#totalProcessingSum').html(data[k].totalSum)
+                }
+
+
+
+                if (data[k].progressStatus == "5") {
+                    $('#totalCompletedCount').html(data[k].count)
+                    $('#totalCompletedSum').html(data[k].totalSum)
+                }
+
+
+                total = total + data[k].totalSum
+                count = count + data[k].count
+            }
+
+            $('#totalPayment').html(total)
+            $('#totalOrders').html(count)
+
+        }
+
+
+
+
+
+
+
+    </script>
+
+    <!-- <script>
+    showTab('justified-tabs-1', 'justified-tabs-2')
+    getFilter(currentPage)
+
+</script> -->
+
+    <script>
+        $(document).ready(function () {
+            //   $("#hide").click(function(){
+            //     $("p").hide();
+            //   });
+            $("#justified-tabs-11").click(function () {
+                console.log('test order');
+                $("#justified-tabs-1").show();
+                getFilter(currentPage)
+                $("#justified-tabs-2").hide();
+                $("#justified-tabs-3").hide();
+            });
+
+
+            $("#justified-tabs-22").click(function () {
+                $("#justified-tabs-2").show();
+                $("#justified-tabs-1").hide();
+                $("#justified-tabs-3").hide();
+            });
+
+            $("#justified-tabs-33").click(function () {
+                $("#justified-tabs-3").show();
+                $("#justified-tabs-1").hide();
+                $("#justified-tabs-2").hide();
+            });
+
+
+
+
+
+
+
+
+        });
+    </script>
+<script>
+   
+function deleteEmployee(id)
+{
+
+    if( confirm('Are you sure you want to delete this?'))
+    {
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>employees/delete',
+            dataType: 'json',
+            data: {'id':id},
+            success: function (response) {
+                if (response.code == '200') {
+                    setTimeout(function() {
+                        window.history.back()
+                            },600); 
+                                           }
+                else{
+                    showToastError(response.message)
+                }
+            },
+            error :function(response)
+            {
+                showToastError(response.message)
+
+            }
+        });
+    }
+}
+
+function empStatusChange(id,status)
+    {
+        var confirm1= (status=="1") ? "Disable" : "Enable"
+
+        if( confirm('Are you sure you want to '+confirm1+' this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>employees/status',
+                dataType: 'json',
+                data: {'id':id,'status':status},
+                success: function (response) {
+                    //alert(response.code)
+                    if (response.code == '200') {
+                        
+                        showToastSuccess(response.message)
+
+                        setTimeout(function() {
+                               window.location.reload()
+                            },600);
+
+
+                    }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    showToastError(response.message)
+
+                }
+            });
+        }
+    }
+
+
+</script>
+
+
+
+</body>
+
+</html>

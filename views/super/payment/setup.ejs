@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">setup</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Payment Account Setup</h4>
+                                </div>
+                            </div>
+                        </div>     
+
+
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="form-group mx-sm-8">
+                                <label for="status-select" class="mr-2">Select vendor from here to get products
+                                <select onchange="changeCompany()" class="custom-select select2" id="companyId">
+    
+                                    <%for(var p=0;p<restro.length;p++){%>
+                                        <option value="<%-restro[p].id%>"><%-restro[p].companyName%></option>
+                                        <%}%>
+                                </select>
+                            </div>
+                        </div> <!-- end col-->
+                        <div class="row">
+                            
+                                    <div class="col-lg-6">
+                                        <div class="card-box">
+                                            <h4>Here you will find vendors  comission setup details</h4>                      <!-- end page title --> 
+                                       <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                       The transaction fee for each payment option is based on your subscription plan
+
+                                    
+                                    </h5>
+
+                                    <label for="">
+                                       You will recieve payment from admin 
+                                     </label>
+                                     
+                                     <form  role="form" onsubmit="return false"   id="addcomission" >
+                                        <input type="hidden" id="cCompanyId" name="companyId">
+                                        <input type="hidden" id="comissionId" name="comissionId">
+
+                                     
+                                     
+                                     <div class="radio  radio-primary mb-4">
+                                  
+
+                                        
+                                        <% 
+                                        var tags=[{id:0,name:'Monthly'}, {id:1,name:'Quarterly'},{id:2,name:'Yearly'}]
+                                        
+                                        for(var p =0;p<tags.length;p++){ %>
+                                        <input id="checkboxpp<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="installments" type="radio"  >
+                                        <label for="checkboxpp<%-p%>">
+                                            <%-tags[p].name%>
+                                        </label>
+
+                                   
+<%}%>
+
+                                    </div>
+                                    <label for="">
+                                        Type of comission
+                                     </label>
+                                    <div class="radio  radio-primary mb-4">
+                                  
+                                      
+                                        <% 
+                                        var dataTypes=[{id:0,name:'Full Amount'}, {id:1,name:'Comission percentage'}]
+                                        
+                                        for(var p =0;p<dataTypes.length;p++){ %>
+                                        <input id="checkbox<%-p%>"   value="<%-dataTypes[p].id%>" class="ml-2" name="chargesType" type="radio"   >
+                                        <label for="checkbox<%-p%>">
+                                            <%-dataTypes[p].name%>
+                                        </label>
+
+                                   
+<%}%>
+
+                                    </div>
+
+
+                            
+
+                                    <div class="form-group">
+                                        <label for="">
+                                           Full Amount <span class="text-danger">*</span>
+                                        </label>
+                                        <input    min="0"  onKeyPress="if(this.value.length==8) return false;"  type="number"  id="fullAmount"  name="fullAmount"   class="form-control" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">
+                                       Comission Charges <span class="text-danger">*</span>
+                                    </label> 
+                                    <input    min="0"  type="number"   onKeyPress="if(this.value.length==8) return false;"  id="charges"   name="charges"  class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="text-center mb-3">
+                                        <a  onclick="window.history.back()" href="javascript:void(0);:"><button type="button"  class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                        <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                    </div>
+                                </div> <!-- end col -->
+
+                            </div>
+                      
+                            </form>
+                        </div> <!-- end col -->
+                                    </div>
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="card-box ">
+                                            <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                        
+                                                vendor account number will used  in  account integration with CereHome and vendor  will recieve all payments through this account
+        
+                                            
+                                            </h5>
+
+                            <form  role="form" onsubmit="return false"   id="addaccount" >
+                   <input type="hidden" id="aCompanyId" name="companyId">
+                   <input type="hidden" id="paymentId" name="paymentId">
+
+                                        <div class="form-group">
+                                                <label for="">
+                                                  Account holder name <span class="text-danger">*</span>
+                                                </label>
+                                                <input  type="text"   id="acHolderName"   name="acHolderName"  class="form-control" />
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                                <label for="">
+                                                   Account Number <span class="text-danger">*</span>
+                            
+                                                </label>
+                                                <input    type="text"  id="accountNo"    name="accountNo"  class="form-control" />
+                                        </div>
+                            
+                                      
+                                        <div class="form-group">
+                
+                                                <label for="">
+                                                    Branch IFSC Code <span class="text-danger">*</span>
+                                                </label>
+                                                <input required type="text"    id="branchIFSC"  name="branchIFSC"  class="form-control" />
+                                        </div>
+
+                                        <div class="form-group">
+                
+                                            <label for="">
+                                                Branch Name <span class="text-danger">*</span>
+                                            </label>
+                                            <input  type="text"    id="branchName"  name="branchName" class="form-control" />
+                                    </div>
+                            
+                                        
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-center mb-3">
+                                                    <a  onclick="window.history.back()" href="javascript:void(0);:"><button type="button"  class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                                    <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                                </div>
+                                            </div> <!-- end col -->
+        
+                                        </div>
+                                  
+                                    </form>
+
+
+
+                                           
+                                           
+                                        </div> <!-- end card-box -->
+                                 
+                                    
+                               
+                               
+                         
+
+                            <!-- end row -->
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+  
+    $(document).ready(function(){
+
+        $("#addaccount").validate({
+            rules: {
+                accountNo: {
+                  required: true
+                },
+                acHolderName: {
+                  required: true
+                },
+                branchIFSC: {
+                  required: true
+                },
+                branchName: {
+                  required: true
+                }
+            },
+            messages: {
+                accountNo: {
+                    required: "This field is required"
+                },
+                acHolderName: {
+                    required: "This field is required"
+                },
+                branchIFSC: {
+                    required: "This field is required"
+                },
+                branchIFSC: {
+                    required: "This field is required"
+                }
+            },
+            submitHandler: function (form) {
+     
+         
+                var tempform = $('#addaccount');
+                var form_data = new FormData(tempform[0]);
+                console.log(form_data);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-superadminpath%>payment/setup',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                           
+                                showToastError(response.message);
+                          
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        
+        
+        });
+    });
+</script>
+
+<script>
+ $("#addcomission").validate({
+            
+            
+            messages: {
+                
+            },
+            submitHandler: function (form) {
+
+         
+                var chargesType=  $("input[name='chargesType']:checked").val()
+              var fullAmount=  $("#fullAmount").val()
+              var charges=  $("#charges").val()
+
+         
+              if(chargesType=="")
+              {
+                showToastError("Please select comission type")
+return;
+              }
+if(chargesType==0 && fullAmount=="")
+{showToastError("Please enter full amount")
+return;
+}
+
+if(chargesType==1 && charges=="")
+{
+showToastError("Please enter comission charges value")
+return;
+}
+
+                var tempform = $('#addcomission');
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-superadminpath%>payment/updateComission',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                                showToastError(response.message);
+                           
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        
+        
+        });
+   
+
+
+</script>
+
+<script>
+changeCompany()
+function changeCompany()
+{
+
+    $('#addaccount').trigger('reset'); 
+    $('#addcomission').trigger('reset'); 
+
+    var companyId=$('#companyId').val()
+    $('#aCompanyId').val(companyId)
+$('#cCompanyId').val(companyId)
+    $('#loading1').show()
+    $.ajax({
+                    type: 'POST',
+                    url: '<%-superadminpath%>payment/getPaymentSetup',
+                    dataType: 'json',
+                    data: {companyId:companyId},
+                    cache:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                    
+var comissionData=response.body.comissionData
+var accountData=response.body.accountData
+
+
+if(comissionData!=null)
+{
+   
+    $("input[name=chargesType][value=" + comissionData.chargesType + "]").attr('checked', 'checked');
+    $("input[name=installments][value=" + comissionData.installments + "]").attr('checked', 'checked');
+
+$('#fullAmount').val(comissionData.chargesAmount)
+$('#charges').val(comissionData.chargesPercent)
+$('#comissionId').val(comissionData.id)
+
+}
+
+
+if(accountData!=null)
+{
+   
+
+$('#acHolderName').val(accountData.acHolderName)
+$('#branchName').val(accountData.branchName)
+$('#branchIFSC').val(accountData.branchIFSC)
+$('#accountNo').val(accountData.accountNo)
+$('#paymentId').val(accountData.id)
+
+}
+
+
+                            //showToastSuccess(response.message)
+                        } else {
+                                showToastError(response.message);
+                           
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+
+
+</script>
+</body>
+
+</html>

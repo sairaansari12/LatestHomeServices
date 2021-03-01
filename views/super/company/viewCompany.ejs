@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Update Restaurant Info</a></li>
+                                        <li class="breadcrumb-item active">Edit</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Update Restaurant Info</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <%-include ('../partials/flashMessage')%>
+
+
+                    <div class="row">
+                        <div class="col-xl-10">
+                            <div class="card">
+                                <div class="card-body">
+
+
+                                    <% if (typeof successMessage != 'undefined' && successMessage && successMessage.length>0) { %>
+
+                                        <div class="callout callout-info bg-success">
+                                    
+                                            <p><%- successMessage %></p>
+                                          </div>
+                                        <% }%>
+                
+                                    <% if (typeof errorMessage != 'undefined' && errorMessage && errorMessage.length>0) { %>
+                                    
+                                        <div class="callout callout-info">
+                                            <p><%- errorMessage %></p>
+                                          </div>
+                                        <% }%>
+                
+
+
+                                    <!-- <form role="form" onsubmit="return false" class="col-md-12" id="adduser"> -->
+                                        <form  onsubmit="return false" role="form" id="adduser"  >
+                                        <input type="hidden" id="companyId" value="<%- data.id %>" name="companyId"/>
+                                        <div id="progressbarwizard">
+
+                                            <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
+                                                <li class="nav-item">
+                                                    <a href="#basictab1" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-account-circle mr-1"></i>
+                                                        <span class="d-none d-sm-inline">PERSONAL INFO</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#basictab2" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-face-profile mr-1"></i>
+                                                        <span class="d-none d-sm-inline">CONTACT INFO</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#basictab4" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-face-profile mr-1"></i>
+                                                        <span class="d-none d-sm-inline">MEDIA INFO</span>
+                                                    </a>
+                                                </li>
+
+                                                
+                                                <li class="nav-item">
+                                                    <a href="#basictab5" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-currency mr-1"></i>
+                                                        <span class="d-none d-sm-inline">CHARGES INFO</span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="nav-item">
+                                                    <a href="#basictab6" data-toggle="tab"
+                                                        class="nav-link rounded-0 pt-2 pb-2">
+                                                        <i class="mdi mdi-cog mr-1"></i>
+                                                        <span class="d-none d-sm-inline">MORE INFO</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <i class="mdi mdi-checkbox-marked-circle-outline mr-1"></i>
+                                                    <button type="submit"
+                                                        class="btn ui-state-default medium  primary-bg">
+                                                        <span class="d-none d-sm-inline">Update</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content b-0 mb-0 pt-0">
+                                                <div id="bar" class="progress mb-3" style="height: 7px;">
+                                                    <div class="bar progress-bar progress-bar-striped progress-bar-animated bg-success"></div>
+                                                </div>
+                                                <div class="tab-pane" id="basictab1">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="userName">companyName:<span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" id="companyName" value="<%- data.companyName %>" name="companyName"
+                                                                        data-trigger="change" data-required="true"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="lastName">
+                                                                    Website Link: </label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" value="<%- data.WebsiteLink %>" id="WebsiteLink" name="WebsiteLink"
+                                                                        data-trigger="change"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="address">Address: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <textarea id="address" value="<%- data.address1 %>" name="address"
+                                                                        data-trigger="keyup" data-rangelength="[10,200]"
+                                                                        class="form-control parsley-validated"><%- data.address1 %></textarea>
+                                                                        <input type="hidden" value="<%- data.latitude %>" id="latitude" name="latitude"
+                                                                         />
+                                                                        <input type="hidden" value="<%- data.longitude %>" id="longitude" name="longitude"
+                                                                         />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3 " style="height: 50%">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="address">Map View<small>(Use Marker Drag & Drop)</small>: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <div id="map_canvas" style="height: 100%" ></div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+                                                <div class="tab-pane" id="basictab2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="email">
+                                                                    Email <span class="text-danger">*</span></label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" value="<%- data.email %>" id="email" name="email"
+                                                                        data-type="email" data-trigger="change"
+                                                                        data-required="true"
+                                                                        class="form-control parsley-validated" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label" for="name">Phone
+                                                                    Number <span class="text-danger">*</span></label>
+                                                                <div class="col-md-3">
+                                                                    <input autocomplete="off" type="text"
+                                                                        placeholder="91"    id="countryCode" maxlength="4"  name="countryCode"  value="<%- data.countryCode %>" data-trigger="change"
+                                                                        data-required="true"
+                                                                        onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+                                                                        class="form-control parsley-validated" />
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="number"    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0"  maxlength="10"  id="phoneNumber"
+                                                                        name="phoneNumber" value="<%- data.phoneNumber %>" data-trigger="change"
+                                                                        data-type="phone" data-required="true"
+                                                                        class="form-control parsley-validated" />
+
+                                                                </div>
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+
+                                                <div class="tab-pane" id="basictab4">
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="image">Upload
+                                                                    Image1: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-3">
+                                                                    <input class="custom-file-input1" id="logo1"
+                                                                        type="file" name="logo1">
+
+                                                                </div>
+                                                                 <img  class="avatar-title" style="height: 50px;width: 100px;" src="<%=data.logo1 %>"   id="myIcon"  alt="" >
+                                                            </div>
+
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-md-3 col-form-label"
+                                                                    for="image">Upload
+                                                                    Image2: <span class="text-danger">*</span></label>
+                                                                <div class="col-md-3">
+                                                                    <input class="custom-file-input1" id="logo2"
+                                                                        type="file" name="logo2">
+
+                                                                </div>
+                                                                <img  class="avatar-title" style="height: 50px;width: 100px;" src="<%=data.logo2 %>"   id="myIcon"  alt="" >
+                                                            </div>
+
+                                                          
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+
+                                                <div class="tab-pane" id="basictab5">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                           <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                                           The transaction fee for each payment option is based on your subscription plan
+                    
+                                                        
+                                                        </h5>
+                    
+                                                        <label for="">
+                                                           You will recieve payment from admin 
+                                                         </label>
+                                                           <div class="radio  radio-primary mb-4">
+                                                      
+                    
+                                                            
+                                                            <% 
+                                                            var tags=[{id:0,name:'Monthly'}, {id:1,name:'Quarterly'},{id:2,name:'Yearly'}]
+                                                            
+                                                            for(var p =0;p<tags.length;p++){ %>
+                                                            <input id="checkbox<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="installments" type="radio" <%if(chargesData && chargesData.installments.includes(tags[p].id)){ %> checked <%}%>>
+                                                            <label for="checkbox<%-p%>">
+                                                                <%-tags[p].name%>
+                                                            </label>
+                    
+                                                       
+                    <%}%>
+                    
+                                                        </div>
+                                                        <label for="">
+                                                            Type of comission
+                                                         </label>
+                                                        <div class="radio  radio-primary mb-4">
+                                                      
+                                                          
+                                                            <% 
+                                                            var dataTypes=[{id:0,name:'Full Amount'}, {id:1,name:'Comission percentage'}]
+                                                            
+                                                            for(var p =0;p<dataTypes.length;p++){ %>
+                                                            <input id="checkboxpp<%-p%>"   value="<%-dataTypes[p].id%>" class="ml-2" name="chargesType" type="radio"   <%if(chargesData && chargesData.chargesType.includes(dataTypes[p].id)){ %> checked <%}%> >
+                                                            <label for="checkboxpp<%-p%>">
+                                                                <%-dataTypes[p].name%>
+                                                            </label>
+                    
+                                                       
+                    <%}%>
+                    
+                                                        </div>
+  
+                    
+                                                        <div class="form-group">
+                                                            <label for="">
+                                                               Full Amount <span class="text-danger">*</span>
+                                                            </label>
+                                                            <input  type="number"  value="<%-(chargesData?chargesData.chargesAmount:'')%>" min="1" id="fullAmount"    name="fullAmount"   class="form-control" />
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="">
+                                                           Comission Charges <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input  type="number"      value="<%-(chargesData?chargesData.chargesPercent:'')%>"   min="1" id="charges"   name="charges"  class="form-control" />
+                                                </div>
+                                            </div> <!-- end col -->
+                                                        </div>
+                    
+                                                    </div> <!-- end row -->
+                                                
+
+
+                                                    <div class="tab-pane" id="basictab6">
+                                                        <div class="row">
+                                                            <div class="card-body">
+                                                                        
+                                                            
+                                                                        <div class="form-row form-group">
+                                                                            <div class="form-label col-md-4">
+                                                                                <label for="">
+                                                                                    Open Timing:
+                                                                                    <span class="text-danger">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-input col-md-8">
+                                                                                <input  value="<%- data.startTime %>" required type="text" id="startTime"  class="form-control"   name="startTime"    />
+                                                            
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                            
+                                                                      
+                                                                      
+                                                        
+                                                                        <div class="form-row form-group">
+                                                                            <div class="form-label col-md-4">
+                                                                                <label for="">
+                                                                                    Close Timings:
+                                                                                    <span class="text-danger">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-input col-md-8">
+                                                                                <input  value="<%- data.endTime %>" required type="text" id="endTime"   class="form-control" name="endTime"  />
+                                                            
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                        <div class="form-row form-group">
+                                                                            <div class="form-label col-md-4">
+                                                                                <label for="">
+                                                                                   Delivery Types:
+                                                                                    <span class="text-danger">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-input radio radio-primary  mb-2 col-md-8">
+                                                                                <% var tags=[{id:0,name:'Pickup'}, {id:1,name:'Delivery'},{id:2,name:'Both'}]
+                                                                                
+                                                                                for(var p =0;p<tags.length;p++){ %>
+                                                                                <input id="checkboxdel<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="deliveryType" type="radio"   <%if(data && data.deliveryType.toString().includes(tags[p].id)){ %> checked <%}%>>
+                                                                                <label for="checkboxdel<%-p%>">
+                                                                                    <%-tags[p].name%>
+                                                                                </label>    
+                                                                                <%}%>        
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                        <div class="form-row form-group">
+                                                                            <div class="form-label col-md-4">
+                                                                                <label for="">
+                                                                                    Food Type:
+                                                                                    <span class="text-danger">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            
+                                                                            <div class="form-input  radio radio-primary  mb-2 col-md-8">
+                                                                                <% var tags=[{id:0,name:'Veg'}, {id:1,name:'Non-Veg'},{id:2,name:'Both'}]
+                                                                                
+                                                                                for(var p =0;p<tags.length;p++){ %>
+                                                                                <input id="checkboxitem<%-p%>"   value="<%-tags[p].id%>" class="ml-2" name="itemType" type="radio"   <%if(data && data.itemType.toString().includes(tags[p].id)){ %> checked <%}%>  >
+                                                                                <label for="checkboxitem<%-p%>">
+                                                                                    <%-tags[p].name%>
+                                                                                </label>    
+                                                                                <%}%>        
+                                                                            </div>
+                                                                           
+                                                                     
+                                                                        
+                                                            
+                                                                      </div>
+                        
+                                                        </div> <!-- end row -->
+                                                    </div>
+                                                    </div>
+
+
+
+
+
+
+                                                <div class="tab-pane" id="basictab3">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="text-center">
+                                                                <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
+                                                                <h5 class="mt-0">Please wait..We are updating company details!</h5>
+                                                            </div>
+                                                        </div> <!-- end col -->
+                                                    </div> <!-- end row -->
+                                                </div>
+                                            </div> <!-- tab-content -->
+                                        </div> <!-- end #basicwizard-->
+                                    </form>
+
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div> <!-- container -->
+            </div> <!-- content -->
+        </div>
+        <!-- ============================================================= -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+    <%- include('../partials/script'); -%>
+
+    <%- include('../partials/commonJs'); -%>
+
+
+</body>
+
+
+<script type="text/javascript">
+ $("#startTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+$("#endTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+
+
+   
+$(function() { 
+        $('#sidebar-menu ul li').find('a[href*="<%-superadminpath%>company"]').parent().addClass('menuitem-active');
+        $('#sidebar-menu ul li a[href^="<%-superadminpath%>company"]').addClass('active');
+    });
+    $('#adduser').validate({
+            rules: {
+                companyName: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                image: {
+                    required: true,
+                   // minlength: 5
+                },
+                phoneNumber: {
+                    required: true,
+                   // minlength: 10,
+                    maxlength: 10
+                },
+                address: {
+                    required: true,
+                   // minlength: 5
+                },
+                logo1: { accept: "image/jpg,image/jpeg,image/png,image/gif"},
+                logo2: { accept: "image/jpg,image/jpeg,image/png,image/gif"},
+                logo3: { accept: "image/jpg,image/jpeg,image/png,image/gif"},
+            },
+            messages: {
+                companyName: {
+                    required: "Please enter a companyName",
+                   // email: "Please enter a vaild email address"
+                },
+                password: {
+                    required: "Please enter a password",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                image: {
+                    required: "Please select an image",
+                    //minlength: "Your password must be at least 5 characters long"
+                },
+                phoneNumber: {
+                    required: "Please enter phone no.",
+                    maxlength: "Your phone no. must be at least 10"
+                },
+                address: {
+                    required: "please enter address",
+                },
+                logo1: {accept: 'Not an image!'},
+                logo2: {accept: 'Not an image!'},
+                logo3: {accept: 'Not an image!'},
+            },
+
+            submitHandler: function (form) {
+           
+
+                var chargesType=  $("input[name='chargesType']:checked").val()
+              var fullAmount=  $("#fullAmount").val()
+              var charges=  $("#charges").val()
+
+if(chargesType==0 && fullAmount=="")
+{showToastError("Please enter full amount")
+return;
+}
+
+if(chargesType==1 && charges=="")
+{
+showToastError("Please enter comission charges value")
+return;
+}
+
+
+
+
+
+
+
+
+
+                $('#basictab1').removeClass('active')
+                $('#basictab2').removeClass('active')
+                $('#basictab4').removeClass('active')
+                $('#basictab5').removeClass('active')
+                $('#basictab6').removeClass('active')
+
+                $('#basictab3').addClass('active')
+
+
+                setTimeout(function(){
+                var tempform = $('#adduser');
+
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%- superadminpath %>company/update',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message)
+                            // setTimeout(function(){
+                            //     window.location.href = "<%- superadminpath %>company";
+                            // },1000)
+                        } else {
+                            showToastError(response.message)
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+                    }
+                }); 
+            }
+            ,1000);
+
+            }
+        });
+    
+    
+</script>
+
+
+</html>
+
+<script type="text/javascript">
+        var geocoder;
+        var map;
+        var marker;
+        var infowindow = new google.maps.InfoWindow({
+          size: new google.maps.Size(150, 50)
+        });
+
+        function initialize() {
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(30.7046, 76.7179);
+            var mapOptions = {
+                zoom: 10,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+            google.maps.event.addListener(map, 'click', function() {
+                infowindow.close();
+            });
+            var input2 = document.getElementById('address');
+            var autocomplete2 = new google.maps.places.Autocomplete(input2);
+            new google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+                var place = autocomplete2.getPlace(); 
+                var lat2 =  place.geometry.location.lat();
+                var lng2 =  place.geometry.location.lng();
+                var addressLat2 = lat2.toFixed(6);
+                var addressLong2 = lng2.toFixed(6);
+                $('#latitude').val(addressLat2);
+                $('#longitude').val(addressLong2);
+                map.setCenter(place.geometry.location);
+                if (marker) {
+                    marker.setMap(null);
+                    if (infowindow) infowindow.close();
+                }
+                marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true,
+                    position: place.geometry.location
+                });
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    geocodePosition(marker.getPosition());
+                });
+            });
+            //Pre Defind
+            //Pre Defind
+            var address = document.getElementById('address').value;
+            
+
+            
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
+                
+                if (status == google.maps.GeocoderStatus.OK) {
+                  map.setCenter(results[0].geometry.location);
+                  if (marker) {
+                    marker.setMap(null);
+                    if (infowindow) infowindow.close();
+                  }
+                  marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true,
+                    position: results[0].geometry.location
+                  });
+                  google.maps.event.addListener(marker, 'dragend', function() {
+                    geocodePosition(marker.getPosition());
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                    if (marker.formatted_address) {
+                      infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                    } else {
+                      infowindow.setContent(address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                    }
+                    infowindow.open(map, marker);
+                  });
+                  google.maps.event.trigger(marker, 'click');
+                } else {
+                  console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        
+          
+        }
+        function geocodePosition(pos) {
+            geocoder.geocode({
+                latLng: pos
+            }, function(responses) {
+
+                if (responses && responses.length > 0) {
+                  marker.formatted_address = responses[0].formatted_address;
+                } else {
+                  marker.formatted_address = 'Cannot determine address at this location.';
+                }
+                infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                infowindow.open(map, marker);
+                var locationaltitude = marker.getPosition().toUrlValue(6);
+                var res = locationaltitude.split(",");
+                var lat1 = res[0];
+                var log2 = res[1];
+                $('#address').val(marker.formatted_address);
+                $('#latitude').val(lat1);
+                $('#longitude').val(log2);
+            });
+        }
+    google.maps.event.addDomListener(window, "load", initialize);
+
+  
+
+
+</script>

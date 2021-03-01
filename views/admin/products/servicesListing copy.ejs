@@ -1,0 +1,387 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+   <%-include ('../partials/header')%>
+    <body style="overflow: hidden;">
+        
+
+
+        <div id="page-wrapper" class="demo-example">
+
+           
+
+            <!-- #page-header -->
+
+            <%-include ('../partials/side_bar')%>
+            <!-- #page-sidebar -->
+            <div id="page-content-wrapper"> 
+<div class="card">
+               
+                <div id="page-title">
+
+                    <div class=" text-transform-upr font-size-15 font-bold primary-font pad10A" >All Services</div>
+
+                    <div id="breadcrumb-right">
+                        
+                        <div class="float-right">
+                           
+
+                            <div class="dropdown">
+                                <a href="<%-adminpath%>service/add" class="btn medium primary-bg " title="Example dropdown" >
+                                    <span class="button-content">
+                                        <i class="glyph-icon icon-plus float-left"></i>
+                                        Add New 
+                                       
+                                    </span>
+                                </a>
+                               
+                            </div>
+                        </div>
+
+                      
+                    </div>
+
+                   
+</div><!-- #page-title -->
+
+<div class="example-box ">
+    
+    <div class="form-row col-lg-3 float-left form-vertical font-size-12 bold   dropdown form-label  mrg10T mrg10L ">
+        <select   data-placeholder="Choose Category" onchange="getNextSubCat(this.value)" class="chosen-select" id="parent">
+            <option value="" > Parent Category</option>
+            <%for(var t=0;t<parData.length;t++){%>
+            <option value="<%-parData[t].id%>" /><%-parData[t].name%> 
+           
+    <%}%>
+   </select>
+
+     </div>
+
+
+
+    <div class="form-row col-lg-2 float-left form-vertical font-size-13    dropdown form-label mrg10T mrg10L ">
+        <select   data-placeholder="Choose Category" onchange="getSubCat(this.value)" class="chosen-select" id="category">
+            <option value="" > Choose  Category</option>
+           
+   </select>
+
+     </div>
+  
+
+
+     <div class="form-row col-lg-2 float-left form-vertical dropdown form-label mrg20T" id="subcatDiv" style="display:none">
+       
+        <select data-placeholder="Choose SubCategory"  class="chosen-select" id="subcat">
+           
+        </select>
+     </div>
+
+
+
+
+ 
+</div>  
+<div id="page-content">
+
+
+<%-include ('../partials/flashMessage')%>
+
+
+
+<table class="table" id="example1">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Icon</th>
+			<th>type</th>
+            <th>Duration</th>
+            <th>Price(INR)</th>
+            <th>Created At</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<%for(var t=0;t<data.length;t++) {
+            %>
+		<tr>
+			<td><%-data[t].name %>  </td>
+			<td> <img src="<%-data[t].icon %>" alt="" width="100" height="80"/>
+            </td>
+			<td><%-data[t].type %> </td>
+            <td><%-data[t].duration %> </td>
+            <td><%-data[t].price %> </td>
+            <td><%-commonMethods.format(new Date(data[t].createdAt*1000)) %> </td>
+
+
+                
+              
+            <td>
+                <!-- <a href="#" id="block_status_<%-data[t].id%>"   onclick="StatusChange('<%= data[t].id %>','<%-data[t].status%>')"  class=" <%-data[t].status==1?' btn medium bg-orange' :'btn medium ui-state-default' %> " title="">
+                    <span class="button-content"><%-data[t].status==1?'Block' :'Unblock' %></span></a>
+             -->
+            
+            
+
+             <a href="javascript:;"   <%if(data[t].status==0){%> style="display:none" <%}%>  id="block_status_<%-data[t].id%>"   onclick="StatusChange('<%= data[t].id %>','1')"  class="btn small  bg-green  ">
+                <span class="button-content">
+                    <i class="glyph-icon icon-cog float-left"></i>
+                   Active &nbsp;&nbsp;&nbsp;
+                </span>
+            </a>
+
+
+         
+            
+            <a href="javascript:;"   <%if(data[t].status==1){%> style="display:none" <%}%>  id="unblock_status_<%-data[t].id%>"   onclick="StatusChange('<%= data[t].id %>','0')"  class="btn small  bg-red  ">
+                <span class="button-content">
+                    <i class="glyph-icon icon-ban-circle float-left"></i>
+                   Inactive 
+                </span>
+            </a>
+
+<!-- 
+            <a href="<%-adminpath%>subservice/list?id=<%= data[t].id %>&name=<%= data[t].name%>"  class="btn small  primary-bg">
+                <span class="button-content">
+                    <i class="glyph-icon icon-th-list float-left"></i>
+                   Sub Services 
+                </span>
+            </a> -->
+
+
+            <!-- <a href="javascript:;"  class="btn small  bg-green">
+                <span class="button-content">
+                    <i class="glyph-icon icon-time"></i>
+                   Schedule
+                </span>
+            </a> -->
+
+
+
+
+            <div class="dropdown">
+                <a href="javascript:;" title="" class="btn small bg-blue" data-toggle="dropdown">
+                    <span class="button-content">
+                        <i class="glyph-icon font-size-11 icon-cog"></i>
+                        <i class="glyph-icon font-size-11 icon-chevron-down"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu float-right">
+
+                    <li>
+                        <a href="<%-adminpath%>service/view/<%= data[t].id %>" title="">
+                            <i class="glyph-icon icon-edit mrg5R"></i>
+                            Edit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" title="">
+                            <i class="glyph-icon icon-calendar mrg5R"></i>
+                            Schedule
+                        </a>
+                    </li>
+                   
+                    <li class="divider"></li>
+                    <li>
+                        <a onclick="return confirm('Are you sure you want to delete this?');"  href="<%-adminpath%>service/delete/<%= data[t].id %>"  class="font-red" title="">
+                            <i class="glyph-icon icon-remove mrg5R"></i>
+                            Delete
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+<!-- 
+            <a href="javascript:;"  id="block_status_<%-data[t].id%>"   onclick="StatusChange('<%= data[t].id %>','<%-data[t].status%>')"  class="btn small  <%-data[t].status==1?'bg-green' :'bg-orange' %> ">
+                <span class="button-content">
+                    <i class="glyph-icon icon-cog float-left"></i>
+                    <%-data[t].status==1?'Block &nbsp;&nbsp;&nbsp; ' :'Unblock' %>
+                </span>
+            </a> -->
+
+
+                <!-- <a  onclick="return confirm('Are you sure you want to delete this?');" class="btn medium radius-all-4 mrg5A ui-state-default tooltip-button" title="Delete" href="<%-adminpath%>service/delete/<%= data[t].id %>" data-id="<%= data[t].id %>"><i class="glyph-icon icon-archive"></i></a> -->
+                <!-- <a  class="btn medium radius-all-4 mrg5A ui-state-default tooltip-button" title="edit" href="<%-adminpath%>service/view/<%= data[t].id %>" ><i class="glyph-icon icon-edit"></i></a>                 -->
+            </td>		
+        </tr>
+		<%}%>
+		
+	</tbody>
+	
+</table>
+
+
+                	</div><!-- #page-content -->
+            </div><!-- #page-main -->
+        </div><!-- #page-wrapper -->
+    </div>
+    </body>
+</html>
+
+
+<script type="text/javascript">
+   
+
+      $('#adduser').submit( function() {
+
+            var tempform = $('#adduser');
+            
+            tempform .parsley('validate' );
+
+            if(tempform.parsley('isValid' ))
+            {
+            var form_data = new FormData(tempform[0]);
+            $(".overlay").show();
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>users/adduser',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $(".overlay").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+
+                         window.location.href="<%-adminpath%>users";
+                       
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+
+                error: function(response)
+                {
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+      });
+    
+  
+    </script>
+
+<script>
+
+$('#category').val(getURLParameter('id'))
+    function StatusChange(id,status)
+    {
+
+        var confirm1= (status=="1") ? "Inactive" : "Active"
+        if( confirm('Are you sure you want to '+confirm1+' this?'))
+        {
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>service/status',
+            dataType: 'json',
+            data: {'id':id,'status':status},
+            success: function (response) {
+                if (response.code == '200') {
+                   // $('#block_status_'+id).html('');
+
+                    if(status == "1")
+                    {
+                       $('#block_status_'+id).hide()
+                       $('#unblock_status_'+id).show()
+                       showToastSuccess( "Service inactive successfully")
+
+
+
+                    }else{
+                         
+                         $('#block_status_'+id).show()
+                        $('#unblock_status_'+id).hide()
+                       // $('#block_status_'+id).append("<i  class='fa fa-truck'  aria-hidden='true'></i>")
+                       showToastSuccess( "Service active successfully")
+
+                    }
+                    
+                }
+                else{
+                   
+                    showToastError(response.message)
+                }
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+    }
+   
+ 
+    function getSubCat(id)
+    {
+
+   window.location.href="<%-adminpath%>/service?id="+id+"&parent="+parent
+    }
+
+    var parent=0
+$('#parent').val(getURLParameter('parent'))
+var url=getURLParameter('parent')
+getNextSubCat(getURLParameter('parent'))
+
+
+function getNextSubCat(id)
+{
+    parent=id
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>subcategory/getSubCat',
+            dataType: 'json',
+            data: {'category':id},
+            success: function (response) {
+                var dataAppend=null
+                var data=response.body
+                if (response.code == '200') {
+                    $('#category').html("")
+                    var dataAppend='<option value="">Nothing Selected</option>';
+                    var selectedId=getURLParameter('id')!=null?getURLParameter('id') :0
+                  for(var k=0;k<data.length;k++)
+                    {
+                        if(selectedId==data[k].id)
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" selected>'+data[k].name+'</option>';
+
+                      else 
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" >'+data[k].name+'</option>';
+
+                }
+                $('#category').html(dataAppend)
+                $('.chosen-select').trigger("chosen:updated");
+                // if(data.length==0)
+                // window.location.href="<%-adminpath%>/service?id="+id+"&parent="+parent
+                //    
+             }
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                showToastError(response.message)
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+</script>

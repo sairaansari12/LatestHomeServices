@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        
+
+                    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                            
+                                            <li class="breadcrumb-item active">Payments</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Payments</h4>
+                                </div>
+                            </div>
+                        </div>    
+                        
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="form-group mx-sm-8">
+                                <label for="status-select" class="mr-2">Select vendor from here to get products
+                                <select onchange="changeCompany()" class="custom-select select2" id="companyId">
+                                    <option value="" />All 
+    
+                                    <%for(var p=0;p<restro.length;p++){%>
+                                        <option value="<%-restro[p].id%>"><%-restro[p].companyName%></option>
+                                        <%}%>
+                                </select>
+                            </div>
+                        </div> <!-- end col-->
+                        <div class="row">
+
+                           
+                           
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                       
+                                        <div class="col-12">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><%-CURRENCY%><span data-plugin="counterup" id="mTotalPayments" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Total payments</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div>
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        
+                                        <div class="col-12">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><%-CURRENCY%><span data-plugin="counterup" id="mSuccessPayments" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Success Payments</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        
+                                        <div class="col-12">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><%-CURRENCY%><span data-plugin="counterup" id="mFailedPayments" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Failed Payments</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+                           
+                            <div class="col-md-3 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        
+                                        <div class="col-12">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><%-CURRENCY%><span data-plugin="counterup" id="mTotalEscrow" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Pending Transfers</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div>
+                            
+                        </div>
+
+
+                        <!-- end page title --> 
+                       
+
+                        <div class="row ">
+                            <div class="col-xl-12 order-xl-1 order-2">
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-lg-12">
+                                                <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                                    <!--<div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="search" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>-->
+                                                    <div class="form-group mx-sm-2 mb-2">
+                                                        <label for="status-select" class="mr-2">Status</label>
+                                                        <select class="custom-select" id="status-select">
+                                                            <option value="" />All 
+                                                              <option value="1" />Success
+                                                              <option value="2" />Failed
+ 
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group mx-sm-1 mb-2">
+                                                        <input type="text" id="range-datepicker"  name="range-datepicker" class="fromDate form-control" placeholder="Select Date Range">
+                                                    </div>
+                                                  
+
+                                                    <div class="col-lg-2">
+                                                        <div class="text-lg-left">
+                                                            <a onclick="getFilter(1)" href="javascript:;"><button type="button" class="btn btn-light waves-effect mb-2">Filter</button></a>
+                                                        </div>
+                                                    </div><!-- end col-->
+                                                    <div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="text" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>
+                                                </form>                            
+                                            </div>
+                                            
+                                        </div>
+                
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                                <div id="orderData">
+                                    
+                                </div>
+                                <div class="col-md-4" style="float:right" id="append_pagination">
+                                </div>
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+                
+</div>
+                
+    <!-- END wrapper -->
+  
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+  $('#search').on( 'keyup', function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+     getFilter(1)
+    }   
+    });
+    $("#toDate").flatpickr();
+ var companyId=""
+    function StatusChange(id,status)
+    {
+        if( confirm('Are you sure you want to change status for this order?'))
+        {
+        $('#loading1').show()
+            $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath%>payment/status',
+            dataType: 'json',
+            data: {'id':id,'status':status},
+            success: function (response) {
+                if (response.code == '200') {
+               showToastSuccess( response.message)
+               getFilter(currentPage)
+             
+                }
+                else{
+                   
+                    showToastError(response.message);
+                   
+                }
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+            }
+        });
+        }
+    }
+    
+    function getFilter(currentPage)
+    {
+        var fromDate=""
+        var toDate=""
+        currentPage=currentPage
+        var limit=20
+        $('#loading1').show()
+        var status=$('#status-select').val();
+        var rangeDatePicker=$('#range-datepicker').val().split("to");
+      var search=$('#search').val()
+      if(rangeDatePicker.length>1){ fromDate=rangeDatePicker[0];
+     toDate=rangeDatePicker[1];}
+        $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath%>payment/list',
+            dataType: 'json',
+            data: {search:search,companyId:companyId,'fromDate':fromDate,'transactionStatus':status ,'toDate':toDate,'page':currentPage,'limit':limit},
+            success: function (response) {
+                $('#loading1').hide()
+console.log(response)
+                if (response.code == '200') 
+                {
+                    var row="";
+
+                    $('#orderData').html('')
+                    var data1=response.body.data
+                      setStat(response.body.counts,response.body.escrow)
+
+                    var data=response.body.data.rows
+                    for(var t=0;t<data.length;t++)
+                    {
+                        
+                        var status = '<span class="badge bg-soft-danger mt-2 text-danger">Failed</span>';
+                        var style="display:none" 
+                        var style1="display:block" 
+                        var paymentState=data[t].paymentState==2?'Transferred' :"Not Transferred"
+                        if(data[t].transactionStatus == '1')
+                        {
+                            var active = 2;
+                            var status = '<span class="badge bg-soft-success mt-2 text-success">Success</span>';
+                            var stclass = "bg-soft-info text-info";
+                            var payemnt='<a href="javascript:void(0)" onclick="StatusChange(\''+data[t].id+'\',\''+active+'\')" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-cog mdi-spin mr-1"></i>Paid</a>'
+
+  
+                        }else{
+                            var active = 1;
+                             var stclass = "bg-soft-danger text-danger";
+                             var payemnt='<a href="javascript:void(0)" onclick="StatusChange(\''+data[t].id+'\',\''+active+'\')" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-cog mdi-spin mr-1"></i>Pending</a>'
+
+                        }
+                   
+                        row =row+ '<div class="card-box mb-2">'+
+                        '<div class="row align-items-center">'+
+                        '<div class="col-sm-4"><div class="media">'+
+
+                        '<img  onError="this.onerror=null;this.src=\'/assets/images/products/no-image.jpg\';" class="d-flex align-self-center mr-3 rounded-circle avatar-xl" src="'+(data[t].user?data[t].user.image:"")+'" alt="Generic placeholder image" >'+
+                        '<div class="media-body">'+
+                        '<h4 class="mt-0 mb-2 font-16">'+(data[t].user?data[t].user.firstName+ " "+  data[t].user.lastName:"NA")+'</h4>'+
+                        '<p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-cellphone mr-1"></i> '+(data[t].user?data[t].user.countryCode +" "+ data[t].user.phoneNumber:"-")+'</p>'+
+                        '<p class="mb-1"><b>Order No.:</b><a href="javascript:void(0)"> '+(data[t].order?data[t].order.orderNo:"")+'</a></p>'+
+                         status
+                        +'</div></div></div>'+
+                        '<div class="col-sm-4">'+
+                        '<p class="mb-1"><b>Order Date:</b> '+format(new Date(data[t].order.createdAt))+'</p>'+
+                        '<p class="mb-1"><b>Payment Date:</b> '+format(new Date(data[t].createdAt)) +'</p>'+
+                        '<p class="mb-1"><b>Payment Status:</b> '+paymentState +'</p>'+
+
+                        '<p class="mb-0"> <%- CURRENCY %> '+data[t].amount  +'</p>'+
+                        '</div><div class="col-sm-2">'+
+                        '<div class="text-center mt-3 mt-sm-0">'+
+                        //'<div class="badge font-14 '+stclass+' p-1">'+status+'</div>'+ 
+                        '</div></div>'+                             
+                        '<div class="col-sm-2"><div class="text-sm-right">'+
+                        ''+payemnt+''+
+            
+                        '</div></div></div></div></div>';
+                    }
+                    
+                    $('#orderData').html(row);
+                    appendPagination(currentPage,Math.ceil(data1.count/limit))
+                    //$('#exe').DataTable();
+                }
+                else{
+                    
+                            toastr.error(response.message);
+                          
+                }
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                       
+
+            }
+        });
+    } 
+
+  
+    function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end my-2">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+           $("#append_pagination").html(fd)  
+    }
+
+    function changeCompany()
+    {
+  companyId=$('#companyId').val();
+   getFilter(1)
+
+    }
+
+
+    function setStat(counts,escrow)
+    {
+
+        var failedSum=0
+        var successSum=0
+        var escrowSum=0
+
+        for(var k=0;k<counts.length;k++)
+        {
+            
+            if(counts[k].transactionStatus==2)
+            failedSum=failedSum+counts[k].totalSum
+            else
+            successSum=successSum+counts[k].totalSum
+
+        }
+
+        for(var p=0;p<escrow.length;p++)
+        {
+            
+            if(escrow[p].paymentState==1)
+            escrowSum=escrowSum+escrow[p].totalSum
+           
+        }
+
+        $('#mSuccessPayments').html((successSum).toFixed(2))
+        $('#mFailedPayments').html((failedSum).toFixed(2))
+        $('#mTotalPayments').html((failedSum+successSum).toFixed(2))
+        $('#mTotalEscrow').html((escrowSum).toFixed(2))
+
+    }
+
+
+    var currentPage=1
+    getFilter(currentPage)
+</script>
+</body>
+
+</html>

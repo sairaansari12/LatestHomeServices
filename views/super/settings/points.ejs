@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">setup</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Payment Account Setup</h4>
+                                </div>
+                            </div>
+                        </div>     
+
+
+
+                       
+                        <div class="row">
+                        
+
+                                    <div class="col-lg-6">
+                                        <div class="card-box ">
+                                            <h5 class=" mt-0 mb-3 text-muted bg-light p-2">
+                                        
+                                                Set points for referral purpose(Invite and earn)
+        
+                                            
+                                            </h5>
+
+                            <form  role="form" onsubmit="return false"   id="addpoints" >
+                   <input type="hidden" id="documentId"   <%if(data){%>value="<%-data.id%>" <%}%>    name="documentId">
+
+                                       
+                                        
+                                        <div class="form-group">
+                                                <label for="">
+                                                   Referral Points 1 <span class="text-danger">*</span>
+                                                   <p>Points will be given to referred user</p>
+                            
+                                                </label>
+                                                <input    oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="5"  <%if(data){%>value="<%-data.lpReferral1%>" <%}%> type="text"  id="lpReferral1"    min="0"   name="lpReferral1"  class="form-control" />
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="">
+                                               Referral Points 2  <span class="text-danger">*</span>
+                                               <p>Points will be given to code used by user</p>
+                        
+                                            </label>
+                                            <input   oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="5"  type="text"  <%if(data){%>value="<%-data.lpReferral2%>" <%}%>   id="lpReferral2"   min="0"  name="lpReferral2"  class="form-control" />
+                                    </div>
+                            
+                                        
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-center mb-3">
+                                                    <a  onclick="window.history.back()" href="javascript:void(0);:"><button type="button"  class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                                    <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                                </div>
+                                            </div> <!-- end col -->
+        
+                                        </div>
+                                  
+                                    </form>
+
+
+
+                                           
+                                           
+                                        </div> <!-- end card-box -->
+                                 
+                                    
+                               
+                               
+                         
+
+                            <!-- end row -->
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+  
+    $(document).ready(function(){
+
+        $("#addpoints").validate({
+            rules: {
+                lpReferral1: {
+                  required: true
+                },
+                lpReferral2: {
+                  required: true
+                },
+                
+            },
+            messages: {
+               
+                lpReferral2: {
+                    required: "This field is required"
+                },
+                lpReferral1: {
+                    required: "This field is required"
+                }
+              
+            },
+            submitHandler: function (form) {
+     
+         
+                var tempform = $('#addpoints');
+                var form_data = new FormData(tempform[0]);
+                console.log(form_data);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-superadminpath%>settings/points',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                           
+                                showToastError(response.message);
+                          
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        
+        
+        });
+    });
+</script>
+
+<script>
+ $("#addcomission").validate({
+            
+            
+            messages: {
+                
+            },
+            submitHandler: function (form) {
+
+         
+                var chargesType=  $("input[name='chargesType']:checked").val()
+              var fullAmount=  $("#fullAmount").val()
+              var charges=  $("#charges").val()
+
+         
+              if(chargesType=="")
+              {
+                showToastError("Please select comission type")
+return;
+              }
+if(chargesType==0 && fullAmount=="")
+{showToastError("Please enter full amount")
+return;
+}
+
+if(chargesType==1 && charges=="")
+{
+showToastError("Please enter comission charges value")
+return;
+}
+
+                var tempform = $('#addcomission');
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-superadminpath%>payment/updateComission',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $("#loading1").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                                showToastError(response.message);
+                           
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        
+        
+        });
+   
+
+
+</script>
+
+
+</body>
+
+</html>

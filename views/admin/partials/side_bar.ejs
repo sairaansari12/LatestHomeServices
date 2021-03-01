@@ -1,0 +1,419 @@
+ <!--- Sidemenu -->
+ <div id="sidebar-menu">
+
+  <ul id="side-menu">
+
+        <li class="menu-title">Navigation</li>
+       <li>
+          <a href="<%- adminpath %>">
+              <i data-feather="airplay"></i>
+              <span> Dashboard </span>
+          </a>
+      </li>
+      <li>
+        <a href="#sidebarProduct" data-toggle="collapse">
+            <i data-feather="box"></i>
+            <span> Services </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarProduct">
+            <ul class="nav-second-level">
+
+              <% if(adminRole=="3"){%> 
+              <li>
+                <a href="<%- adminpath %>category/main">Main Categories</a>
+            </li>
+             <%}%>
+                <li>
+                    <a href="<%- adminpath %>category/parent">Catalogue</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>products/">All Services</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>/addons/">Add Ons</a>
+                </li>
+            </ul>
+        </div>
+      </li>
+
+      <% if(adminRole=="3"){%>
+      <li>
+        <a href="<%- adminpath %>users">
+          <i data-feather="users"></i>
+          <span> Users </span>
+        </a>
+      </li>
+
+<%}%>
+
+
+
+      <li>
+          <a href="<%- adminpath %>task">
+              <i data-feather="airplay"></i>
+              <span> Tasks </span>
+          </a>
+      </li>
+      <li>
+        <a href="#sidebarCrm" data-toggle="collapse">
+            <i data-feather="users"></i>
+            <span> Staff </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarCrm">
+            <ul class="nav-second-level">
+                <li>
+                    <a href="<%-adminpath%>employees/">Staff Listing</a>
+                </li>
+                <li>
+                    <a href="<%-adminpath%>employees/add">Staff Add</a>
+                </li>
+                <li>
+                    <a href="<%-adminpath%>employees/map">View On Map</a>
+                </li>
+               
+            </ul>
+        </div>
+    </li>
+
+     <li>
+        <a href="<%-adminpath%>schedule/">
+            <i data-feather="calendar"></i>
+            <span> Schedule</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="#sidebarOffer" data-toggle="collapse">
+            <i data-feather="gift"></i>
+            <span> Coupons & Offers </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarOffer">
+            <ul class="nav-second-level">
+                <li>
+                    <a href="<%- adminpath %>coupans">Coupons</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>offers/">Offers</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>/Deals/">Deals</a>
+                </li>
+            </ul>
+        </div>
+      </li>
+
+
+      
+
+    
+      <li>
+        <a href="<%- adminpath %>orders">
+          <i data-feather="shopping-cart"></i>
+          <span> Orders </span>
+        </a>
+      </li>
+
+      
+
+     
+
+     
+      <li>
+          <a href="#sidebarRating" data-toggle="collapse">
+              <i data-feather="users"></i>
+              <span> Ratings & Reviews </span>
+              <span class="menu-arrow"></span>
+          </a>
+          <div class="collapse" id="sidebarRating">
+              <ul class="nav-second-level">
+                  <li>
+                      <a href="<%-adminpath%>ratings/">Product Reviews</a>
+                  </li>
+                  <li>
+                    <a href="<%-adminpath%>ratings/staff">Staff Reviews</a>
+                </li>
+                  <li>
+                      <a href="<%-adminpath%>ratings/company">Vendor Reviews</a>
+                  </li>
+                  <li>
+                    <a href="<%-adminpath%>ratings/companyorder">Order Reviews</a>
+                </li>
+                  
+                 
+              </ul>
+          </div>
+      </li>
+      <li>
+        <a href="#gallery" data-toggle="collapse">
+            <i data-feather="aperture"></i>
+            <span> Gallery </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="gallery">
+            <ul class="nav-second-level">
+                <li>
+                    <a href="<%- adminpath %>gallery">Gallery</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>gallery/add">Add Photos & Videos</a>
+                </li>
+                
+            </ul>
+        </div>
+    </li>
+
+
+
+
+
+
+
+   
+      <li>
+
+        <li>
+            <a href="#sidebarpSettings" data-toggle="collapse">
+              <i data-feather="pocket"></i>
+              <span> Settings </span>
+              <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarpSettings">
+              <ul class="nav-second-level">
+
+
+
+<li>
+        <a href="#sidebargSettings" data-toggle="collapse">
+            <i data-feather="settings"></i>
+            <span> General Settings </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebargSettings">
+            <ul class="nav-second-level">
+              
+              
+                <li>
+                    <a href="<%- adminpath %>changePassword">Change Password</a>
+                </li>
+                
+
+                <li>
+                    <a href="<%- adminpath %>settings/charges">Service Charges</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>profile/getprofile">Profile</a>
+                </li>
+
+                <li>
+                    <a href="<%- adminpath %>settings/restSettings">Vendor</a>
+                </li>
+              
+
+                <li>
+                    <a href="<%- adminpath %>tags">Tags</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>banner">Banners</a>
+                </li>
+        
+                <li>
+                  <a href="<%- adminpath %>settings">Documents</a>
+              </li>
+              
+            
+            </ul>
+            </div>
+
+</li>
+
+                <!-- <li>
+                    <a href="<%- adminpath %>settings/roles">Staff Roles</a> -->
+                </li>
+
+                
+<% if(adminRole=="3"){%>
+    
+  
+
+                <li>
+                    <a href="#sidebarAppSettings" data-toggle="collapse">
+                      <i data-feather="settings"></i>
+                      <span>App Settings </span>
+                      <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarAppSettings">
+                      <ul class="nav-second-level">
+              
+                        <li>
+                          <a href="<%- adminpath %>settings/points">Points</a>
+                      </li>
+              
+                    
+                       
+                         <li>
+                            <a href="<%- adminpath %>subscription">Subscription</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>settings/roles">Staff Roles</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>settings/userroles">User Roles</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+
+                
+                  <li>
+                    <a href="#sidebaroSettings" data-toggle="collapse">
+                      <i data-feather="pocket"></i>
+                      <span> Order Settings </span>
+                      <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebaroSettings">
+                      <ul class="nav-second-level">
+                        <li>
+                          <a href="<%- adminpath %>ordersetting/delivery">Visit home instructions</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>ordersetting/cooking">Special  Instructions</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>ordersetting/pickup">Visit Vendor Instructions</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>ordersetting/cancel">Cancel Reasons</a>
+                        </li>
+                        <li>
+                          <a href="<%- adminpath %>ordersetting/tip">Order Tips</a>
+                        </li>
+                
+                      
+                
+                
+                      </ul>
+                    </div>
+                  </li>
+                
+                
+                  <%}%>
+                <!-- <li>
+                    <a href="<%- adminpath %>settings/userroles">User Roles</a>
+                </li> -->
+            </ul>
+        </div>
+    </li>
+    
+
+    <li>
+        <a href="#paySettings" data-toggle="collapse">
+            <i data-feather="credit-card"></i>
+            <span> Payment </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="paySettings">
+            <ul class="nav-second-level">
+                <li>
+                    <a href="<%- adminpath %>payment">Payment History</a>
+                </li>
+                <li>
+                    <a href="<%- adminpath %>payment/setup">Setup Account </a>
+                </li>
+
+                <li>
+                    <a href="<%- adminpath %>payment/comissionHistory">Comissions History </a>
+                </li>
+
+
+               
+                </ul>
+
+       </li>
+
+
+
+
+
+    <li>
+        <a href="#sidebarNotification" data-toggle="collapse">
+            <i data-feather="bell"></i>
+            <span> Notifications </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarNotification">
+            <ul class="nav-second-level">
+                <li>
+                    <a href="<%- adminpath %>notification">View Notifications</a>
+                    
+                </li>
+
+                <% if(adminRole=="3"){%> <li>
+                    <a href="<%- adminpath %>notification/new">Push New Notification</a>
+                    
+                </li>
+    
+                <li>
+                  <a href="<%- adminpath %>notification/newEmail">Send New Email</a>
+                  
+              </li>
+              <%}%>
+                
+            </ul>
+        </div>
+    </li>
+
+    
+    <% 
+    
+    
+    if(adminRole=="3"){%>
+    <li>
+        <a href="<%-adminpath%>chatVendor/">
+            <i data-feather="message-square"></i>
+            <span> Support & Chat</span>
+        </a>
+    </li>
+<%}else{%>
+
+
+    
+    <li>
+        <a href="<%-adminpath%>chat/">
+            <i data-feather="message-square"></i>
+            <span> Support & Chat</span>
+        </a>
+    </li>
+<%}%>
+
+    <% if(adminRole=="3"){%>
+    <li>
+        <a href="#helpSettings" data-toggle="collapse">
+          <i data-feather="help-circle"></i>
+          <span> Help & Support </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="helpSettings">
+          <ul class="nav-second-level">
+            <li>
+              <a href="<%- adminpath %>faq">FAQs</a>
+            </li>
+            <li>
+              <a href="<%- adminpath %>contactus/">Contact us</a>
+            </li>
+            
+          </ul>
+        </div>
+      </li>
+
+   <%}%>
+
+
+  </ul>
+
+</div>
+
+<!-- End Sidebar -->

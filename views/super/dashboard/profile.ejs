@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<style>
+    .form-row{
+        margin-bottom: 20px;
+    }
+    .iti__selected-flag {
+    
+    height: 90%;
+}
+
+    #countryCode-error
+    {
+        margin-bottom: -4px;
+    }
+</style>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Delivery</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                        
+                                        <li class="breadcrumb-item">Settings</li>
+
+                                        <li class="breadcrumb-item active">Edit Profile</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Edit Profile</h4>
+                            </div>
+                        </div>
+                    </div>     
+                    <!-- end page title --> 
+
+                    <div class="row">
+                    <div class="col-8">
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <form  role="form" method="POST" action=""   class="form-bordered data-parsley-focus"  id="profileSubmit" enctype="multipart/form-data">
+
+                                    <div class="form-row">
+                                        
+                                        <div class="form-label col-md-4">
+                                            <label for="">
+                                                Company Name:
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-input col-md-8">
+                                            <input  maxlength="32" type="text" id="companyName" data-required="true" value="<%-data.companyName%>" class="form-control" name="companyName"   data-trigger="change"  />
+
+                                        </div>
+                                       
+                                    </div>
+
+                                                                        <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Enter  Contact Info </h5>
+
+                                    <div class="form-row">
+                                        
+                                        <div class="form-label col-md-4">
+                                            <label for="">
+                                                Company Email:
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-input col-md-8">
+                                            <input disabled  type="email" id="email" data-required="true" value="<%-data.email%>" class="form-control" name="email"   data-trigger="change"  />
+
+                                        </div>
+                                       
+                                    </div>
+
+
+                                    <div class="form-row">
+
+                                    <div class="form-label col-md-4">
+                                        <label for="">
+                                            Country Code :
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-input col-md-8">
+                                        <input type="text" 
+                                        onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+                                        id="countryCode" maxlength="4"   class="form-control" name="countryCode"   value="<%-data.countryCode%>"  />
+
+                                    </div>
+                                   
+                                </div>
+
+                                    
+
+
+
+                                    <div class="form-row">
+                                        
+                                        <div class="form-label col-md-4">
+                                            <label for="">
+                                                Phone Number:
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="col-md-8 form-input">
+                                            
+
+                                            <input type="number"    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min="0" id="phoneNumber"   maxlength="10" data-required="true" value="<%-data.phoneNumber%>" class="form-control" name="phoneNumber" data-trigger="change"  />
+
+                                        </div>
+                                       
+                                    </div>
+                                    <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Enter  Store Location</h5>
+
+                                    <div class="form-row">
+                                        <div class="form-label col-md-4">
+                                            <label for="">
+                                                Address 1:
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-input col-md-8">
+                                            <input type="text" id="address1" data-required="true" value="<%-data.address1%>" class="form-control" name="address1"   data-trigger="change"  />
+                                            <input type="hidden" name="latitude" value="<%-data.latitude %>" id="latitude" placeholder="Address 1" class="form-control">
+                                            <input type="hidden" name="longitude" value="<%-data.longitude %>" id="longitude" placeholder="Address 1" class="form-control">
+
+                                            
+                                        </div>
+                                       
+                                    </div>
+
+                                    <!--<div class="form-row">
+                                        
+                                        <div class="form-label col-md-4">
+                                            <label for="">
+                                                Address 2:
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-input col-md-8">
+                                            <input type="text" id="address2" data-required="true" value="<%-data.address2%>" class="form-control" name="address2"   data-trigger="change"  />
+                                            <input type="hidden" name="address2LatLong" value="<%-data.address2LatLong %>" id="address2LatLong" placeholder="Address 1" class="form-control">
+                                        </div>
+                                       
+                                    </div>-->
+                                    <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Select Logo Here</h5>
+
+                                    <div class="col-lg-12">
+                                            
+                                        <div class="card-box">
+
+                                            <% userData.logo1=data.logo1
+                                            userData.companyName=data.companyName                                        
+                                            %>
+                                            
+                                                                                  
+                                                                                        <div class="mt-3">
+                                                                                            <input   data-default-file="<%-data.logo1%>" name="image" id="image"  type="file" data-plugins="dropify" data-max-file-size="1M"  />
+                                                                                        </div>
+                                                                                   
+                                                    
+                                                                                        <div class="needsclick">
+                                                                                            <img  src="<%-data.logo1%> "  style="display:none" class="avatar-xl"  id="myIcon"  alt="">
+                                                                                        </br>
+                                                                                           
+                                                    
+                                                                                    </div>
+                                                                                </div>
+                                                                                
+                                                                            
+
+
+
+
+                                           
+
+                
+                                        </br><div class="row">
+                                                <div class="col-12 text-center mb-3">
+                                                    <button type="button"  onclick="window.history.back()"; class="btn w-sm btn-light waves-effect">Cancel</button>
+
+                                        <button class="btn btn-info btn-sm center" type="submit">Save</button>
+                                                </div>
+                                            </div>
+                                  
+                                    </form>
+                                </div>
+                            </div>  
+                        </div>
+                
+                    </div>
+
+                    <div class="col-4"> <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Drag and drop marker to get location</h5>
+                        <div id="map_canvas" style="height:100%;"></div></div>
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <div class="loader" style="position:fixed;top:50%;left:50%;display: none;">
+        <img src="/assets/images/loader-dark.gif" alt="">
+    </div>
+
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+    <script>
+
+$("#profileSubmit").validate({
+        rules: {
+            companyName: {
+              required: true
+            },
+            email: {
+              required: true
+            },
+            phoneNumber: {
+                required: true
+            },
+            address1: {
+                required: true
+            },
+            countryCode: {
+                required: true
+            }
+            
+
+        },
+        messages: {
+            companyName: {
+                required: "This field is required"
+            },
+            email: {
+                required: "This field is required"
+            },
+            phoneNumber: {
+                required: "This field is required."
+            },
+            address1: {
+              required: "This field is required"
+            },
+            countryCode: {
+              required: "This field is required"
+            }
+            
+            
+    
+        },
+        submitHandler: function (form) {
+           
+
+   var  ext = $('#image').val().split('.').pop().toLowerCase();
+
+if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+showToastError('Please select only jpg and png files for image!')
+return false;
+}
+
+
+            else{
+            $("#loading1").show();
+            var tempform = $('#profileSubmit');
+            var form_data = new FormData(tempform[0]);
+            $.ajax({
+                type: 'POST',
+                url: '<%=superadminpath %>profile/companyUpdate',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $("#loading1").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message);
+                        setTimeout(function(){
+                    window.location.reload();
+                }, 1500);
+                      
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+                error: function(response)
+                {
+                    $('#loading1').hide()
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+
+        
+    });
+
+
+
+        var geocoder;
+        var map;
+        var marker;
+        var infowindow = new google.maps.InfoWindow({
+          size: new google.maps.Size(150, 50)
+        });
+
+        function initialize() {
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(30.7046, 76.7179);
+            var mapOptions = {
+                zoom: 10,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+            google.maps.event.addListener(map, 'click', function() {
+                infowindow.close();
+            });
+            var input2 = document.getElementById('address1');
+            var autocomplete2 = new google.maps.places.Autocomplete(input2);
+            new google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+                var place = autocomplete2.getPlace(); 
+                var lat2 =  place.geometry.location.lat();
+                var lng2 =  place.geometry.location.lng();
+                var addressLat2 = lat2.toFixed(6);
+                var addressLong2 = lng2.toFixed(6);
+                $('#latitude').val(addressLat2);
+                $('#longitude').val(addressLong2);
+
+                map.setCenter(place.geometry.location);
+                if (marker) {
+                    marker.setMap(null);
+                    if (infowindow) infowindow.close();
+                }
+                marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true,
+                    position: place.geometry.location
+                });
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    geocodePosition(marker.getPosition());
+                });
+            });
+            //Pre Defind
+            var address = document.getElementById('address1').value;
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
+                
+                if (status == google.maps.GeocoderStatus.OK) {
+                  map.setCenter(results[0].geometry.location);
+                  if (marker) {
+                    marker.setMap(null);
+                    if (infowindow) infowindow.close();
+                  }
+                  marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true,
+                    position: results[0].geometry.location
+                  });
+                  google.maps.event.addListener(marker, 'dragend', function() {
+                    geocodePosition(marker.getPosition());
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                    if (marker.formatted_address) {
+                      infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                    } else {
+                      infowindow.setContent(address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                    }
+                    infowindow.open(map, marker);
+                  });
+                  google.maps.event.trigger(marker, 'click');
+                } else {
+                  console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        function geocodePosition(pos) {
+            geocoder.geocode({
+                latLng: pos
+            }, function(responses) {
+
+                if (responses && responses.length > 0) {
+                  marker.formatted_address = responses[0].formatted_address;
+                } else {
+                  marker.formatted_address = 'Cannot determine address at this location.';
+                }
+                infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+                infowindow.open(map, marker);
+                var locationaltitude = marker.getPosition().toUrlValue(6);
+                var res = locationaltitude.split(",");
+                var lat1 = res[0];
+                var log2 = res[1];
+                $('#address1').val(marker.formatted_address);
+                $('#latitude').val(lat1);
+                $('#longitude').val(log2);
+            });
+        }
+
+        google.maps.event.addDomListener(window, "load", initialize);
+    </script>
+       <script>
+        $('#container-fluid').load(document.URL +  ' #container-fluid');
+    
+    </script>
+
+</body>
+
+</html>

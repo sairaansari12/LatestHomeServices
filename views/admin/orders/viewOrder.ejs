@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<%- include('../partials/header'); -%>
+<link href="/dist/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
+<link href="/dist/assets/libs/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+<link href="/dist/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="/dist/assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
+<link href="/dist/assets/libs/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+<link href="/dist/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+
+<!-- App css -->
+
+
+<% var jobAccepted=0;%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Visit Home</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+         <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+
+                                    <div class="page-title-right" style="margin-left: 10px;">
+                                        <ol class="breadcrumb m-0">
+                                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal-status">Change Status</button>
+                                        </ol>
+                                        
+                                    </div>
+                                    <% if(parseInt(data.progressStatus) != 5) { %>
+                                    <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                            <button type="button"  id="myDispatcherBtn" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">My Dispatchers</button>
+                                        </ol>
+
+                                      
+                                    </div>
+                                    <%if(adminRole=="2")
+                                    {%>
+                                    <div class="page-title-right" style="margin-right: 10px;">
+                                        <ol class="breadcrumb m-0">
+                                            <button type="button"  id="allDispatcherBtn" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal-all">Nearby Dispatchers</button>
+                                        </ol>
+                                        
+                                    </div>
+                                    <% }} %>
+                                    <h4 class=form-label">Order Detail</h4>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>     
+                        
+                        <!-- end page title --> 
+
+                        <div class="row">
+
+                          
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Track Order</h4>
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <h5 class="mt-0">Order ID:</h5>
+                                                    <p><%-data.orderNo%></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <h5 class="mt-0">Tracking ID:</h5>
+                                                    <p><%-data.id%></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-4">
+                                                    <h5 class="mt-0">Order Date:</h5>
+                                                    <p><%-commonMethods.formatAMPM(new Date(data.serviceDateTime))%></p>
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+
+
+                                        <div class="track-order-list">
+                                            <ul class="list-unstyled">
+
+<%for(var k=0; k<options.length; k++)
+{
+    var className="pending"
+    var dotName=""
+    if( (data.progressStatus) >  (options[k].status))
+    className='completed'
+    
+    if( data.progressStatus ==  options[k].status)
+       dotName="active-dot dot"
+
+
+ if (data.progressStatus!=options[k].status && (options[k].status=="2" ||options[k].status=="4" || options[k].status=="5") ) { continue; }
+
+
+    %>
+                                                <li class="<%-className%>">
+                                                    <h5 class="mt-0 mb-1"><%-options[k].statusName%></h5>
+                                                    <span class="<%-dotName%>"></span>
+
+                                                    <p class="text-muted"><%-commonMethods.format(new Date(data.createdAt)) %></p>
+                                                </li>
+                                               
+                                               
+                                          
+                                    
+                                            <%
+                                        
+                                            if((data.progressStatus==2 || data.progressStatus==4 || data.progressStatus==5 ) && options[k].status==data.progressStatus ) break;
+
+                                        
+                                        }%>      
+
+                                                
+                                            </ul>
+                                        </div>
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Items from Order <%-data.orderNo%></h4>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-centered mb-0">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Service name</th>
+                                                        <th>Icon</th>
+                                                        <th>Quantity</th>
+                                                        <th>Price</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for(var t=0;t<data.suborders.length ;t ++){ %> 
+                                                        <tr>
+                                                            <th scope="row"><%-data.suborders[t].service?data.suborders[t].service.name:"NA" %></th>
+                                                            <td><img src="<%-data.suborders[t].service?data.suborders[t].service.thumbnail:'' %>" alt="product-img" height="32"></td>
+                                                            <td><%-data.suborders[t].quantity %></td>
+                                                            <td><%-data.suborders[t].service?data.suborders[t].service.originalPrice.toFixed(2):"NA" %></td>
+                                                            <td><%-data.suborders[t].service?(data.suborders[t].quantity * data.suborders[t].service.originalPrice).toFixed(2):"NA" %></td>
+                                                        </tr>
+                                                    <% } %>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Sub Total :</th>
+                                                        <td><div class="font-weight-bold"><%-CURRENCY +' '+data.orderPrice%></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Order Tip :</th>
+                                                        <td><%-CURRENCY +' '+data.tip%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Service Charges :</th>
+                                                        <td><%-CURRENCY +' '+data.serviceCharges%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Promo Code :</th>
+                                                        <td><%-data.promoCode%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Discount Price :</th>
+                                                        <td><%-CURRENCY +' '+ data.offerPrice%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Loyalty Points :</th>
+                                                        <td><%-data.usedLPoints%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Loyalty Discount :</th>
+                                                        <td><%-CURRENCY +' '+ data.LPointsPrice%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" colspan="4" class="text-right">Total :</th>
+                                                        <td><div class="font-weight-bold"> <%-CURRENCY +' '+ data.totalOrderPrice%></div></td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Shipping Information</h4>
+
+                                        <h5 class="font-family-primary font-weight-semibold"><%-data.user.firstName +' '+ data.user.lastName%></h5>
+                                        
+                                        <p class="mb-2"><span class="font-weight-semibold mr-2">Address:</span> <%-(data.address!=null?data.address.addressName:"")%></p>
+                                        
+                                        <p class="mb-0"><span class="font-weight-semibold mr-2">Mobile:</span><%-data.user.countryCode +' ' + data.user.phoneNumber%></p>
+            
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Billing Information</h4>
+
+                                        <ul class="list-unstyled mb-0">
+                                            <li>
+                                                <% 
+                                                var type="Online"
+                                                if(data.payment.paymentType == 2)  type="COD"
+                                              var refund=  (data.refundType == 1)?"Refunded":"Not Refunded"
+
+                                 %>
+                                                <p class="mb-2"><span class="font-weight-semibold mr-2">Payment Mode:</span><%-  type %></p>
+                                                <p class="mb-2"><span class="font-weight-semibold mr-2">Payment Type:</span><%-  data.payment.paymentMode %></p>
+                                                <p class="mb-2"><span class="font-weight-semibold mr-2">Refund Status:</span><%-  refund %></p>
+
+                                                <p class="mb-2"><span class="font-weight-semibold mr-2">Transaction Id:</span><%-  data.payment.transactionId %></p>
+                                                <p class="mb-2"><span class="font-weight-semibold mr-2">Transaction Status:</span>
+                                                <% if(data.payment.transactionStatus == '1'){ %>
+                                                    Paid
+                                                <% }else{ %>
+                                                    Not Paid
+                                                <% } %></p>
+                                               
+                                            </li>
+                                        </ul>
+            
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+        
+
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                <h4 class="header-title">Special Instructions</h4>
+                            
+                                <p class="sub-header">
+                                   <%- data.cookingInstructions %>
+                                </p>
+
+
+                                <%
+                                if(data.cookingInstMedia && data.cookingInstMedia!=null && data.cookingInstMedia!=""){%>  
+                                <div class="mt-1 mb-2 ">
+                                    <audio style="width: 100%;" controls>
+                                        <source src="<%-data.cookingInstMedia%>">
+                                    </audio>
+                                    <!-- <a id="PlayLink" target="_blank"  href="<%-data.cookingInstMedia%>" >Click here to watch cooking instructions</a> -->
+                                </div>
+                                <%}%>
+
+                                <h4 class="header-title">Visit Home Instructions</h4>
+                                <% if(instructions){ %>
+                                    <% for(var t=0;t<instructions.deliveryInstructions.length;t++){ %>
+                                        <p class="sub-header">
+                                           <%- instructions.deliveryInstructions[t].heading %>
+                                        </p>
+                                    <%}%>
+                                <% } %>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Visit Home Info</h4>
+                                        <p class="mb-1"><span class="font-weight-semibold">Type :</span> 
+                                            <% if(data.deliveryType == '0'){ %>
+                                            Visit Vendor
+                                            <% }else{ %>
+                                            Visit Home
+                                            <% } %>
+                                            </p>
+                                       
+                                       <% var empDatat=data.assignedEmployees!=null?data.assignedEmployees :[] 
+                                        for(var t=0;t<empDatat.length ;t ++)
+                                
+                                 {
+                                     var jobStatus="Not Accepted" 
+                                    if(empDatat[t].jobStatus==1){ 
+                                        jobAccepted++;
+                                        jobStatus="Accepted" }
+
+                                        if(empDatat[t].jobStatus==3){ 
+                                            jobAccepted++;
+                                            jobStatus="Job Completed" }
+    
+
+                                    if(empDatat[t].jobStatus==2) jobStatus="Cancelled" 
+
+                                    %> 
+                                
+                                     
+                                     <div class="content-box ">
+                                         
+                                       
+                                             
+                                             <table class="table  font-size-11">
+                                                 <tr>
+                                                    <td> <img   class="avatar-sm rounded-circle"  src="<%-(empDatat[t].employee?empDatat[t].employee.image:"") %>" alt="" />
+
+                                                     <td> <%-(empDatat[t].employee?empDatat[t].employee.firstName +' '+ empDatat[t].employee.lastName +' ,' +empDatat[t].employee.countryCode +'-'+empDatat[t].employee.phoneNumber :"") %>
+                                                        <td> <%-jobStatus%>
+                                                      <%if(empDatat[t].jobStatus==0 || empDatat[t].jobStatus==2  ){%>  <td> <button type="button" onclick="removeAssignment('<%-empDatat[t].id%>')"  class="btn btn-danger waves-effect waves-light">Remove</button>
+                                       <%}%>
+
+
+                                                    
+                                                    </tr>
+                             
+                                             
+                        
+                                             </table>
+                         
+                                            
+                                         
+                                        
+                                   
+                         
+                                   
+                                 </div>
+                                 <%}%>
+
+
+            
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+
+                        
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+               </div>
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+        <div class="col-xl-4">
+      
+
+                
+                
+                <!-- sample modal content -->
+
+                <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Assign Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                <input type="hidden" id="assignOrderId" value="<%-data.id%>"/>
+                                <div class="form-group col-md-12 ">
+
+                                    <select  id="empFirst" multiple="multiple" class="multi-select"  name="my_multi_select1[]" data-plugin="multiselect">
+
+                                        <%var exists=data.assignedEmployees.map(item => (item.employee?item.employee.id:""))
+                                    %>
+                                        <option value="" disabled/>Choose Employee
+                                    <%for(var t=0;t<empData.length;t++){%>
+                                        <option value="<%-empData[t].id%>" <%if(exists.includes(empData[t].id)){%> selected <%}%>   /><%-empData[t].firstName+' '+empData[t].lastName+"   -   "+empData[t].dataValues.distance.toFixed(2)+"Km"%> 
+                                       
+                                    <%}%>
+                                        
+                                    </select>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"  class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="updateAssignemnt(0)"  class="btn btn-info waves-effect waves-light">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+
+                 <!-- sample modal content -->
+
+                <div id="con-close-modal-all" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Assign Employee</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                <input type="hidden" id="assignOrderId" value="<%-data.id%>"/>
+                                <div class="form-group col-md-12">
+                                    <select  id="empFirst1" multiple="multiple" class="multi-select" id="my_multi_select1" name="my_multi_select1[]" data-plugin="multiselect">
+                                        <%var exists=data.assignedEmployees.map(item => (item.employee?item.employee.id:""))
+                                    %>
+                                    <option value="" disabled/>Choose Employee
+                                    <%for(var t=0;t<AllempData.length;t++){
+                                        %>
+                                        <option value="<%-AllempData[t].id%>" <%if(exists.includes(AllempData[t].id)){%> selected <%}%>   /><%-AllempData[t].firstName+' '+AllempData[t].lastName+"   -   "+AllempData[t].dataValues.distance.toFixed(2)+"Km"%>
+                                    <%}%>
+                                    </select>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"  class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="updateAssignemnt(1)"  class="btn btn-info waves-effect waves-light">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+
+
+                <div id="con-close-modal-status" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Order Status</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row">
+                                     <input type="hidden" id="assignOrderId" value="<%-data.id%>"/>
+                                    <select class="custom-select" id="status-selectt" >
+                                        <option value="" disabled />Choose Status
+                                        <%for(var k=0;k<options.length;k++)
+                                        {%>
+                                            <option value="<%-options[k].status%>"> <%-options[k].statusName%> </option>
+
+
+                                        <%}%>
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="changeStatus()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                            </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+              
+              
+              
+              
+              
+                </div>
+
+</div>
+
+    
+    <!-- END wrapper -->
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    
+
+    <!-- Init js-->
+    <script>
+    $(function() { 
+        $('#sidebar-menu ul li').find('a[href*="<%-adminpath%>orders"]').parent().addClass('menuitem-active');
+        $('#sidebar-menu ul li a[href^="<%-adminpath%>orders"]').addClass('active');
+    });
+
+    $('#selectize-maximum1').selectize()
+    function updateAssignemnt(type)
+    {
+        var orderId= $('#assignOrderId').val();
+       if(type==0) var employees= $('#empFirst').val();
+        else var employees= $('#empFirst1').val();
+
+if(employees.length>0)
+{
+    $('#con-close-modal').hide()
+        $('#con-close-modal-all').hide()
+
+        //console.log(employees)
+        $('#loading1').show();
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>orders/updateAssignment',
+            dataType: 'json',
+            data: {'orderId':orderId,'employees':employees},
+            success: function (response) {
+                $('#loading1').hide();
+                if (response.code == '200') {
+                    showToastSuccess( "Staff assigned successfully");
+                    setInterval(function(){
+                        window.location.reload();
+                    },2000);
+
+                }
+                else{
+                    showToastError(response.message)
+                }
+            },
+            error :function(response)
+            {$('#loading1').hide();
+
+            var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+        
+    }
+    else                  showToastError("Select employee to assign")
+
+    }
+
+
+    function changeStatus()
+    {
+        var id = $("#assignOrderId").val();
+        console.log(id);
+        var status = $("#status-selectt :selected").val();
+        console.log('sadas',status)
+        if( confirm('Are you sure you want to change status for this order?'))
+        {
+            
+                $("#con-close-modal").modal('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>orders/status',
+                    dataType: 'json',
+                    data: {'id':id,'status':status},
+                    success: function (response) {
+                        console.log(response)
+                        if (response.code == '200') {
+                            showToastSuccess( response.message);
+                            setTimeout(function(){
+                              location.reload()
+                            }, 300);
+                        }
+                        else{
+                           
+                            showToastError(response.message);
+                               
+                        }
+                    },
+
+                    error :function(response)
+                    {
+                        var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                    }
+                });
+            }
+            }
+  
+
+
+            function removeAssignment(id)
+    {
+        if( confirm('Are you sure you want to cancel this assignment?'))
+        {
+            
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>orders/cancelAssignment',
+                    dataType: 'json',
+                    data: {'id':id},
+                    success: function (response) {
+                        console.log(response)
+                        if (response.code == '200') {
+                            showToastSuccess( response.message);
+                            setTimeout(function(){
+                              location.reload()
+                            }, 300);
+                        }
+                        else{
+                           
+                            showToastError(response.message);
+                               
+                        }
+                    },
+
+                    error :function(response)
+                    {
+                        var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                    }
+                });
+            }
+            }
+  
+
+
+
+
+
+    </script>
+    <script>
+       var jobAccepted= '<%-jobAccepted%>'
+       var serviceDateTime= '<%-data.serviceDateTime%>'
+       var nowDate= new Date();
+
+       var p=0
+if(new Date(serviceDateTime)>nowDate){
+  // console.log("TIME 1 is greater")
+} else {
+    p++;
+    //console.log("TIME 2 is greater")
+
+}      //console.log(">>>>>>>>",slotTime,date1,todayData,compare(todayData,date1))
+
+//           if(compare(todayData,date1)<0) newSlosts.push({slot:slotdata[t].slot,bookings :slotdata[t].bookings,status:0})
+
+// else if(currentTime>slotTime && (compare(todayData,date1)==0))
+       //alert(jobAccepted)
+      // alert(nowDate>serviceDateTime)
+      //if(jobAccepted=="1" )
+
+       if(jobAccepted=="1" || p==1 )
+       {
+$('#myDispatcherBtn').hide()
+$('#allDispatcherBtn').hide()
+
+       } 
+
+       if(p==1)
+       {
+        var op = document.getElementById("status-selectt").getElementsByTagName("option");
+for (var i = 0; i < op.length; i++) {
+  // lowercase comparison for case-insensitivity
+  (op[i].value.toLowerCase() == "5" || op[i].value.toLowerCase() == "2" || op[i].value.toLowerCase() == "4") 
+    ? op[i].disabled = false 
+    : op[i].disabled = true ;
+}
+
+
+       }
+    </script>
+</body>
+
+</html>

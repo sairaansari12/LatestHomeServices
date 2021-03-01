@@ -1,0 +1,268 @@
+
+<script>
+    function showToastSuccess(message)
+    {
+
+
+        toastr.success(message,"Well done!","top-right","#1ea69a","");
+
+    }
+
+function  showToastError(message)
+    {
+
+       
+        toastr.error(message,"Oh Snap!","top-right","#1ea69a","");
+
+
+    }
+                function getURLParameter(name) {
+                    var url = window.location.href
+                    var regex=(RegExp(name + '=' + '(.+?)(&|$)').exec(url)||[,null])[1]
+                if(regex!=null)
+                {
+                    regex=regex.replace(/%20/gi," ")
+                    regex=regex.replace(/%27/gi,"'")
+                }
+    return regex
+}
+
+
+function short(data,length)
+{
+    var returnString=""
+    if(data!="" && data.length>length)
+    {
+        returnString=data.substring(data,length)+"...."
+
+    }
+    else{
+        returnString=data
+ 
+    }
+
+    return returnString
+}
+function format(date) {
+
+var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var d = date.getDate();
+var m = strArray[date.getMonth()];
+var y = date.getFullYear();
+return '' + (d <= 9 ? '0' + d : d) + '-' + m + '-' + y;
+}
+
+function readURL(input,id) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+        $('#'+id).show()
+
+      $('#'+id).attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+
+
+
+function showLoader(){
+
+  $('#loading').slideUp('fast');
+  jQuery('body').css('overflow','auto');
+}
+
+
+
+
+function formatAMPM(date) {
+
+var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var d = date.getDate();
+var m = strArray[date.getMonth()];
+var y = date.getFullYear();
+var hours = date.getHours();
+var minutes = date.getMinutes();
+var ampm = hours >= 12 ? 'pm' : 'am';
+hours = hours % 12;
+hours = hours ? hours : 12; // the hour '0' should be '12'
+minutes = minutes < 10 ? '0'+minutes : minutes;
+var strTime = hours + ':' + minutes + ' ' + ampm;
+return '' + (d <= 9 ? '0' + d : d) + '-' + m + '-' + y +" "+strTime;
+}
+
+function readURL(input,id) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $('#'+id).attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+getNotification();
+var myVar = setInterval(getNotification, 10000);
+
+function getNotification()
+{
+ $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath%>notification/count',
+            dataType: 'json',
+            data: {},
+            success: function (response) {
+                var data=response.body
+                var count=data.length
+                var appendData=""
+                var countData=0
+                if(count>0) {$('#notif_count').html(count) 
+                $('#notif_count').show()}
+                else  $('#notif_count').hide()
+                if (response.code == '200') {
+for(var t=0;t<data.length;t++)
+
+{
+    if(countData<5)
+    {
+        countData++;
+                     appendData = appendData+
+
+`<a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-primary">
+                                <i class="mdi mdi-comment-account-outline"></i>
+                            </div>
+                            <p class="notify-details">${data[t].notificationTitle}
+                                <small class="text-muted">${ formatAMPM(new Date(data[t].createdAt))}</small>
+                            </p>
+                        </a>`
+
+    }
+}
+if(appendData!="") $('#append_notification').html(appendData)
+else  $('#append_notification').html(`<a href="javascript:void(0);" class="dropdown-item notify-item">No New Notifications </a>`)
+
+
+                }
+                else{
+                   
+                  //showToastError(response.message)
+                }
+            },
+
+            error :function(response)
+            {
+               // showToastError(response.message)
+
+            }
+        });
+    
+    }
+    function getOrderColor(progressStatus)
+    {
+                 var btnBg="bg-purple"
+                if(progressStatus=="1")btnBg="bg-orange"
+                if(progressStatus=="2")btnBg="bg-red"
+                if(progressStatus=="3") btnBg="primary-bg"
+                if(progressStatus=="4")btnBg="bg-red"
+                if(progressStatus=="5") btnBg="bg-green"
+                return btnBg
+    }
+    
+
+    function getRating(rating)
+    {
+        var avgRating=""
+        for(var k=0;k<5;k++)
+{
+    if(rating-k>1)
+avgRating=  avgRating+' <i class="mdi  font-20   text-warning mdi-spin mdi-star"></i>';
+
+else{ if (rating-k>0) avgRating=  avgRating+'<i    class="mdi mdi-star-half-full  font-20  text-warning   mdi-spin "></i>'
+else  avgRating=  avgRating+'<i class="mdi font-20  mdi-star text-secondary "></i>'
+}
+
+
+    }
+    return avgRating;
+
+}
+
+</script>
+
+<script>
+  function appendSearch()
+  {
+      
+var array=[
+{text:"Analytics Report",href:"<%-adminpath%>",icon: "fe-home"},
+{text:"How can I help you?",href:"<%-adminpath%>",icon: "fe-aperture"},
+{text:"User profile settings",href:"<%-adminpath%>profile/getprofile",icon: "fe-settings"},
+{text:"How can I set my categories",href:"<%-adminpath%>category/parent",icon: "fe-tag"},
+{text:"Where I can find my products",href:"<%-adminpath%>products",icon: "fe-list"},
+{text:"Where I can find all orders",href:"<%-adminpath%>orders",icon: "fe-airplay"},
+{text:"Yeah!  My Offers?",href:"<%-adminpath%>offers/",icon: "fe-gift"},
+{text:"Where are my deals?",href:"<%-adminpath%>deals/",icon: "fe-gift"},
+{text:"Where are my coupons?",href:"<%-adminpath%>coupans/",icon: "fe-heart-on"},
+{text:"What are my ratings?",href:"<%-adminpath%>ratings/company/",icon: "fe-star"},
+
+
+
+]
+
+var data=""
+for(var k=0;k<array.length;k++){
+
+data=data+` <a href="${array[k].href}" class="dropdown-item notify-item">
+                              <i class="${array[k].icon} mr-1"></i>
+                              <span>${array[k].text}</span>
+                          </a>`;
+}
+$('#search-text').html(data)
+$('#foundResults').html(array.length)
+
+}
+
+
+appendSearch()
+function   setTheme()
+{
+  var value = readCookie('set-layout-theme');
+  if(value==null || value=="")
+  $('input[type=radio][name=color-scheme-mode][value=light]').prop("checked",true).trigger("change")
+
+  else
+  {
+    
+// var e=document.body
+    // e.layout.changeMode(value)
+      $('input[type=radio][name=color-scheme-mode][value=' + value + ']').prop("checked",true).trigger("change")
+
+      //$("input[name=color-scheme-mode][value=" + value + "]").attr('checked', true);
+  }
+}
+
+function eraseCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
+}
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+
+setTheme()
+
+</script>
+
+
+

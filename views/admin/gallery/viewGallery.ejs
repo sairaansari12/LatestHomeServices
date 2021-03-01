@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+
+</style>
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+            <div class="content-page">
+                <div class="content">
+                    <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <h4 class=form-label">Edit Gallery Details</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+                    <!-- Start Content-->
+                    
+                    <div class="container-fluid">
+                    <form  role="form" onsubmit="return false"  class="col-md-12"  id="adduser" >
+                        <input type="hidden" id="galleryId" value="<%-data.id%>" name="galleryId" >
+                        <div class="row">
+                              
+                              
+                                <div class="col-lg-6">
+                                    <div class="card-box">
+                                        <h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">General</h5>
+
+                                        <div class="form-group mb-3">
+                                            <label for="product-name"> Title <span class="text-danger">*</span></label>
+                                            <input type="text" id="title"  value="<%-data.title%>" autocomplete="off"  minlength="2" maxlength="100" name="title" class="form-control" placeholder="Title">
+                                        </div>
+
+
+                                        <h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">Description</h5>
+
+                                        <div class="form-group  mb-3">
+                                            <textarea class="form-control" name="description"  id="product-description" rows="15" placeholder="Please enter description"><%-data.description%></textarea>
+                                        </div>
+                                       
+                                       
+                                        <h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">Specifications</h5>
+                                        <div class="form-group mb-3">
+                                            <label for="product-category">Media Type <span class="text-danger">*</span></label>
+                                            <select class="form-control chosen" name="mediaType" id="mediaType">
+                                                    <option value="photo" <%if(data.mediaType=="photo"){%>selected <%}%>>Photo  </option>
+                                                    <option value="video" <%if(data.mediaType=="video"){%>selected <%}%>>Video  </option>
+
+                                            </select>
+                                        </div>
+                                            
+
+
+                                       
+                                       
+ 
+
+                                     
+                                           
+                                 
+                                    </div>
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="card-box">
+                                  
+                                           
+                                            <h5 class="text-uppercase bg-light p-2 mt-0 mb-3" id="catName">Media Info</h5>
+
+                                          
+                                            <div class="mt-3">
+                                                <input  name="media" id="media"  multiple type="file" data-plugins="dropify" />
+                                                <p class="text-muted text-center mt-2 mb-0">Click here to upload media</p>
+                                            </div>
+                                           
+                                            <div class="dropzone-previews mt-3" id="file-previews">
+                                                <img    <% if (data.mediaHttpUrl =="") {%> style="display :none"  <%}%>  onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';"  src="<%=data.mediaHttpUrl%>" class="avatar-title"  id="myIcon"  alt="">
+                                            </div>
+    
+                                        </div>
+    
+                                        
+
+                                       
+
+
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+                                          </div>
+                                          </div>
+
+                                          </div>
+                        <!-- end row -->
+
+                 
+                            <div class="col-12">
+                                <div class="text-center mb-3">
+                                    <a href="javascript:void(0);" onclick="history.back()"><button type="button" class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                    <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                </div>
+                            </div> <!-- end col -->
+                   
+                        <!-- end row -->
+                    </form>
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+                
+</div>
+                
+    <!-- END wrapper -->
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    <script>
+   
+    
+    $("#adduser").validate({
+        rules: {
+            title: {
+              required: true
+            },
+            
+           
+
+        },
+        messages: {
+            title: {
+                required: "This field is required"
+            },
+            
+                },
+        submitHandler: function (form) {
+
+            var textareaValue = $('#product-description').summernote('code').replace(/<\/?[^>]+(>|$)/g, "");
+            if(textareaValue=="" || textareaValue.length<40)
+           {
+
+            showToastError("Description should be minimum of 40 characters")
+               return;
+           } 
+
+
+           if(textareaValue.length>500)
+            {showToastError("Maximum 500 characters allowed")  
+                  return false;
+        }
+
+
+              var ext1 = $('#media').val().split('.').pop().toLowerCase();
+                if(ext1==null || ext1=="")
+                {
+                 file=$('#myIcon').attr('src')
+    var imageChosen = $('#mediaType').val();
+    if (imageChosen=="photo" && !isImage(file)) {
+      return showToastError('Please select a valid image');
+    } else if (imageChosen=="video" && !isVideo(file)) {
+      return showToastError('Please select a valid video file.');
+    }
+                }
+                else{
+          file=$('#media')
+    var imageChosen = $('#mediaType').val();
+    if (imageChosen=="photo" && !isImage(file.val())) {
+      return showToastError('Please select a valid image');
+    } else if (imageChosen=="video" && !isVideo(file.val())) {
+      return showToastError('Please select a valid video file.');
+    }
+
+                }
+
+
+
+
+    
+            var tempform = $('#adduser');
+            var form_data = new FormData(tempform[0]);
+            $("#loading1").show();
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>gallery/update',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $("#loading").hide();
+                    if (response.code == 200) {
+                         toastr.success(response.message);
+                        setTimeout(function(){
+                            window.location.href="<%-adminpath%>gallery";
+                        }, 2000);
+                       
+                    } else {
+                        showToastError(response.message);
+                        //showToastError(response.message)
+                    }
+                },
+                error: function(response)
+                {
+                    $('#loading1').hide()
+
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            
+            });
+        }
+        
+    
+
+    });
+
+
+   $("#icon").change(function() {
+  readURL(this,'myIcon');
+});
+
+    </script>
+</body>
+
+</html>

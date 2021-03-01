@@ -1,0 +1,2103 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Food-Delivery",
+    "description": "<b>RESPONSES</b>::\n 200-> OK\n   401->Not Authorized\n   201->No Record\n 400->Bad Request \n 500->Internal Server Error",
+    
+      "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "paths": {
+    "/api/mobile/auth/login": {
+      "post": {
+        "x-swagger-router-controller": "api/mobile/auth/login",
+        "operationId": "index",
+        "tags": ["Login"],
+        "description": "Authentication",
+        "parameters": [
+      { "name": "phoneNumber",   "in": "formData",  "required":"true",  "type": "string" },
+      { "name": "countryCode",  "in": "formData", "required":"true", "type": "string" },
+      { "name": "companyId",   "value":"89624900-a974-4849-9048-c32d6bed220ae9f13" ,"in": "formData",  "required":"true",  "type": "string" },
+      { "name": "deviceToken", "in": "formData", "type": "string" },
+      { "name": "platform",  "in": "Input", "required":"true", "type": "string" }
+     
+     
+     
+     ],
+     "responses": {
+       
+       "200": {
+         "description": "Successfully returns the response"
+       },
+       "400": {
+         "description": "Invalid input Parameters or Bad request"
+       },
+       "401": {
+         "description": "Invalid Access Token"
+       },
+       "204": {
+         "description": "No data found"
+       },
+       "500": {
+         "description": "Internal Server Error"
+       }
+     }
+      }
+    },
+
+
+    "/api/mobile/auth/useReferral": {
+      "post": {
+        "x-swagger-router-controller": "api/mobile/auth/useReferral",
+        "operationId": "index",
+        "tags": ["Use Referral"],
+        "description": "Authentication",
+        "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+      { "name": "referralCode",   "in": "formData",  "required":"true",  "type": "string" },
+      { "name": "companyId",   "value":"89624900-a974-4849-9048-c32d6bed220ae9f13" ,"in": "formData",  "required":"true",  "type": "string" }
+     
+     
+     
+     ],
+     "responses": {}
+      }
+    },
+
+    "/api/mobile/profile/getProfile": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/profile/getProfile",
+       "operationId": "index",
+       "tags": ["Get Profile"],
+       "description": "Get Profile",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"}
+
+    
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/profile/updateProfile": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/profile/updateProfile",
+       "operationId": "index",
+       "tags": ["Update Profile"],
+       "description": "Update Profile",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "firstName",  "in": "formData",  "required":true },
+         { "name": "lastName",  "in": "formData"},
+         { "name": "email",  "in": "formData",  "required":true },
+         { "name": "profileImage",  "in": "formData",  "required":true ,"type":"file"},
+         { "name": "address",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "dob",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "maritalStatus",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "anniversaryDate",  "in": "formData","type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/profile/updateDatesInfo": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/profile/updateDatesInfo",
+       "operationId": "index",
+       "tags": ["Update Date Information"],
+       "description": "Update Date Information",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "dob",  "in": "formData",  "required":"true" ,"type":"string" },
+         { "name": "maritalStatus",  "in": "formData","required":true,"type":"string"},
+         { "name": "anniversaryDate",  "in": "formData","type":"string"}
+    
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+
+    
+    "/api/mobile/services/home": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/services/home",
+       "operationId": "index",
+       "tags": ["Home"],
+       "description": "Home",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "deliveryType",  "in": "query",  "required":"true","type":"integer"},
+         { "name": "lat",  "in": "query","type":"string","required":"true"},
+         { "name": "lng",  "in": "query","type":"string","required":"true"},
+         { "name": "itemType",  "in": "query","type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/company/getCompanies": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/company/getCompanies",
+       "operationId": "index",
+       "tags": ["All Vendors listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "deliveryType",  "in": "query",  "required":"true","type":"string"},
+         { "name": "page",  "in": "query","type":"string"},
+         { "name": "limit",  "in": "query","type":"string"},
+         { "name": "lat",  "in": "query","type":"string"},
+         { "name": "lng",  "in": "query","type":"string"},
+         { "name": "categoryId",  "in": "query","type":"string"}
+
+
+
+    
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/company/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/company/detail",
+       "operationId": "index",
+       "tags": ["Get Vendor Detail"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "companyId",  "in": "query",  "required":"true","type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/company/shipmentCharges": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/company/shipmentCharges",
+       "operationId": "index",
+       "tags": ["Get Shipment Charges"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "companyId",  "in": "formData",  "required":"true","type":"string"},
+         { "name": "addressId",  "in": "formData",  "required":"true","type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   
+   "/api/mobile/company/gallery": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/company/gallery",
+      "operationId": "index",
+      "tags": ["Get Gallery"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+        { "name": "companyId",  "in": "formData",  "required":"true","type":"string"},
+        { "name": "mediaType",  "in": "formData","type":"string" ,"description":"send 'photo' to get photos,'video' to get videos and send '' for all type of files "},
+        { "name": "page",  "in": "formData", "type":"string"},
+        { "name": "limit",  "in": "formData","type":"string"}
+
+
+   ],
+
+ 
+  
+  
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/company/gallery/add": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/company/gallery/add",
+      "operationId": "index",
+      "tags": ["Add  Gallery images"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+        { "name": "companyId",  "in": "formData",  "required":"true","type":"string"},
+        { "name": "mediaType",  "required":"true", "in": "formData","type":"string" ,"description":"send 'photo' to upload photos,'video' to uplaod videos"},
+        { "name": "title",   "in": "formData", "type":"string"},
+        { "name": "description", "in": "formData","type":"string"},
+        { "name": "media",  "in": "formData","type":"array",   "collectionFormat": "multi",
+          "items": {
+            "type": "file"
+           }}
+
+
+   ],
+
+ 
+  
+  
+      "responses": {}
+    }
+  },
+
+
+
+  "/api/mobile/subscription/": {
+    "get": {
+      "x-swagger-router-controller": "/api/mobile/subscription",
+      "operationId": "index",
+      "tags": ["Get Subscription Plan"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"}
+
+
+   ],
+
+ 
+  
+  
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/subscription/purchasePlan": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/subscription/purchasePlan",
+      "operationId": "index",
+      "tags": ["Purchase Subscription Plan"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+        { "name": "subscriptionId",  "in": "formData",  "required":"true","type":"string"},
+        { "name": "amount",  "required":"true", "in": "formData","type":"string"},
+        { "name": "durationId",   "required":"true",  "in": "formData", "type":"string"}
+       
+
+
+   ],
+
+ 
+  
+  
+      "responses": {}
+    }
+  },
+
+
+   "/api/mobile/services/getSubcat": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/services/getSubcat",
+       "operationId": "Subcategoeis",
+       "tags": ["Get Subcategories"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "companyId",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "category",  "in": "query",  "required":"true" ,"type":"string"},
+         { "name": "itemType",  "in": "query" ,"type":"string"}
+
+    ],
+ 
+       "responses": {}
+     }
+   },
+
+
+
+
+
+
+
+   "/api/mobile/services/getServices/{category}": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/services/getServices/:category",
+       "operationId": "index",
+       "tags": ["Product Listing"],
+       "description": "get Product listing by Category ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "category",  "in": "query", "type":"string", "required":"true"},
+         { "name": "page",  "in": "query" ,"type":"string"},
+         { "name": "limit",  "in": "query" ,"type":"string"},
+         { "name": "itemType", "derscription":"0->Veg, 1->Non Veg", "in": "query" ,"type":"string"}
+
+   
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+ 
+   "/api/mobile/services/search": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/services/search",
+       "operationId": "index",
+       "tags": ["Search Listing"],
+       "description": "search items and vendor listing ",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "search",  "in": "formData" ,"type":"string","required":"true"},
+         { "name": "type",  "in": "formData", "type":"string"},
+         { "name": "deliveryType",  "in": "formData", "type":"string","required":"true"},
+         { "name": "page",  "in": "formData" ,"type":"string"},
+         { "name": "limit",  "in": "formData" ,"type":"string"},
+         { "name": "lat",  "in": "formData","type":"string"},
+         { "name": "lng",  "in": "formData","type":"string"}
+   
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/services/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/services/detail",
+       "operationId": "index",
+       "tags": ["Product Detail"],
+       "description": "get Prduct detail by service ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "serviceId",  "in": "query",  "required":"true" ,"type":"string"}
+
+    
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/cart/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/cart/list",
+       "operationId": "index",
+       "tags": ["Cart Listing"],
+       "description": "get cart listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/cart/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/cart/add",
+       "operationId": "index",
+       "tags": ["Add to Cart"],
+       "description": "Add Item to Cart",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "serviceId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "orderPrice",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "quantity",  "in": "formData",  "required":true ,"type":"string" },
+         { "name": "orderTotalPrice",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "deliveryType",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "companyId",  "in": "formData",  "required":true,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/cart/update": {
+     "put": {
+       "x-swagger-router-controller": "/api/mobile/cart/update",
+       "operationId": "index",
+       "tags": ["Update Cart"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "cartId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "quantity",  "in": "formData",  "required":true ,"type":"string" }
+         
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/cart/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/cart/detail",
+       "operationId": "index",
+       "tags": ["Cart Detail"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "cartid",  "in": "path",  "required":true ,"type":"string"}
+
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/cart/remove": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/cart/remove",
+       "operationId": "index",
+       "tags": ["Remove Item from Cart"],
+       "description": "get Prduct listing by Category ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true"},
+         { "name": "cartId",  "in": "query",  "required":"true"}
+
+
+    ],
+
+ 
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/cart/clear": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/cart/clear",
+       "operationId": "index",
+       "tags": ["Clear Cart"],
+       "description": "get Prduct listing by Category ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/address/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/address/list",
+       "operationId": "index",
+       "tags": ["Address Listing"],
+       "description": "get Address  listing by User ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+   "/api/mobile/address/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/address/list",
+       "operationId": "index",
+       "tags": ["Add New Address"],
+       "description": "get Prduct listing by Category ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "addressName",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "latitude",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "longitude",  "in": "formData",  "required":true ,"type":"string" },
+         { "name": "city",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "default",  "in": "formData","type":"integer"},
+         { "name": "addressType",  "in": "formData"},
+         { "name": "town",  "in": "formData"},
+         { "name": "landmark",  "in": "formData"},
+         { "name": "houseNo",  "in": "formData"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/address/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/address/detail",
+       "operationId": "index",
+       "tags": [" Address Detail"],
+       "description": "Address Detail",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "addressId",  "in": "query",  "required":true ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/address/update": {
+     "put": {
+       "x-swagger-router-controller": "/api/mobile/address/list",
+       "operationId": "index",
+       "tags": ["Update Address"],
+       "description": "Update Address",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "addressId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "addressName",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "latitude",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "longitude",  "in": "formData",  "required":true ,"type":"string" },
+         { "name": "city",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "default",  "in": "formData","type":"integer"},
+         { "name": "addressType",  "in": "formData"},
+         { "name": "town",  "in": "formData"},
+         { "name": "landmark",  "in": "formData"},
+         { "name": "houseNo",  "in": "formData"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+   "/api/mobile/address/delete": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/address/delete",
+       "operationId": "index",
+       "tags": ["Address Delete"],
+       "description": "get Prduct listing by Category ID",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true"},
+         { "name": "addressId",  "in": "query",  "required":"true"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/favourite/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/favourite/list",
+       "operationId": "index",
+       "tags": ["Favourite Listing"],
+       "description": "get cart listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "search",  "in": "query" ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/favourite/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/favourite/add",
+       "operationId": "index",
+       "tags": ["Add to Favourite"],
+       "description": "get cart listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "serviceId",  "in": "formData",  "required":"true" ,"type":"string"},
+         { "name": "companyId",  "in": "formData",  "required":true ,"type":"string"}
+
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/favourite/remove": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/favourite/remove",
+       "operationId": "index",
+       "tags": ["Remove from Favourites"],
+       "description": "Remove from Favourites",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "favId",  "in": "query",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+
+
+
+ 
+   "/api/mobile/coupan/getPromoList": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/coupan/getPromoList",
+       "operationId": "index",
+       "tags": ["Get Promo Listing"],
+       "description": "Promo Listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+  
+   
+   
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/coupan/applyCoupan": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/coupan/applyCoupan",
+       "operationId": "index",
+       "tags": ["Apply Coupon"],
+       "description": "Apply Coupon",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "promoCode",  "in": "formData",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/coupan/removeCoupan": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/coupan/removeCoupan",
+       "operationId": "index",
+       "tags": ["Remove applied  Coupon"],
+       "description": "Remove applied Coupon",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+         { "name": "promoCode",  "in": "formData",  "required":"true" ,"type":"string"}
+
+
+    ],
+
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/schedule/getSchedule": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/schedule/getSchedule",
+       "operationId": "index",
+       "tags": ["Get Schedule by date"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "serviceDate",  "in": "query",  "required":true ,"type":"string" ,"description ":"4-30-2020"},
+         { "name": "companyId",  "in": "query",  "required":true ,"type":"string" }
+
+       ],
+       "responses": {
+       
+         "1": {
+           "description": "Slots Available"
+         },
+         "2": {
+           "description": "All Slots Full"
+         },
+         "0": {
+           "description": "Past Slots"
+         }
+        
+       }
+     }
+   },
+
+
+   "/api/mobile/orders/getCancelReasons": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/orders/getCancelReasons",
+       "operationId": "index",
+       "tags": ["Get Cancelation Reason Order"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+       
+    ],
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/orders/create": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/orders/create",
+       "operationId": "index",
+       "tags": ["Create Order"],
+       "description": "Create New Order",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "serviceDateTime",  "in": "formData",  "required":true ,"type":"string" ,"description": "eg. 2020-06-05 14:45:00" },
+         { "name": "serviceCharges",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "addressId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "deliveryType",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "companyId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "tip",  "in": "formData", "type":"string"},
+         { "name": "cookingInstructions",  "in": "formData", "type":"string"},
+         { "name": "cookingInstMedia",  "in": "formData", "type":"file"},
+         { "name": "deliveryInstructions",  "in": "formData", "type":"string"},
+         { "name": "pickupInstructions",  "in": "formData", "type":"string"},
+         { "name": "usedLPoints",  "in": "formData", "type":"string","required":true},
+         { "name": "LPointsPrice",  "in": "formData", "type":"string","required":true},
+         { "name": "paymentType",  "in": "formData", "type":"string","description":"1->Online, 2->Cash"}
+
+         
+
+
+    ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/orders/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/orders/list",
+       "operationId": "index",
+       "tags": ["Orders Listing"],
+       "description": "Orders Listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "progressStatus",  "in": "query",  "required":true ,"type":"string"}
+       
+    ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/orders/detail/{id}": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/orders/detail/{id}",
+       "operationId": "index",
+       "tags": ["Order Info"],
+       "description": "Orders Detail",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "id",  "in": "path",  "required":true ,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/orders/reorder": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/orders/reorder",
+      "operationId": "index",
+      "tags": ["Repeat Order"],
+      "description": "Repeat Order",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+
+
+   "/api/mobile/orders/instructions": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/orders/instructions",
+       "operationId": "index",
+       "tags": ["Order Instructions"],
+       "description": "Orders Instructions",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "companyId",  "in": "query",  "required":true ,"type":"string"},
+         { "name": "deliveryType",  "in": "query",  "required":true ,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+   
+   "/api/mobile/orders/cancel": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/orders/cancel",
+       "operationId": "index",
+       "tags": ["Cancel Order"],
+       "description": "Orders Cancellation",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "cancellationReason",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "otherReason",  "in": "formData","type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/orders/status": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/orders/status",
+       "operationId": "index",
+       "tags": ["Change Order Status"],
+       "description": "Order Status  5->Complete",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "id",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "status",  "in": "formData",  "required":true ,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/orders/paymentStatus": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/orders/paymentStatus",
+       "operationId": "index",
+       "tags": ["Change Payment Status"],
+       "description": "Order Payment  1->Success ,2 ->Failed",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "status",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "transactionId",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "paymentMode",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "amount",  "in": "formData",  "required":true ,"type":"string"}
+
+        
+
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/rating/serviceRatings": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/rating/serviceRatings",
+       "operationId": "index",
+       "tags": ["Get Services all ratings"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "serviceId",  "in": "query",  "required":true ,"type":"string"},
+         { "name": "filterRating",  "in": "query", "type":"string"},
+         { "name": "page",  "in": "query", "type":"string"},
+         { "name": "limit",  "in": "query", "type":"string"}
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/rating/addStaffRating": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/rating/addStaffRating",
+       "operationId": "index",
+       "tags": ["Add  Emp Rating"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "formData", "type":"string","required":true},
+         { "name": "empId",  "in": "formData", "type":"string","required":true},
+         { "name": "rating",  "in": "formData", "type":"string", "required":true },
+         { "name": "companyId",  "in": "formData", "type":"string", "required":true },
+         { "name": "review",  "in": "formData" }
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/rating/appRating": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/rating/appRating",
+      "operationId": "index",
+      "tags": ["Add  App  Rating"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "rating",  "in": "formData", "type":"string", "required":true },
+        { "name": "review",  "in": "formData" }
+   ],
+      "responses": {}
+    }
+  },
+
+
+
+
+   "/api/mobile/rating/addRating": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/rating/addCompanyRating",
+       "operationId": "index",
+       "tags": ["Add Rating to Brand"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "companyId",  "in": "formData", "type":"string","required":true},
+         { "name": "orderId",  "in": "formData", "type":"string"},
+         { "name": "ratingData",  "in": "formData","type":"array",   "collectionFormat": "multi",
+          "items": {
+            "type": "object","description":"{review:'very nice' ,rating:'2',serviceId:'SERVICE001'}"
+           }},
+         { "name": "rating",  "in": "formData", "type":"string","required":true},
+         { "name": "foodQuantity",  "in": "formData", "type":"string","required":true},
+         { "name": "foodQuality",  "in": "formData", "type":"string","required":true},
+         { "name": "packingPres",  "in": "formData", "type":"string","required":true},
+         { "name": "review",  "in": "formData", "type":"string"},
+         { "name": "images",  "in": "formData","type":"array",   "collectionFormat": "multi",
+          "items": {
+            "type": "file"
+           }}
+       
+
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/rating/companyRatings": {
+    "get": {
+      "x-swagger-router-controller": "/api/mobile/rating/companyRatings",
+      "operationId": "index",
+      "tags": ["Add Rating to Brand"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "companyId",  "in": "query", "type":"string" ,"required":true},
+        { "name": "page",  "in": "query", "type":"string"},
+        { "name": "limit",  "in": "query", "type":"string"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+   "/api/mobile/notification/": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/notification/",
+       "operationId": "index",
+       "tags": ["Notification Listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/notification/clearAll": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/notification/clearAll",
+       "operationId": "index",
+       "tags": ["Clear All Notifications"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/document": {
+    "get": {
+      "x-swagger-router-controller": "/api/mobile/document",
+      "operationId": "index",
+      "tags": ["get all document information"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/getFaq": {
+    "get": {
+      "x-swagger-router-controller": "/api/mobile/getFaq",
+      "operationId": "index",
+      "tags": ["get all Faq listing"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "page",  "in": "query", "type":"string"},
+        { "name": "limit",  "in": "query",  "type":"string"},
+        { "name": "category",  "in": "query", "type":"string"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+  "/api/mobile/contactus": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/contactus",
+      "operationId": "index",
+      "tags": ["get all document information"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "email",  "in": "formData",  "required":true,"type":"string"},
+        { "name": "query",  "in": "formData",  "required":true,"type":"string"},
+        { "name": "phoneNumber",  "in": "formData", "type":"string"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/collectDetails": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/collectDetails",
+      "operationId": "index",
+      "tags": ["get all user information"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "email",  "in": "formData",  "required":true,"type":"string"},
+        { "name": "purpose",  "in": "formData",  "type":"string"},
+        { "name": "phoneNumber",  "in": "formData",  "required":true, "type":"string"},
+        { "name": "name",  "in": "formData", "required":true, "type":"string"},
+        { "name": "address",  "in": "formData", "required":true,"type":"string"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+
+
+
+
+   "/api/delivery/auth/login": {
+    "post": {
+      "x-swagger-router-controller": "api/delivery/auth/login",
+      "operationId": "index",
+      "tags": ["Delivery Login through mobile "],
+      "description": "Authentication",
+      "parameters": [
+    { "name": "phoneNumber",   "in": "formData",  "required":"true",  "type": "string" },
+    { "name": "countryCode" ,"in": "formData",  "required":"true",  "type": "string" },
+    { "name": "deviceToken", "in": "formData", "type": "string" },
+    { "name": "platform",  "in": "Input", "required":"true", "type": "string" }
+   
+   
+   ],
+   "responses": {}
+   
+    }
+  },
+
+
+  "/api/delivery/auth/logout": {
+    "post": {
+      "x-swagger-router-controller": "api/delivery/auth/logout",
+      "operationId": "index",
+      "tags": ["Delivery Logout via mobile "],
+      "description": "Authentication",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"} ],
+   "responses": {}
+   
+    }
+  },
+
+
+
+  "/api/delivery/profile/getProfile": {
+    "get": {
+      "x-swagger-router-controller": "api/delivery/profile/getProfile",
+      "operationId": "index",
+      "tags": ["Delivery get Profile "],
+      "description": "Authentication",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"} ],
+       "responses": {}
+   
+    }
+  },
+
+
+  "/api/delivery/profile/updateProfile": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/profile/updateProfile",
+      "operationId": "index",
+      "tags": ["Update Delivery  Profile"],
+      "description": "Update Profile",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+        { "name": "firstName",  "in": "formData",  "required":true },
+        { "name": "lastName",  "in": "formData"},
+        { "name": "email",  "in": "formData",  "required":true },
+        { "name": "profileImage",  "in": "formData",  "required":true ,"type":"file"},
+        { "name": "address",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "dob",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "idProofName",  "in": "formData" ,"type":"string"},
+        { "name": "idProof",  "in": "formData","type":"file"},
+        { "name": "coverImage",  "in": "formData","type":"file"}
+
+
+   ],
+
+      "responses": {}
+    }
+  },
+
+  
+  "/api/delivery/profile/wallet/history": {
+    "post": {
+      "x-swagger-router-controller": "api/delivery/profile/wallet/history",
+      "operationId": "index",
+      "tags": ["Wallet transaction history"],
+      "description": "Authentication",
+      "parameters": [
+      { "name": "authorization",  "in": "header",  "required":"true" ,"type":"string"},
+    { "name": "fromDate",   "in": "formData",    "type": "string" },
+    { "name": "toDate" ,"in": "formData",  "type": "string" },
+    { "name": "page", "in": "formData", "type": "string" },
+    { "name": "limit",  "in": "formData",  "type": "string" },
+    { "name": "payType",  "in": "formData",  "type": "string" ,"description":"0->debit , 1->credit"}
+   
+   ],
+   "responses": {}
+   
+    }
+  },
+
+
+
+  "/api/delivery/auth/markStatus": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/status",
+      "operationId": "index",
+      "tags": ["Delivery Change Online/offline Status"],
+      "description": "Delivery Online/offline  Status ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "status",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+  
+  "/api/delivery/orders/list": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/orders/list",
+      "operationId": "index",
+      "tags": ["Get delivery Order Listing"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "limit",  "in": "query", "type":"string"},
+        { "name": "page",  "in": "query", "type":"string"},
+        { "name": "jobStatus",  "in": "query", "type":"string", "description":"e.g : 0,1,2  >>More Info :  0>Pending, 1->Accepted, 2->Cancelled, 3->Completed"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/delivery/orders/detail/{id}": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/orders/detail/{id}",
+      "operationId": "index",
+      "tags": ["Delivery Order Info"],
+      "description": "Orders Detail",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "id",  "in": "path",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+
+  "/api/delivery/orders/cashCollected": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/cashCollected",
+      "operationId": "index",
+      "tags": ["Change Payment Status after collection money from customer"],
+      "description": "Order Payment  1->Success ,2 ->Failed",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "amount",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+  
+  "/api/delivery/orders/allStatus": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/orders/allStatus",
+      "operationId": "index",
+      "tags": ["Get all Delivery Status"],
+      "description": "Delivery  Order Status ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/delivery/orders/status": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/status",
+      "operationId": "index",
+      "tags": ["Delivery Change Order Status"],
+      "description": "Delivery Order Status ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "id",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "status",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+  
+  "/api/delivery/orders/acceptJob": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/acceptJob",
+      "operationId": "index",
+      "tags": ["Delivery Accept Job"],
+      "description": "Delivery accpet Job ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "id",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+  
+  "/api/delivery/orders/rejectJob": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/rejectJob",
+      "operationId": "index",
+      "tags": ["Delivery Reject Job"],
+      "description": "Delivery reject Job  ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "id",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/delivery/orders/submitCancel": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/submitCancel",
+      "operationId": "index",
+      "tags": ["Delivery Cancel  Job after accept"],
+      "description": "Delivery cancel Job after accept ",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "reasonId",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "otherReason",  "in": "formData","type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+
+  
+
+  "/api/delivery/orders/getCancelReasons": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/orders/getCancelReasons",
+      "operationId": "index",
+      "tags": ["Delivery get all cancel reasons "],
+      "description": "Delivery get all cancel reasons",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/delivery/orders/feedbacklist": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/orders/feedbacklist",
+      "operationId": "index",
+      "tags": ["Delivery get all feedbacks "],
+      "description": "Delivery get all feedbacks",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "page",  "in": "query", "type":"string"},
+        { "name": "limit",  "in": "query", "type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
+
+  "/api/delivery/notification/": {
+    "get": {
+      "x-swagger-router-controller": "/api/delivery/notification/",
+      "operationId": "index",
+      "tags": ["delivery Notification Listing"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/delivery/notification/clearAll": {
+    "delete": {
+      "x-swagger-router-controller": "/api/delivery/notification/clearAll",
+      "operationId": "index",
+      "tags": ["Delivery Clear All Notifications"],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+       ],
+      "responses": {}
+    }
+  },
+
+
+
+  
+   
+   "/api/mobile/tiffin/home": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/home",
+       "operationId": "index",
+       "tags": ["get Tiffin Listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "itemType",  "in": "formData", "type":"string"},
+         { "name": "lat",  "in": "formData", "type":"string"},
+         { "name": "lng",  "in": "formData", "type":"string"},
+         { "name": "packages",  "in": "formData", "type":"string"},
+         { "name": "search",  "in": "formData", "type":"string"},
+         { "name": "orderByInfo",  "in": "formData", "type":"object" ,"description":"{orderby:name/rating/createdAt,orderType:DESC/ASC}"},
+         { "name": "page",  "in": "query" ,"type":"string"},
+         { "name": "limit",  "in": "query" ,"type":"string"}
+    
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/detail",
+       "operationId": "index",
+       "tags": ["get Tiffin Detail includong Menu,Packages,Detail"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "tiffinId",  "in": "query", "type":"string","required":true}
+ 
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/cart/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/add",
+       "operationId": "index",
+       "tags": ["Add Tiffin to cart "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "tiffinId",  "in": "formData", "type":"string","required":true},
+         { "name": "orderPrice",  "in": "formData", "type":"string","required":true},
+         { "name": "orderTotalPrice",  "in": "formData", "type":"string","required":true},
+         { "name": "companyId",  "in": "formData", "type":"string","required":true},
+         { "name": "quantity",  "in": "formData", "type":"string","required":true},
+         { "name": "fromDate",  "in": "formData", "type":"string","required":true},
+         { "name": "package",  "in": "formData", "type":"string","required":true},
+         { "name": "excPrice",  "in": "formData", "type":"string","description":"Excluded Total price"},
+         { "name": "excAvaialbility",  "in": "formData", "type":"string","description":"Excluded Avaialbility if any like breakfast,lunch,dinner"},
+         { "name": "excDays",  "in": "formData", "type":"string","description":"Excluded days like: monday,tuesday"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/cart/update": {
+     "put": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/update",
+       "operationId": "index",
+       "tags": ["UPDATE Tiffin  cart "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "cartId",  "in": "formData", "type":"string","required":true},
+         { "name": "tiffinId",  "in": "formData", "type":"string","required":true},
+         { "name": "orderPrice",  "in": "formData", "type":"string","required":true},
+         { "name": "orderTotalPrice",  "in": "formData", "type":"string","required":true},
+         { "name": "companyId",  "in": "formData", "type":"string","required":true},
+         { "name": "quantity",  "in": "formData", "type":"string","required":true},
+         { "name": "fromDate",  "in": "formData", "type":"string","required":true},
+         { "name": "package",  "in": "formData", "type":"string","required":true},
+         { "name": "excPrice",  "in": "formData", "type":"string"},
+         { "name": "excAvaialbility",  "in": "formData", "type":"string"},
+         { "name": "excDays",  "in": "formData", "type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+   "/api/mobile/tiffin/cart/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/list",
+       "operationId": "index",
+       "tags": ["Get Tiffin  cart  listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "lat",  "in": "query",  "required":true,"type":"string"},
+         { "name": "lng",  "in": "query",  "required":true,"type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/cart/detail/{cartId}": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/list",
+       "operationId": "index",
+       "tags": ["Get Tiffin  cart  listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "cartId",  "in": "path",  "required":true,"type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/cart/remove": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/remove",
+       "operationId": "index",
+       "tags": ["Remove Item From Cart"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "cartId",  "in": "query",  "required":true,"type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/cart/clear": {
+     "delete": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/cart/clear",
+       "operationId": "index",
+       "tags": ["Clear Cart"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/orders/instructions": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/instructions",
+       "operationId": "index",
+       "tags": ["Get Tiffin Order Instructions"],
+       "description": "Orders Instructions",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/tiffin/orders/create": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/create",
+       "operationId": "index",
+       "tags": ["Create tiffin order"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "serviceCharges",  "in": "formData", "type":"string","required":true},
+         { "name": "addressId",  "in": "formData", "type":"string","required":true},
+         { "name": "companyId",  "in": "formData", "type":"string","required":true},
+         { "name": "tip",  "in": "formData", "type":"string"},
+         { "name": "deliveryInstructions",  "in": "formData", "type":"string", "description":"e.g : 1,2,3"},
+         { "name": "cookingInstructions",  "in": "formData", "type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/tiffin/orders/paymentStatus": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/paymentStatus",
+       "operationId": "index",
+       "tags": ["Update Payment Status for  Tiffin Order"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "transactionId",  "in": "formData", "type":"string","required":true},
+         { "name": "paymentMode",  "in": "formData", "type":"string","required":true},
+         { "name": "status",  "in": "formData", "type":"string","required":true},
+         { "name": "orderId",  "in": "formData", "type":"string","required":true},
+         { "name": "amount",  "in": "formData", "type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/orders/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/list",
+       "operationId": "index",
+       "tags": ["Get Tiffin Order Listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "limit",  "in": "query", "type":"string"},
+         { "name": "page",  "in": "query", "type":"string"},
+         { "name": "progressStatus",  "in": "query", "type":"string", "description":"e.g : 0,1,2,3,4,5   >>More Info :  0>Pending, 1->Confirmed, 2->Cancelled, 3->Started ,5 ->Completed"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/tiffin/orders/detail/{orderId}": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/list",
+       "operationId": "index",
+       "tags": ["Get Tiffin Order Detail"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "path", "type":"string","required":true}
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/tiffin/orders/cancel": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/orders/cancel",
+       "operationId": "index",
+       "tags": ["Cancel Tiffin Order"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "formData", "type":"string","required":true},
+         { "name": "cancellationReason",  "in": "formData", "type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+
+   "/api/mobile/tiffin/rating/list": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/rating/list",
+       "operationId": "index",
+       "tags": ["Get Tiffin  all ratings"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "tiffinId",  "in": "query",  "required":true ,"type":"string"},
+         { "name": "filterRating",  "in": "query", "type":"string"},
+         { "name": "page",  "in": "query", "type":"string"},
+         { "name": "limit",  "in": "query", "type":"string"}
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/tiffin/rating/addRating": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/tiffin/rating/addRating",
+       "operationId": "index",
+       "tags": ["Add Tiffin Rating"],
+       "description": "Multiple Product Images Array of images ",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "formData", "type":"string"},
+         { "name": "tiffinId",  "in": "formData", "type":"string","required":true},
+         { "name": "rating",  "in": "formData",  "required":true },
+         { "name": "review",  "in": "formData" },
+         { "name": "images",  "in": "formData", "type":"file"}
+    ],
+       "responses": {}
+     }
+   },
+
+
+
+
+
+
+
+   "/api/mobile/recipe/mediaUpload": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/recipe/mediaUpload",
+       "operationId": "index",
+       "tags": ["Add Images/Videos to Recipe "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "tempId",  "in": "formData", "type":"string","required":true,"description":"Send auto generated UUID"},
+         { "name": "mediaType",  "in": "formData", "type":"string","required":true},
+         { "name": "media",  "in": "formData", "type":"file","required":true}
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/recipe/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/recipe/add",
+       "operationId": "index",
+       "tags": ["Add Recipes "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "tempId",  "in": "formData", "type":"string","required":true,"description":"Send auto generated UUID"},
+         { "name": "title",  "in": "formData", "type":"string","required":true},
+         { "name": "description",  "in": "formData", "type":"string","required":true},
+         { "name": "categoryId",  "in": "formData", "type":"string","required":true},
+         { "name": "latitude",  "in": "formData", "type":"string"},
+         { "name": "longitude",  "in": "formData", "type":"string"},
+         { "name": "media",  "in": "formData","type":"array"  ,   "collectionFormat": "multi",
+           "items": {
+             "type": "string"
+            }}         ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/recipe/category/add": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/recipe/category/add",
+       "operationId": "index",
+       "tags": ["Add Category "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "name",  "in": "formData", "type":"string","required":true}
+
+        ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/recipe/categories": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/recipe/categories",
+       "operationId": "index",
+       "tags": ["Get Categories listing for Recipe"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/recipe/home": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/recipe/home",
+       "operationId": "index",
+       "tags": ["get Recipe Listing"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "search",  "in": "formData", "type":"string"},
+         { "name": "orderByInfo",  "in": "formData", "type":"object" ,"description":"{orderby:name/rating/createdAt,orderType:DESC/ASC}"},
+         { "name": "page",  "in": "query" ,"type":"string"},
+         { "name": "limit",  "in": "query" ,"type":"string"}
+    
+
+        ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/recipe/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/recipe/detail",
+       "operationId": "index",
+       "tags": ["Get recipe Detail"],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "recipeId",  "in": "query", "type":"string","required":true}
+
+        ],
+       "responses": {}
+     }
+   },
+   "/api/mobile/recipe/like/likeUnlike": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/recipe/like/likeUnlike",
+       "operationId": "index",
+       "tags": ["Add Recipe to like list "],
+       "description": "",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "recipeId",  "in": "formData", "type":"string","required":true},
+         { "name": "like",  "in": "formData", "type":"string","required":true ,"description":"0->unlike, 1->Like"}
+
+        ],
+       "responses": {}
+     }
+   },
+
+ 
+   "/api/mobile/recipe/comment/add": {
+    "post": {
+      "x-swagger-router-controller": "/api/mobile/recipe/comment/add",
+      "operationId": "index",
+      "tags": ["Add Comment "],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "recipeId",  "in": "formData", "type":"string","required":true},
+        { "name": "comment",  "in": "formData", "type":"string","required":true }
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/recipe/comment/delete": {
+    "delete": {
+      "x-swagger-router-controller": "/api/mobile/recipe/comment/delete",
+      "operationId": "index",
+      "tags": ["Delete Comment "],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "commentId",  "in": "query", "type":"string","required":true}
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+  "/api/mobile/recipe/comment/list": {
+    "get": {
+      "x-swagger-router-controller": "/api/mobile/recipe/comment/list",
+      "operationId": "index",
+      "tags": ["All Comments listing "],
+      "description": "",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "recipeId",  "in": "query", "type":"string","required":true},
+        { "name": "page",  "in": "query", "type":"string"},
+        { "name": "limit",  "in": "query", "type":"string"}
+
+       ],
+      "responses": {}
+    }
+  },
+
+
+   "/api/mobile/rest/auth/login": {
+     "post": {
+       "x-swagger-router-controller": "api/mobile/rest/auth/login",
+       "operationId": "index",
+       "tags": ["Restaurant Login through mobile "],
+       "description": "Authentication",
+       "parameters": [
+     { "name": "email",   "in": "formData",  "required":"true",  "type": "string" },
+     { "name": "password" ,"in": "formData",  "required":"true",  "type": "string" },
+     { "name": "deviceToken", "in": "formData", "type": "string" },
+     { "name": "platform",  "in": "Input", "required":"true", "type": "string" }
+    
+    
+    ],
+    "responses": {}
+    
+     }
+   },
+
+
+   "/api/mobile/rest/auth/logout": {
+     "post": {
+       "x-swagger-router-controller": "api/mobile/rest/auth/logout",
+       "operationId": "index",
+       "tags": ["Restaurant logout through mobile "],
+       "description": "Logout",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+    
+    
+    ],
+    "responses": {}
+    
+     }
+   },
+   "/api/mobile/rest/orders/list": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/rest/orders/list",
+       "operationId": "index",
+       "tags": ["Restaurant Orders Listing"],
+       "description": "Orders Listing",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "progressStatus",  "in": "formData",  "required":true ,"type":"string"}
+       
+    ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/rest/orders/detail": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/rest/orders/detail",
+       "operationId": "index",
+       "tags": ["Restaurant Order Info"],
+       "description": "Restaurant Orders Detail",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "orderId",  "in": "query",  "required":true ,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/mobile/rest/orders/allStatus": {
+     "get": {
+       "x-swagger-router-controller": "/api/mobile/rest/orders/allStatus",
+       "operationId": "index",
+       "tags": ["Get all Restaurant Status"],
+       "description": "Restaurant Order Status ",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+   "/api/mobile/rest/orders/status": {
+     "post": {
+       "x-swagger-router-controller": "/api/mobile/rest/orders/status",
+       "operationId": "index",
+       "tags": ["Restaurant Change Order Status"],
+       "description": "Restaurant Order Status ",
+       "parameters": [
+         { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+         { "name": "id",  "in": "formData",  "required":true ,"type":"string"},
+         { "name": "status",  "in": "formData",  "required":true ,"type":"string"}
+
+    ],
+       "responses": {}
+     }
+   },
+
+
+   "/api/main/trial/createTrial": {
+    "post": {
+      "x-swagger-router-controller": "/api/main/trial/createTrial",
+      "operationId": "index",
+      "tags": ["Request for trial "],
+      "description": "",
+      "parameters": [
+        { "name": "name",  "in": "formData", "type":"string","required":true},
+        { "name": "businessName",  "in": "formData", "type":"string","required":true},
+        { "name": "username",  "in": "formData", "type":"string","required":true},
+        { "name": "password",  "in": "formData", "type":"string","required":true},
+        { "name": "vendorType",  "in": "formData", "type":"string","required":true},
+        { "name": "email",  "in": "formData", "type":"string","required":true},
+        { "name": "phoneNumber",  "in": "formData", "type":"string","required":true},
+        { "name": "countryCode",  "in": "formData", "type":"string","required":true},
+        { "name": "latitude",  "in": "formData", "type":"string"},
+        { "name": "longitude",  "in": "formData", "type":"string"}
+
+       ],
+      "responses": {}
+    }
+  }
+
+
+
+
+
+  }
+}

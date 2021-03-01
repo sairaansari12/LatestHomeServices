@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Employee</a></li>
+                                        <li class="breadcrumb-item active">Map</li>
+                                    </ol>
+                                </div>
+                                <!-- <h4 class=form-label">Employees</h4> -->
+                                <h4 class=form-label">
+                                    <a href="javascript:;" onclick="window.history.back()" ;> <i
+                                            class="fas fa-angle-left"></i> </a>
+                                    Track your staff member on map
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card-box">
+                                <h4 class="header-title mb-3"></h4>
+                                <div class="gmaps" id="googleMap" style="width:100%;height:630px;">
+                                </div> <!-- end card-box-->
+                            </div>
+
+                            <!-- end col-->
+
+
+                        </div> <!-- end row -->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <!-- Footer Start -->
+                <%- include('../partials/footer'); -%>
+
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+        <%- include('../partials/script'); -%>
+
+
+
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+<script>
+
+
+
+var orderId="<%-data.id%>"
+var driverId="<%-data.assignedEmployees[0].employee?data.assignedEmployees[0].employee.id:0%>"
+var startLat="<%-data.address.latitude%>"
+var startLong="<%-data.address.longitude%>"
+
+var endLat="<%-data.company.latitude%>"
+var endtLong="<%-data.company.longitude%>"
+var endtInfo="<%-data.company.companyName%>"
+
+var startInfo="<%-data.address.addressName%>"
+var currentInfo="<%-data.assignedEmployees[0].employee.firstName%>"
+
+
+
+var lat_lng=[]
+var first=1
+
+var socket = new io('<%-config.SOCKET_URL%>');
+socket.on('connect', function(response) {
+    socket.emit('socketFromClient', {orderId: orderId, driverId:driverId, methodName:"getLocation"});
+  
+    setTimeout(function(){
+                        
+   drawMarkerOnMap(startLat,startLong,startInfo,'source.png')
+  drawMarkerOnMap(endLat,endtLong,endtInfo,'destination.png')
+                     }, 2000);
+
+
+});
+
+
+            setInterval(myTimer, 10000);
+// handle the event sent with socket.send()
+
+
+socket.on('responseFromServer', response => {
+   
+
+if(response.data.trackingLatitude) { var datatL=response.data.trackingLatitude
+  var datatLL=response.data.trackingLongitude
+
+  for(var k=0;k<datatL.length;k++)
+  {
+
+    lat_lng.push(new google.maps.LatLng(datatL[k], datatLL[k]))
+    
+  }
+
+  if(first==1)
+  {
+  addListener(lat_lng)
+  first++;
+  }
+
+  drawMarkerOnMap(response.data.lastLatitude,response.data.lastLongitude,currentInfo,'employee.png')
+
+}
+});
+
+
+
+var geocoder;
+var map;
+var markers=[]
+
+function initialize() {
+   map = new google.maps.Map(
+    document.getElementById("googleMap"), {
+      center: new google.maps.LatLng(30.707268, 76.73003811389209),
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+}
+
+
+function myTimer() {
+    socket.emit('socketFromClient', {orderId: orderId, driverId:driverId, methodName:"getLocation"});
+
+  
+}
+
+function drawMarkerOnMap(location_lat, location_longt, vehicleInfo,image) {
+
+  console.log(location_lat+"---->"+location_longt+"IMAGE<><>"+image)
+var infowindow = new google.maps.InfoWindow();
+var marker, i;
+
+//if(markers.length>0) markers[0].setMap(null);;
+
+
+var icon = {
+    url: '/assets/images/'+image, // url
+    scaledSize: new google.maps.Size(30, 30), // scaled size
+    origin: new google.maps.Point(0,0), // origin
+    anchor: new google.maps.Point(0, 0) // anchor
+};
+
+
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(location_lat, location_longt),
+        map: map,
+        icon: icon
+    });
+
+    //if(image=="employee.png") markers.push(marker)
+    google.maps.event.addListener(marker, 'click', (function (marker) {
+        return function () {
+            infowindow.setContent(vehicleInfo);
+            infowindow.open(map, marker);
+        }
+    })(marker));
+
+
+
+
+}
+
+function addListener(lat_lng)
+{
+
+  var lat_lng = lat_lng;
+  for (var t = 0;
+    (t + 1) < lat_lng.length; t++) {
+    //Intialize the Direction Service
+    var service = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+
+    var bounds = new google.maps.LatLngBounds();
+    if ((t + 1) < lat_lng.length) {
+      var src = lat_lng[t];
+      var des = lat_lng[t + 1];
+      service.route({
+        origin: src,
+        destination: des,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+      }, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          // new path for the next result
+          var path = new google.maps.MVCArray();
+          //Set the Path Stroke Color
+          // new polyline for the next result
+          var poly = new google.maps.Polyline({
+            map: map,
+            strokeColor: '#4986E7'
+          });
+          poly.setPath(path);
+          for (var k = 0, len = result.routes[0].overview_path.length; k < len; k++) {
+            path.push(result.routes[0].overview_path[k]);
+            bounds.extend(result.routes[0].overview_path[k]);
+            map.fitBounds(bounds);
+          }
+        } //else alert("Directions Service failed:" + status);
+      });
+    }
+  }
+}
+
+
+google.maps.event.addDomListener(window, "load", initialize);
+
+
+
+
+  
+</script>
+

@@ -1,0 +1,180 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+   <%-include ('../partials/header')%>
+    <body style="overflow: hidden;">
+        
+
+       
+
+        <div id="page-wrapper" class="demo-example">
+
+           
+
+            <!-- #page-header -->
+
+            <%-include ('../partials/side_bar')%>
+            <!-- #page-sidebar -->
+            <div id="page-content-wrapper">
+                <div id="page-title">
+
+<h3>
+    <div class="text-transform-upr font-size-15 font-bold primary-font pad10A">    FAQ details </div>
+
+
+  
+    
+</h3>
+                </div>
+                   <!-- #page-title -->
+<div id="page-content">
+
+
+<%-include ('../partials/flashMessage')%>
+
+
+
+<div class="large-box col-md-12">
+    <div class="example-code clearfix">
+
+      <form  role="form" onsubmit="return false"  class="form-bordered"  id="adduser" >
+
+        <input type="hidden"  name="faqId" id="faqId"  value="<%-data.id%>"  />
+
+        
+
+
+        <div class="form-row">
+            <div class="form-label col-md-4">
+                <label for="">
+                    Question:<span class="text-danger">*</span>
+
+                </label>
+            </div>
+            <div class="form-input col-md-8">
+                <textarea id="question"  name="question" data-trigger="keyup" data-required="true"  data-rangelength="[10,1000]" class="parsley-validated"><%-data.question%></textarea>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="form-row">
+            <div class="form-label col-md-4">
+                <label for="" >
+                    Answer:
+                    <span class="text-danger">*</span>
+
+                </label>
+            </div>
+            <div class="form-input col-md-8">
+                <textarea id="answer" name="answer" data-trigger="keyup" data-required="true" data-rangelength="[10,1000]" class="parsley-validated"><%-data.answer%></textarea>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-label col-md-4">
+                <label for="" >
+                    Language:
+                    <span class="text-danger">*</span>
+                </label>
+            </div>
+            <div class="form-input col-md-8">
+                <select data-placeholder="Choose Language"  name="language" class="chosen-select" id="language">
+                    <option <%if(data && data.language=='EN'){%> selected <%}%>  value="EN" />ENGLISH 
+                    <option  <%if(data && data.language=='FR'){%> selected <%}%>  value="FR" />SPANISH
+                    
+    
+           </select>                                                      
+          </div>
+        </div>
+
+            <div class="form-row">
+                <input type="hidden" name="superhidden" id="superhidden" />
+                <div class="form-input col-md-12 col-md-offset-5">
+                    <!-- //onclick="javascript:$(&apos;#demo-form&apos;).parsley( &apos;validate&apos; );" -->
+                    <!-- onclick="javascript:$('#adduser').parsley('validate' );"  -->
+                     
+                    <button  type="button" onclick="window.history.back();"   class="btn ui-state-default medium bg-red mrg15R">
+                        <span class="button-content">Cancel</span>
+                    </button>
+                    <button  type="submit" class="btn ui-state-default medium  primary-bg">
+                        <span class="button-content">Submit</span>
+                    </button>
+                    
+                    
+                   
+            </div>
+
+        </form>
+
+    </div>
+    
+</div>
+
+
+
+
+
+
+                	</div><!-- #page-content -->
+            </div><!-- #page-main -->
+        </div><!-- #page-wrapper -->
+
+    </body>
+</html>
+
+
+<script type="text/javascript">
+
+      $('#adduser').submit( function() {
+       
+        var id=$('#faqId').val()
+       
+            var tempform = $('#adduser');
+           
+            tempform .parsley('validate' );
+
+            if(tempform.parsley('isValid' ))
+            {
+            var form_data = new FormData(tempform[0]);
+            $(".overlay").show();
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>faq/update',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $(".overlay").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+
+                         window.location.href="<%-adminpath%>faq/view/"+id;
+                       
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+
+                error: function(response)
+                {
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+      });
+    
+  
+    </script>
+

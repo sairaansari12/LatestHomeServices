@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<style>
+    h5{
+        cursor: pointer;
+    }
+   
+    .dropdown-menu.show {
+    display: block;
+    z-index: 135;
+    font-size:11px;
+    margin-left: -50px;
+    margin-top: -80px;
+    }
+    
+
+    div:focus {outline: #bcbcbd solid 1px;}
+
+</style>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+                   <div   class="content-page">
+                <div  data-scrollbar-horizontal  style="max-width:3000px">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            
+                                            <li class="breadcrumb-item active">Parent Category</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Product Catalogues</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div  class="row">
+                            <div  class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-muted">
+                                        
+                                        Customize your Home services category</h3>
+                                        <p class="text-muted font-14 mb-3">
+                                            Business Categories provide your Merchants the power to map their categoriess to a business category, which in turn will help the Customers to easy checkout.    
+                                        </p>
+
+                                        <div class="row"   data-plugin="dragula" data-containers='["handle-dragula-left", "handle-dragula-right"]' data-handleClass="dragula-handle">
+                                           
+                                           
+                                            <div class="col-md-6"  data-simplebar style="max-height: 500px" id="subcatDiv0";>
+
+                                                
+                                                <div class="bg-light p-2 p-lg-2">
+                                                    <h5 class="mt-0 ml-2">Category(<span id= "headingDiv0" > <%-data.length%></span>)  <i class="mr-2 mdi mdi-plus mdi-spin font-25 text-muted float-right" onclick="addCategory('0','')" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add new category"></i></h5>
+
+                                                    <div id="appSubcatDiv0" class="py-2">
+                                                        <input type="hidden"  value="<%-parentId%>" id="parDiv0">
+
+                                                        <%for(var k=0;k<data.length;k++){%>
+                                                       
+                                                     <div class="card mb-0 mt-2" id="bgDiv<%-data[k].id%>" >
+                                                            <div    <%if(data[k].status==1){%> class="card-body" <%}else {%>  class="card-body bg-secondary" <%}%> >
+                                                                <div class="media">
+                                                                    <img src="<%-data[k].thumbnail%>"  onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" alt="image" class="mr-2 d-none d-sm-block avatar-sm rounded-circle">
+                                                                    <div class="media-body">
+                                                                        <h5  <% if(data[k].status==1){%>   onclick="getSubCat('<%= data[k].id %>','1','bgDiv<%-data[k].id%>','<%-data[k].name%>','<%-data[k].service%>','')" <% } %>     ><%-data[k].name%></h5>
+                                                                    </div> <!-- end media-body -->
+                                                                    <div class="dropdown float-right mt-2">
+                                                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+                                                                            <i class="mdi mdi-dots-vertical mt-10"></i>
+                                                                        </a>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <!-- item-->
+                                                                             
+                                                        
+                                                                            <!-- item-->
+                                                                            <a href="<%-adminpath%>category/view/<%-data[k].id%>"  class="dropdown-item">Edit</a>
+                                                                            <!-- item-->
+                                                                            <a href="javascript:;"   <%if(data[k].status==0){%> style="display:none" <%}%>  id="block_status_<%-data[k].id%>"   onclick="StatusChange('<%= data[k].id %>','1','0','<%= data[k].parentId %>','<%= data[k].name %>')"   class="dropdown-item">
+                                                                                Disable
+                                                                         </a>
+                                                                         <a href="javascript:;"   <%if(data[k].status==1){%> style="display:none" <%}%>  id="unblock_status_<%-data[k].id%>"   onclick="StatusChange('<%= data[k].id %>','0','0','<%= data[k].parentId %>','<%= data[k].name %>')"  class="dropdown-item">Enable</a>
+                     
+                                                                                                                                                     <a href="javascript:void(0);" onclick="deleteCat('<%= data[k].id %>','0','<%= data[k].parentId %>','<%= data[k].name %>')"  class="dropdown-item">Delete</a>
+
+                                                                        </div>
+                                                                    </div>
+                                                                                                </div> <!-- end media -->
+                                                            </div> <!-- end card-body -->
+                                                        </div> <!-- end col -->
+
+                                                        <%}%>
+                                                    
+                                                        
+                                                    </div> <!-- end company-list-1-->
+                                                </div> <!-- end div.bg-light-->
+                                            </div> <!-- end col -->
+
+                                          <!-- end col -->
+
+
+
+                                         
+                                            
+
+
+
+
+
+                                            </div> <!-- end col -->
+
+
+                                        </div> <!-- end row -->
+
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+            
+        
+  
+        <div class="modal fade" style="padding-top: 150px;" id="custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-m modal-right modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header  m-3  bg-light">
+                        <h4 class="modal-title" id="myCenterModalLabel">Add Category</h4>
+                    </div>
+                    <div class="modal-bod">
+                        <form  role="form"  onsubmit="return false"  id="addCat"   enctype="multipart/form-data">
+
+                                
+                                <div class="card-body">
+                                  
+                                    <div class="form-group">
+                                        <p class="f-500 c-black m-b-10">Category Name <span class="text-danger m-l-3" >*</span> </p>
+                                        <div class="fg-line">
+                                            <input required type="text" id="serviceName" placeholder="Category Name" minlength="2" maxlength="100" name="serviceName"  class="form-control" />
+                                            <input  type="hidden" id="category" name="category" />
+                                            <input  type="hidden" id="pcategory" name="pcategory" />
+                                            <input  type="hidden" id="subcat1" name="subcat1" />
+                                            <input  type="hidden" id="subcat2" name="subcat2" />
+
+                                        </div> 
+                                    </div>
+                                    
+                                 
+                                    
+                                    <div class="form-group mb-0">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="description" rows="3" placeholder="Please enter comment" style="margin-top: 0px; margin-bottom: 0px; height: 67px;"></textarea>
+                                    </div>
+
+
+                                    
+                                    <div class="form-group mt-2">
+                                        <p class="f-500 c-black m-b-10">Color Code <span class="text-danger m-l-3" >*</span> </p>
+                                        <span class="text-muted font-13"> Selected color will used 
+                                            <strong>for </strong> mobile applications.</span>
+                                        <div class="fg-line">
+                                           <input required type="color" class="jscolor form-control" value="ab2567"  id="colorCode"   name="colorCode" />
+                                        </div>        
+                                    </div>
+
+
+                                    <div class="card-box">
+                                        <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Category Image</h5>
+    
+                                        <div class="mt-3">
+                                            <input  name="thumbnail" id="thumbnail"  type="file" data-plugins="dropify" data-max-file-size="1M"  />
+                                            <p class="text-muted text-center mt-2 mb-0">Click here to upload product image</p>
+                                        </div>
+                                       
+    
+                                     
+
+                                        </div>
+    
+                                    </div> <!-- end col-->
+    
+    
+
+
+
+                                    <div class="col-12">
+                                        <div class="text-center mb-3">
+                                            <button type="button"  data-dismiss="modal" class="btn w-sm btn-light waves-effect">Cancel</button>
+                                            <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                           
+                                        </div>
+                                    </div> <!-- end col -->
+                              
+                               <!-- file preview template -->
+                        <div class="d-none" id="uploadPreviewTemplate">
+                            <div class="card mt-1 mb-0 shadow-none border">
+                                <div class="p-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <img data-dz-thumbnail  id="myIcon" src="#" class="avatar-sm rounded bg-light">
+                                        </div>
+                                        <div class="col pl-0">
+                                            <a href="javascript:void(0);" class="text-muted font-weight-bold" data-dz-name></a>
+                                            <p class="mb-0" data-dz-size></p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- Button -->
+                                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                                <i class="dripicons-cross"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                              
+                              
+                                </div>
+                        
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+      
+      
+
+
+
+
+
+
+</div>
+       
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+    <script>
+
+
+
+
+
+
+$("#addCat").validate({
+        rules: {
+            serviceName: {
+              required: true
+            },
+            
+            icon: { required: true, accept: "image/jpg,image/jpeg,image/png,image/gif"},
+
+        },
+        messages: {
+            serviceName: {
+                required: "This field is required"
+            },
+            icon: {required: "This field is required", accept: 'Not an image!'},
+        },
+        submitHandler: function (form) {
+      var  ext = $('#thumbnail').val().split('.').pop().toLowerCase();
+
+                if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+               showToastError('Please select only jpg and png files for image!')
+                return false;
+
+                }
+                else{
+            var tempform = $('#addCat');
+            var form_data = new FormData(tempform[0]);
+            $("#loading1").show();
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>category/addMain',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $("#loading1").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+                        $('#custom-modal').modal('hide')
+                        setTimeout(function () {
+
+                        
+                        window.location.reload()},800);
+                       
+                    } else {
+
+                        showToastError(response.message)
+                    }
+                },
+                error: function(response)
+                {
+                    $('#loading1').hide()
+
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+    });
+  
+
+
+
+
+
+
+
+
+    </script>
+
+<script>
+
+
+   var cProductId=0
+
+    function addCategory(vlev,backId)
+    {
+        $('#custom-modal').modal('show')
+
+    }
+
+    function StatusChange(id,status,currentLevel,currParent,currName)
+    {
+        console.log(currentLevel,currParent,currName)
+        var confirm1= (status=="1") ? "Disable" : "Enable"
+        if( confirm('Are you sure you want to '+confirm1+' this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>category/status',
+                dataType: 'json',
+                data: {'id':id,'status':status},
+                success: function (response) {
+                    //alert(response.code)
+                    if (response.code == '200') {
+                        
+                        getSubCat(currParent,currentLevel,'bgDiv'+currParent,currName,null)       
+                        showToastSuccess(response.message)
+
+
+                    }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                }
+            });
+        }
+    }
+
+    function deleteCat(id,currentLevel,currParent,currName)
+    {
+        //alert(currParent)
+
+        if( confirm('Are you sure you want to delete this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>category/delete',
+                dataType: 'json',
+                data: {'id':id,'status':status},
+                success: function (response) {
+                    if (response.code == '200') {
+                        showToastSuccess(response.message)
+                        //location.reload()
+                       // console.log(currParent,currentLevel,currName)
+                        getSubCat(currParent,currentLevel,'bgDiv'+currParent,currName,null,'')       
+                                 }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                }
+            });
+        }
+    }
+
+
+
+function editcategory(id)
+{
+
+    window.location.href='<%-adminpath%>category/view/'+id
+}
+
+function getSubCat(id,level,dataC,name,service,search)
+{
+
+    var nextLev=parseInt(level)+1
+    var currLevel=parseInt(level)-1
+    currentLevel=currLevel
+
+    $("#appSubcatDiv"+currLevel).children().removeClass("badge-soft-secondary");
+    $('#parDiv'+level).val(id)
+    $('#'+dataC).addClass('badge-soft-secondary')
+   
+
+    
+    //alert('#headingDiv'+nextLev)
+
+    $('#loading1').show()
+
+
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>category/getSubCat',
+            dataType: 'json',
+            data: {'category':id,'search':search},
+            success: function (response) {
+                $('#loading1').hide()
+
+                var dataAppend=""
+                var data=response.body
+                if (response.code == '200') {
+                  for(var k=0;k<data.length;k++)
+                    {
+ 
+
+                        var classname="card-body"
+                       if(data[k].status==0) classname="card-body bg-secondary" 
+ dataAppend = dataAppend+'<div   id="bgDiv'+data[k].id+'"    class="card mb-0 mt-2" >'+
+'                                                            <div    class="'+classname+'",  >'+
+'                                                                <div  class="media">'+
+'                                                                    <img  onError="this.onerror=null;this.src=\'/assets/images/products/no-image.jpg\';" src="'+data[k].thumbnail+'" alt="image" class="mr-3 d-none d-sm-block avatar-sm rounded-circle">'+
+'                                                                    <div class="media-body">'+
+'                                                                        <h5 onclick="getSubCat(\''+data[k].id+'\',\''+nextLev+'\',\'bgDiv'+data[k].id+'\',\''+data[k].name+'\',\''+data[k].service+'\',\'\')"  class="">'+data[k].name+'</h5>'+
+'                                                                    </div> <!-- end media-body -->'+
+'                                                                    <div class="dropdown float-right mt-2">'+
+'                                                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">'+
+'                                                                            <i class="mdi mdi-dots-vertical mt-10"></i>'+
+'                                                                        </a>'+
+'                                                                        <div class="dropdown-menu dropdown-menu-right ">';
+                                                                         
+
+
+    var val=""
+   
+                                                                     
+
+dataAppend=dataAppend+val+'<a href="javascript:void(0);" onclick="editcategory(\''+data[k].id+'\')"  class="dropdown-item">Edit</a>'+
+'                                                                            <!-- item-->';
+if(data[k].status=="1")
+dataAppend=dataAppend+'<a href="javascript:;"  id="block_status_'+data+'"  onclick="StatusChange(\''+data[k].id +'\',\'1\',\''+level +'\',\''+data[k].parentId+'\',\''+data[k].name+'\')" class="dropdown-item">Disable </a>';
+                          
+else
+dataAppend=dataAppend+'<a href="javascript:;"  id="block_status_'+data[k].id+'"   onclick="StatusChange(\''+data[k].id +'\',\'0\',\''+level +'\',\''+data[k].parentId+'\',\''+data[k].name+'\')"   class="dropdown-item">Enable </a>';
+                                                                                                
+dataAppend=dataAppend+'<a href="javascript:void(0);"  onclick="deleteCat(\''+data[k].id+'\',\''+level+'\',\''+data[k].parentId+'\',\''+data[k].name+'\')" class="dropdown-item">Delete</a>'+
+''+
+'                                                                        </div>'+
+'                                                                    </div>'+
+'                                                                                                </div>'+
+'                                                            </div>'+
+'                                                        </div>';
+	
+
+
+                }
+                //alert(dataAppend)
+                //alert(level)
+                if(level==0)   $('#headingDiv'+level).html(data.length)
+
+                else
+                $('#headingDiv'+level).html(name+"("+data.length+")")
+
+                
+                if(search!="" && data.length==0)
+                dataAppend="No Items found"
+                $('#appSubcatDiv'+level).html(dataAppend)
+
+                if(dataAppend==null || dataAppend=="") {
+                    for(var m=currLevel;m<4;m++)
+                    {
+                        $('#subcatDiv'+(m+1)).hide()
+                    }
+                    $('#productDiv').hide()
+
+            }
+                else  {
+                    
+                    $('#subcatDiv'+level).show()
+                    $('#subcatDiv'+level).attr("tabindex",-1).focus();
+
+        }
+
+        
+               
+    }
+
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+
+
+
+
+
+
+   
+
+
+
+  
+
+
+
+
+</script>
+</body>
+
+</html>

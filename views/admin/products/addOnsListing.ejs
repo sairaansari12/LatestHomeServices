@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Delivery</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                        
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">CereHome</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Services</a></li>
+                                        <li class="breadcrumb-item active">Add Ons</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Add Ons</h4>
+                            </div>
+                        </div>
+                    </div>     
+                    <!-- end page title --> 
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                            <div class="form-group">
+                                                <label for="inputPassword2" class="sr-only">Search</label>
+                                                <input type="search" class="form-control" id="search" placeholder="Search...">
+                                            </div>
+                                            <div class="form-group mx-sm-1">
+                                                <label for="status-select" class="mr-2">Sort By</label>
+                                                <select onchange="sorting()" class="custom-select" id="sortby-select">
+                                                    <option value="createdAt#DESC">All</option>
+                                                    <option value="createdAt#DESC">Recently Added</option>
+                                                    <option value="createdAt#ASC">Older to New</option>
+                                                    <option value="popularity#DESC">High Popularity</option>
+                                                    <option value="popularity#ASC">Low Popularity</option>
+                                                    <option value="price#DESC">Price High</option>
+                                                    <option value="price#ASC">Price Low</option>
+                                                    <option value="rating#DESC">Rating High</option>
+                                                    <option value="rating#ASC">Rating Low</option>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mx-sm-2">
+                                                <label for="status-select" class="mr-2">Item Type</label>
+                                                <select onchange="itemTypeFilter()" class="custom-select" id="itemtype-select">
+                                                   
+
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="ml-2 form-group">
+                                            <label for="status-select" class="mr-1">Category</label>
+                                            <select onchange="catFilter()" class="custom-select" id="cat-select">
+                                                <option value="">All</option>
+<%for(var k=0;k<catData.length;k++){%><option value="<%-catData[k].id%>"><%-catData[k].name%></option>
+
+<%}%>                                              
+
+                                            </select>
+                                        </div>
+
+
+                                        <div class="text-lg-right mt-3 mt-lg-0">
+                                            <a href="<%-adminpath%>addons/add" class="btn btn-primary waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i> Add New</a>
+                                        </div>
+                                    </div><!-- end col-->
+                                </div> <!-- end row -->
+                            </div> <!-- end card-box -->
+                        </div> <!-- end col-->
+                    </div>
+                    <!-- end row-->
+
+                    <div class="row" id="appendData">
+                        <!-- <div class="col-md-4">
+                            <div class="card-box product-box">
+
+                                <div class="product-action">
+                                    <a href="javascript: void(0);" class="btn btn-success btn-xs waves-effect waves-light"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript: void(0);" class="btn btn-danger btn-xs waves-effect waves-light"><i class="mdi mdi-close"></i></a>
+                                </div>
+
+                                <div class="bg-light">
+                                    <img src="/dist/assets/images/products/product-1.png" alt="product-pic" class="img-fluid" />
+                                </div>
+
+                                <div class="product-info">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="font-16 mt-0 sp-line-1"><a href="Products-product-detail.html" class="text-dark">Adirondack Chair</a> </h5>
+                                            <div class="text-warning mb-2 font-13">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <h5 class="m-0">   <span class="text-dark">Item Type :</span> <span class="text-muted" >98 pcs</span></h5>
+                                            <h5 class="m-0 mt-1">  <span class="text-dark">Total Orders :</span><span class="text-muted"> 9890</span></h5>
+
+                                        </div>
+                                        
+                                        <div class="col-auto">
+                                            <div class="product-price-tag">
+                                                $39
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div> 
+                        </div>  -->
+
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="append_pagination">
+                    </div>
+                    </div>
+                    <!-- end row-->
+
+
+                  
+                    <!-- end row-->
+
+                  
+                       
+                   
+                    <!-- end row-->
+                    
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <%- include('../partials/footer'); -%>
+
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+   
+
+
+
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+    <script>
+      
+  var currentPage=1
+  var orderByInfo={'orderby':'rating',orderType:'DESC'}
+ var itemType= "",category=""
+  getFilter(currentPage);
+  var permissions=JSON.parse('<%-JSON.stringify(permissions)%>');
+
+  $('#search').on( 'keyup', function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+     getFilter(1)
+    }   
+    });
+
+  
+function getFilter(page)
+{
+        currentPage=page
+        var page=1
+        var limit=40
+
+            var search = $('#search').val();
+            $('#loading1').show()
+                $.ajax({
+                    url: '<%=adminpath %>addons/list',
+                    type: 'POST',
+                    data: {search: search,'orderByInfo':orderByInfo,'page':currentPage,'limit':limit,itemType:itemType,category:category},
+                    success: function(data){
+                        $('#loading1').hide()
+                        var html=""
+
+                        if(data.code=="200")
+                        {
+                            
+                       var obj=data.body.services.rows
+                        $.each(obj,function(key,value){
+                            
+                           
+                         var ratings=getRating(value.rating)
+                         var type=(value.filter)?'<span class="font-success">'+value.filter.filter+'</span>':'NA'
+                         var status=(value.status)==0?'<span class="badge bg-soft-danger mt-2 text-danger float-right">Inactive</span>':  '<span class="badge bg-soft-success mt-2 text-success float-right">Active</span>';
+
+
+
+                         html=html+`<div class="col-md-4">
+                            <div class="card-box product-box"> 
+                                
+                                <div class="product-action">
+                                    <a href="javascript: void(0);"   title="Status" data-toggle="tooltip"  onclick="productStatusChange('${value.id}','${value.status}','${value.approve}')" class="btn btn-primary btn-xs waves-effect waves-light"><i class="mdi mdi-spin mdi-block-helper"></i></a>
+
+                                    <a href="<%-adminpath%>addons/edit/${value.id}"    title="Edit" data-toggle="tooltip" class="btn btn-success btn-xs waves-effect waves-light"><i class="mdi mdi-pencil"></i></a>
+                                    <a href="javascript: void(0);"   title="Delete" data-toggle="tooltip"  onclick="deleteProduct('${value.id}')" class="btn btn-danger btn-xs waves-effect waves-light"><i class="mdi mdi-close"></i></a>
+                                </div>
+
+                                <div class="bg-light">
+                                    <img src="${value.thumbnail}"  style="width:100%;height:220px" onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" alt="product-pic" class="img-fluid" />
+                                </div>
+                                ${status}
+                                <div class="col-auto mr-5">
+                                            <div class="product-price-tag">
+                                                <%-CURRENCY%>${value.price}
+                                            </div>
+                                        </div>
+                                <div class="product-info">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            
+                                            <h5 class="font-16 mt-0 sp-line-1"><a href="<%-adminpath%>addons/view/${value.id}" class="text-dark">${value.name?value.name:"NA"}</a> </h5>
+
+                                            <div class="text-warning mb-2 font-13">
+                                                <a href="<%-adminpath%>ratings/products?serviceId=${value.id}&name=${value.name}"> ${ratings}</a>
+                                            </div>
+                                            <h5 class="m-0">   <span class="text-dark">Item Type :</span> <span class="text-muted" >${type}</span></h5>
+                                            <h5 class="m-0 mt-1">  <span class="text-dark">Total Orders :</span><span class="text-muted"> ${value.popularity}</span></h5>
+
+                                        </div>
+                                        
+                                       
+                                    </div> 
+                                </div> 
+                            </div> 
+                        </div> `;
+                          
+
+
+
+                         
+
+                        });
+                       if(html=="") html="<h5 class='m-4'><span class='text-dark text-center'>No items in list</span></h5>";
+                        $("#appendData").html(html);
+                        appendPagination(currentPage,Math.ceil(data.body.services.count/limit))
+                        appendFilters(data.body.filters,data.body.itemType)
+
+
+
+                    }
+                    else    showToastError(data.message)
+
+                    },
+                    error: function(response)
+                {
+                    $('#loading1').hide()
+
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+                })
+
+        }
+
+
+
+        function appendFilters(filters,type)
+        {
+            var html="<option value='' selected>All</option>";
+            $.each(filters,function(key,value){
+    html=html+`<option value='${value.id}'>${value.filter}</option>`;
+            })
+
+            $('#itemtype-select').html(html);
+            $('#itemtype-select').val(itemType);
+
+        }
+
+        function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end mb-3">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+       
+           $("#append_pagination").html(fd)  
+    }
+  
+    function deleteProduct(id)
+    {
+
+        if( confirm('Are you sure you want to delete this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>addons/delete',
+                dataType: 'json',
+                data: {'id':id},
+                success: function (response) {
+                    if (response.code == '200') {
+                        showToastSuccess(response.message)
+                        //location.reload()
+                       // console.log(currParent,currentLevel,currName)
+                      getFilter(currentPage)    
+                                               }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+
+
+    function sorting()
+    {
+   var order=$('#sortby-select').val();
+   var finalValue=order.split("#")
+   orderByInfo.orderby=finalValue[0]
+   orderByInfo.orderType=finalValue[1]
+   getFilter(1)
+
+    }
+    
+    function itemTypeFilter()
+    {
+   var order=$('#itemtype-select').val();
+    itemType=order
+   getFilter(1)
+
+    }
+
+
+    function catFilter()
+    {
+   var order=$('#cat-select').val();
+    category=order
+   getFilter(1)
+
+    }
+    function productStatusChange(id,status,approve)
+    {
+
+        
+        if(   '<%-adminRole%>'=="2" && ((status=="0" &&  permissions.pApproved=="0")  || (approve=="0" && status=="0")) )
+{
+    showToastError("You don't have permissions to change status ,please contact to admin to make it online ")
+
+return;
+}
+        var confirm1= (status=="1") ? "Disable" : "Enable"
+
+        if( confirm('Are you sure you want to '+confirm1+' this?'))
+        {
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>addons/status',
+                dataType: 'json',
+                data: {'id':id,'status':status},
+                success: function (response) {
+                    //alert(response.code)
+                    if (response.code == '200') {
+                        
+                        showToastSuccess(response.message)
+
+                        getFilter(currentPage)
+
+
+                    }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+    }
+
+
+    
+
+    </script>
+
+</body>
+
+</html>

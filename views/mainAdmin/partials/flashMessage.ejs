@@ -1,0 +1,21 @@
+<div >
+<% if (typeof errorMessage != 'undefined' && errorMessage && errorMessage.length>0) { %>
+
+    <div class="infobox clearfix infobox-close-wrapper error-bg mrg20B">
+        <a href="#" title="Close Message" class="glyph-icon infobox-close icon-remove"></a>
+        <p><%- errorMessage %></p>
+    </div>
+    <div class="alert alert-success"></div>
+    <% }%>
+
+
+    <% if (typeof successMessage != 'undefined' && successMessage && successMessage.length>0) { %>
+
+        <div class="infobox clearfix infobox-close-wrapper success-bg mrg20B">
+            <a href="#" title="Close Message" class="glyph-icon infobox-close icon-remove"></a>
+            <p><%- successMessage %></p>
+        </div>
+        <div class="alert alert-success"></div>
+        <% }%>
+
+    </div>

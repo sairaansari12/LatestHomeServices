@@ -1,0 +1,336 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+   <%-include ('../partials/header')%>
+    <body style="overflow: hidden;">
+        
+
+       
+
+        <div id="page-wrapper" class="demo-example">
+
+           
+
+            <!-- #page-header -->
+
+            <%-include ('../partials/side_bar')%>
+            <!-- #page-sidebar -->
+            <div id="page-content-wrapper">
+                <div id="page-title">
+
+
+    <div class=" text-transform-upr font-size-15 font-bold primary-font pad10A">Add Subcategory</div>
+
+    
+
+                </div>
+                   <!-- #page-title -->
+<div id="page-content">
+
+
+<%-include ('../partials/flashMessage')%>
+
+
+
+    <div class="large-box">
+        <div class="pad10A">
+            
+
+                <!-- <form id="demo-form" action=""  method="" /> -->
+                <form  role="form" onsubmit="return false"  class="col-md-12"  id="adduser" >
+                    <input type="hidden"  name="parentId" id="parentId"   />
+
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Category:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Category" data-required="true"  onchange="getSubCat(this.value)" class="chosen-select" name="category" id="category">
+                                <option value="" /> 
+
+                                <%for(var t=0;t<catData.length;t++){%>
+                                    <option  value="<%-catData[t].id%>" /><%-catData[t].name%> 
+                                   
+                            <%}%>
+                
+                       </select>                        </div>
+                    </div>
+
+
+                <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Sub-Category :
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Sub-Category"   onchange="getSubCatLevel2(this.value)"   name="subcat1"  class="chosen-select" id="subcat1">
+                              
+                            
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-row" id="subcat2Div" style="display:none">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                 Next Sub Categoty:
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <select data-placeholder="Choose Sub-Category" name="subcat2"  class="chosen-select" id="subcat2">
+                              
+                            
+                            </select>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                 Name:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <input type="text" id="serviceName"  data-rangelength="[2,100]" name="serviceName"  data-trigger="change" data-required="true" class="parsley-validated" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Icon:
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <input type="file" id="icon"   name="icon"  />
+                        </div>         
+                           
+                                
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="">
+                                Thumbnail:                            <span class="text-danger">*</span>
+
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <input type="file"  id="thumbnail" name="thumbnail"  />
+                        </div>
+                    </div>
+
+                 
+
+
+                   
+
+            
+
+                    <div class="form-row">
+                        <div class="form-label col-md-4">
+                            <label for="" class="label-description">
+                                Description:
+                                <span>10 chars min, 1000 max</span>
+                            </label>
+                        </div>
+                        <div class="form-input col-md-8">
+                            <textarea id="description" name="description" data-trigger="keyup" data-rangelength="[10,1000]" class="parsley-validated"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="divider"></div>
+                    <div class="form-row">
+                        <input type="hidden" name="superhidden" id="superhidden" />
+                        <div class="form-input col-md-8 col-md-offset-6">
+                            <!-- //onclick="javascript:$(&apos;#demo-form&apos;).parsley( &apos;validate&apos; );" -->
+                            <!-- onclick="javascript:$('#adduser').parsley('validate' );"  -->
+                            <button  type="button" onclick="window.history.back();"   class="btn ui-state-default medium bg-red mrg15R">
+                                <span class="button-content">Cancel</span>
+                            </button>
+                            <button  type="submit" class="btn ui-state-default medium  primary-bg">
+                                <span class="button-content">Submit</span>
+                            </button>
+                            </div>
+                    </div>
+
+                </form>
+
+        </div>
+
+       
+    </div>
+
+
+
+                	</div><!-- #page-content -->
+            </div><!-- #page-main -->
+        </div><!-- #page-wrapper -->
+
+    </body>
+</html>
+
+
+<script type="text/javascript">
+
+    // alert(getURLParameter('id'))
+//$('#parentId').val(getURLParameter('id'))
+
+      $('#adduser').submit( function() {
+       
+       
+            var tempform = $('#adduser');
+           
+            tempform .parsley('validate' );
+
+            if(tempform.parsley('isValid' ))
+            {
+
+                var ext = $('#icon').val().split('.').pop().toLowerCase();
+                var ext1 = $('#thumbnail').val().split('.').pop().toLowerCase();
+
+                if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1 || $.inArray(ext1.trim(), ['gif','png','jpg','jpeg']) == -1) {
+               showToastError('Please select only jpg and png files for image!')
+                return false;
+            }
+
+            $('#loading1').show()
+
+            var form_data = new FormData(tempform[0]);
+            $(".overlay").show();
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>subcategory/add',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $('#loading1').hide()
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+
+                  window.location.reload()                       
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+
+                error: function(response)
+                {
+                    $('#loading1').hide()
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+      });
+    
+  
+
+function getSubCat(id)
+{
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>subcategory/getSubCat',
+            dataType: 'json',
+            data: {'category':id},
+            success: function (response) {
+                var dataAppend=null
+                var data=response.body
+                if (response.code == '200') {
+                    $('#subcat1').html("")
+                    var dataAppend='<option value="">Nothing Selected</option>';
+                  for(var k=0;k<data.length;k++)
+                    {
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" >'+data[k].name+'</option>';
+
+                }
+                $('#subcat1').html(dataAppend)
+                $('.chosen-select').trigger("chosen:updated");
+
+                    }
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+
+
+
+
+    function getSubCatLevel2(id)
+{
+    $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>subcategory/getSubCat',
+            dataType: 'json',
+            data: {'category':id},
+            success: function (response) {
+                var dataAppend=null
+                var data=response.body
+                if (response.code == '200') {
+                    $('#subcat2').html("")
+                    $('#subcat2Div').hide()
+
+                    var dataAppend='<option value="">Nothing Selected</option>';
+
+                  for(var k=0;k<data.length;k++)
+                    {
+                      dataAppend=dataAppend+'<option value="'+data[k].id+'" >'+data[k].name+'</option>';
+
+                }
+                $('#subcat2').html(dataAppend)
+                $('.chosen-select').trigger("chosen:updated");
+             if(data.length>0) $('#subcat2Div').show()
+
+                    }
+
+                   
+                
+                
+            },
+
+            error :function(response)
+            {
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    }
+
+
+
+
+
+    </script>
+
+

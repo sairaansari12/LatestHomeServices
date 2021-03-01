@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        
+
+                    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                            
+                                            <li class="breadcrumb-item active">Comission History</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">  &nbsp;Comission History</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+                       
+
+                        <div class="row">
+                            <div class="col-md-6 col-xl-3">
+                                <div class="form-group mx-sm-8">
+                                    <label for="status-select" class="mr-2">Select vendor from here to get products
+                                    <select onchange="changeCompany()" class="custom-select select2" id="companyId">
+                                        <option value="" />All 
+        
+                                        <%for(var p=0;p<restro.length;p++){%>
+                                            <option value="<%-restro[p].id%>"><%-restro[p].companyName%></option>
+                                            <%}%>
+                                    </select>
+                                </div>
+    
+                                </div>
+    
+                                <div class="col-md-3 col-xl-3">
+    
+                                <div class="form-group mx-sm-8">
+                                <a onclick="window.history.back()" 
+                                href="
+                                <%-superadminpath%>payment/pending">
+                                <button type="button" class="btn w-sm btn-primary waves-effect">Pending Comissions</button></a>
+    </div>
+    
+                            </div> <!-- end col-->
+                            </div>
+                            </div>
+                        
+                       
+                        <div class="row ">
+<input type="hidden" id="empId">
+                           
+
+                            <div class="col-xl-12 order-xl-1 order-2">
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-lg-12">
+                                                <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                                    <!--<div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="search" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>-->
+                                                    <div class="form-group mx-sm-2 mb-2">
+                                                        <label for="status-select" class="mr-2">Payment Type</label>
+                                                        <select class="custom-select" id="status-select">
+                                                            <option value="" />All 
+                                                              <option value="0" />Monthly
+                                                              <option value="1" />Quarterly
+                                                              <option value="2" />Yearly
+
+                                                        </select>
+                                                    </div>
+                                                    
+
+                                                    <div class="col-lg-2">
+                                                        <div class="text-lg-left">
+                                                            <a onclick="getFilter(1)" href="javascript:;"><button type="button" class="btn btn-light waves-effect mb-2">Filter</button></a>
+                                                        </div>
+                                                    </div><!-- end col-->
+                                                    <div class="form-group mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Search</label>
+                                                        <input type="text" class="form-control" id ="search" name="search" placeholder="Search...">
+                                                    </div>
+                                                </form>                            
+                                            </div>
+                                            
+                                        </div>
+                
+                                  
+                                <div class="card mb-2">
+                                    <div class="card-body">      
+                                                                      <table id="demo-foo-pagination"
+                                            class="table   nowrap dataTable no-footer w-100 toggle-arrow-tiny">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Vendor Name</th>
+                                                        <th >Amount(<%-CURRENCY%>)</th>
+                                                        <th>Commission(<%-CURRENCY%>)</th>
+                                                        <th>Payble amount(<%-CURRENCY%>)</th>
+                                                        <th>Installments</th>
+                                                        <th>Last Paid Date </th>
+                                                        <th>Pending Date </th>
+                                                        <th data-hide="all">Email</th>
+                                                        <th data-hide="all">Contact</th>
+                                                        <th data-hide="all">Plan Type</th>
+                                                        <th data-hide="all">charges(%)</th>
+                                                        <th data-hide="all">Plan Amount</th>
+
+                                                        <th>Action </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="orderData">
+                                                </tbody>
+                                            </table> 
+                                </div>
+                                </div>
+                                <div class="col-md-4" style="float:right" id="append_pagination">
+                                </div>
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+            </div>
+                
+</div>
+                
+    <!-- END wrapper -->
+  
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+    <script src="/dist/assets/libs/footable/footable.all.min.js"></script>
+
+    <!-- Init js -->
+    <script src="/dist/assets/js/pages/foo-tables.init.js"></script>
+   
+<script>
+    $('#search').on( 'keyup', function (event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+     getFilter(1)
+    }   
+    });
+    $('#empId').val(getURLParameter('empId'))
+var companyId=""
+  
+    function getFilter(currentPage)
+    {
+        var fromDate=""
+        var toDate=""
+        currentPage=currentPage
+        var limit=30
+        $('#loading1').show()
+        var status=$('#status-select').val();
+        var search=$('#search').val();
+        var empId=$('#empId').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '<%-superadminpath%>payment/pendingComissions',
+            dataType: 'json',
+            data: {companyId:companyId,'search':search,'installments':status},
+            success: function (response) {
+                $('#loading1').hide()
+
+                if (response.code == '200') 
+                {
+                    var row="";
+
+                    $('#orderData').html('')
+                    //var data1=response.body
+                    console.log(response)
+                    var data=response.body
+                    for(var t=0;t<data.length;t++)
+                    {
+                        var type="Monthly"
+
+                        if(data[t].installments==1) type="Quarterly"
+                      var visibl=data[t].payble?"inline":"none"
+
+
+                    if(data[t].installments==2)type="Yearly"
+                
+                       row=row+ `<tr id="row_${data[t].id}">
+                        <td>${data[t].company?  data[t].company.companyName:""}</td>
+                        <td>${data[t].totalAmount} </td>'
+                        <td>${data[t].comission}</td>
+                        <td>${data[t].paidAmount}</td>
+                        <td><h4><span class="badge badge-info">${type}</span></h4></td>
+                        <td>${format(new Date(data[t].lastDate))}</td>
+                        <td>${format(new Date(data[t].nextDate))}</td>
+                        <td>${data[t].company? data[t].company.email:""}</td>
+                        <td>${data[t].company? data[t].company.phoneNumber:""}</td>
+                        <td>${data[t].chargesType==0?"Plan Amount" :"Percentage"}</td>
+                        <td>${data[t].chargesPercent}</td>
+                        <td>${data[t].chargesAmount}</td>
+                        <td><h4><span  style="display:${visibl}" class="badge badge-primary">Clear amount</span></h4></td>
+
+
+                        </tr>`;
+                       
+
+
+
+
+
+
+
+
+
+                    }
+                    
+                    $('#orderData').html(row);
+                    $('#orderData').trigger('footable_redraw');
+
+                   // appendPagination(currentPage,Math.ceil(data1.count/limit))
+                    //$('#exe').DataTable();
+                }
+               
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+               var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+
+            }
+        });
+    } 
+
+    function appendPagination(currentPage,count)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end my-2">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1)" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+         // if (i !== 1) { 
+         //      fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+         //  } 
+                         
+         // alert(fd);
+          
+         
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+
+           $("#append_pagination").html(fd)  
+    }
+
+
+    function clearDueAmount(empId)
+    {
+
+        var amount = prompt("Please enter amount:", "");
+        if (amount == null){}
+        else if(amount == "" ||  parseFloat(amount)<0 || isNaN(amount)) { 
+                       showToastError("amount is not valid")  } else {
+   
+            $.ajax({
+                type: 'POST',
+                url: '<%-superadminpath%>employees/depositAmount',
+                dataType: 'json',
+                data: {'empId':empId,amount:amount},
+                success: function (response) {
+                    //alert(response.code)
+                    if (response.code == '200') {
+                        
+                        showToastSuccess(response.message)
+
+                        setTimeout(function() {
+                               window.location.reload()
+                            },600);
+
+
+                    }
+                    else{
+                        showToastError(response.message)
+                    }
+                },
+                error :function(response)
+                {
+                    var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+                }
+            });
+        }
+    }
+    
+
+
+
+    function changeCompany()
+    {
+  companyId=$('#companyId').val();
+   getFilter(1)
+
+    }
+
+
+
+
+
+
+
+
+
+    var currentPage=1
+    getFilter(currentPage)
+</script>
+</body>
+
+</html>

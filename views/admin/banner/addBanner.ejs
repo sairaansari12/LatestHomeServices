@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-adminpath%>/"><b>Food</b>Visit Home</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                        
+                                        <li class="breadcrumb-item">Settings</li>
+
+                                        <li class="breadcrumb-item active">Add New Banner</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Add New Banner</h4>
+                            </div>
+                        </div>
+                    </div>     
+                    <!-- end page title --> 
+
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="card">
+                                <div class="card-body">
+                                <form onsubmit="return false"  id="adduser"  enctype="multipart/form-data">
+                                  
+                                    
+                                        <div class="col-sm-6"> 
+                                            <div class="form-group fg-line">
+                                                <p class="f-500 c-black m-b-10"> Name <span class="text-danger m-l-3" >*</span> </p>
+                                                <div class="fg-line">
+                                                <input required type="text" id="name" placeholder="Banner Name" id="name" name="name"  minlength="2" maxlength="100"  class="form-control" />
+                                                </div> 
+                                            </div>
+                                             <br/>
+                                            <div class="form-group fg-line">
+                                                <p class="f-500 c-black m-b-10">Choose Order  <span class="text-danger m-l-3" >*</span> </p>
+                                                <select required data-placeholder="Choose Order"  class="chosen form-control" name="order" id="category">
+                                                     <option value="1" />1 
+                                                        <option value="2" />2
+                                                        <option value="3" />3
+                                                        <option value="4" />4
+                                                        <option value="5" />5
+                                                        <option value="6" />6
+                                                        <option value="7" />7
+                                                        <option value="8" />8
+                                                        <option value="9" />9
+                                                        <option value="10" />10
+                                                </select>                    
+                                            </div>
+                                             <br/>
+                        
+                                        </div>
+                                        <div class="card-box">
+                                            <h5 class="text-uppercase mt-0 mb-3 bg-light p-2">Select Banner Image</h5>
+        <h5>Dimensions required width in range (600-1000)px and height in range (300-500)px </h5>
+                                          
+                                            <div class="mt-3">
+                                                <input  name="banner" id="banner"  type="file" data-plugins="dropify" data-max-file-size="1M"  />
+                                                <p class="text-muted text-center mt-2 mb-0">Click here to upload banner image</p>
+
+                                            </div>
+                                       
+                                                
+                                        
+        
+                                            <!-- Preview -->
+                                            <div class="dropzone-previews mt-3" id="file-previews"></div>
+        
+                                        </div> <!-- end col-->
+                                     
+                                        <div class="col-12">
+                                            <div class="text-center mb-3">
+                                                <button type="button"  onclick="window.history.back()"; class="btn w-sm btn-light waves-effect">Cancel</button>
+                                                <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                            </div>
+                                        </div> <!-- end col -->
+                                            
+                                      
+                                    
+                                </form>
+                            </div>
+                    </div>
+                    </div>
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+          
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right Sidebar -->
+    
+    <!-- /Right-bar -->
+
+    
+ 
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+    <script>
+       
+         
+       $('#adduser').validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                banner: { required: true, accept: "image/jpg,image/jpeg,image/png,image/gif"},
+            },
+            messages: {
+                name: {
+                    required: "Please enter a name",
+                   // email: "Please enter a vaild email address"
+                },
+               
+                banner: {
+                    required: "Please select an image",
+                    //minlength: "Your password must be at least 5 characters long"
+                }
+               
+            },
+
+            submitHandler: function (form) {
+
+
+    var fileInput = $('#adduser').find("input[type=file]")[0],
+        file = fileInput.files && fileInput.files[0];
+
+    if( file ) {
+        var img = new Image();
+
+        img.src = window.URL.createObjectURL( file );
+
+        img.onload = function() {
+            var width = img.naturalWidth,
+                height = img.naturalHeight;
+
+            window.URL.revokeObjectURL( img.src );
+
+          
+
+            if( (width>=600 &&  width<=1000) && (height>=300 &&  height<=500) ) {
+                $("#loading1").show(); 
+                var tempform = $('#adduser');
+
+var form_data = new FormData(tempform[0]);
+$("#loading1").show();
+$.ajax({
+    type: 'POST',
+    url: '<%-adminpath %>banner/addBanner',
+    dataType: 'json',
+    data: form_data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function (response) {
+        $("#loading1").hide();
+        if (response.code == 200) {
+
+            showToastSuccess(response.message)
+
+            // window.location.href = "<%-adminpath%>employees/view/" + id;
+            setTimeout(function(){
+                window.location.href = "<%- adminpath %>banner";
+
+
+            },1000)
+
+
+        } else {
+            showToastError(response.message)
+        }
+    },
+
+    error: function (response) {
+        $("#loading1").hide();
+        var errorResponse = JSON.parse(response.responseText)
+        showToastError(errorResponse.message)
+
+
+    }
+
+
+
+}); 
+            }
+            else {
+                showToastError("Image not matched with dimensions required width in range (600-1000)px and height in range (300-500)px  ")
+
+            }
+        };
+    }
+
+            }
+        });
+    
+    
+   
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,379 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+   <%-include ('../partials/header')%>
+    <body style="overflow: hidden;">
+        
+
+       
+
+        <div id="page-wrapper" class="demo-example">
+
+           
+
+            <!-- #page-header -->
+
+            <%-include ('../partials/side_bar')%>
+            <!-- #page-sidebar -->
+            <div id="page-content-wrapper">
+                <div id="page-title">
+
+
+    <div class=" text-transform-upr font-size-15 font-bold primary-font pad10A">Order Detail</div>
+
+    
+
+                </div>
+                   <!-- #page-title -->
+<div id="page-content">
+
+
+<%-include ('../partials/flashMessage')%>
+<% 
+if(data==undefined || data==null || data=='{}' || data.length==0) {%>
+
+    <%-include ('../partials/norecord')%>
+
+
+<%}else {%>
+
+    <div class="xlarge-box">
+        <div class="pad10A">
+            
+                <!-- <form id="demo-form" action=""  method="" /> -->
+
+                
+                        <div  class="form-wizard">
+                          <ul>
+
+                            
+
+
+                            <li  >
+                                <a>
+                                  <label  <% if(parseInt(data.progressStatus)==0) {%> class="wizard-step" <%} else %> class="wizard-step ">1</label>
+                                  <span class="wizard-description">
+                                     Not Confirmed
+                                     <small>Order is not confirmed yet</small>
+                                  </span>
+                                </a>
+                            </li>
+
+                            
+
+                                <li  >
+                                    <a >
+                                      <label  <% if(parseInt(data.progressStatus)==2) {%> class="wizard-step bg-red" <%} else %> class="wizard-step ">2</label>
+                                      <span class="wizard-description ">
+                                         Cancelled
+                                         <small>Order is cancelled by user</small>
+                                      </span>                   
+                                    </a>
+                                </li>
+
+<li>
+                                <a >
+                                  <label   <%if(parseInt(data.progressStatus)==1) {%> class="wizard-step" <%}else %>class="wizard-step  "  >3</label>
+                                  <span class="wizard-description">
+                                     Confirmed
+                                     <small>Order is confirmed</small>
+                                  </span>
+                                </a>
+                            </li>
+                          
+
+                           
+
+                            <li>
+                                <a >
+                                    <label   <%if(parseInt(data.progressStatus)==3) {%> class="wizard-step" <%}else %>class="wizard-step  "  >4</label>
+                                    <span class="wizard-description">
+                                     Precessing
+                                     <small>Order is in processing</small>
+                                  </span>                   
+                                </a>
+                            </li>
+
+                            <li >
+                                <a >
+                                  <label  <% if(parseInt(data.progressStatus)==4) {%> class="wizard-step" <%} else %> class="wizard-step ">5</label>
+                                  <span class="wizard-description">
+                                     Cancelled by Company
+                                     <small>Order is cancelled by company</small>
+                                  </span>                   
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a  >
+                             
+                                    <label  <% if(parseInt(data.progressStatus)==5) {%> class="wizard-step" <%} else %> class="wizard-step ">6</label>
+                                    <span class="wizard-description">
+                                     Completed
+                                     <small>Order has been completed</small>
+                                  </span>                   
+                                </a>
+                            </li>
+                          </ul>
+                        
+                
+                
+                </div>
+                
+
+
+
+                <div class="form-input col-md-6 ">
+                    <div class="form-label col-md-6 pad15L">
+                        <label for="">
+                            Order  Details:
+                        </label>
+                    </div>
+
+
+
+                    
+                            <table class="table font-size-11 drop-shadow ">
+                            
+                                <tr>
+                                    <td><b>Order Date</b></td>
+                                    <td> <%-commonMethods.format(new Date(data.createdAt))%>
+                                    </tr>
+            
+                                <tr>
+                                    <td><b>Service Date</b></td>
+                                    <td><%-commonMethods.format(data.serviceDateTime)%> </td>
+                                </tr>
+                                
+
+                            </table>
+
+
+
+                         
+
+                   
+                                <div class="form-label pad15L">
+            
+                                    <label for="">
+                                       Included Services Details:<br>
+                                    </label>
+                                </div>
+            
+            
+                                   
+                                <% for(var t=0;t<data.suborders.length ;t ++)
+                                {%> 
+                               
+                            
+                                    <div class="col-md-6 content-box ">
+                                        <h3 class="content-box-header ui-state-default">
+                                            <span class="float-left">Sevice <%-t+1%> Details:</span>
+                                           
+                                        </h3>
+                                        <div class="content-box-wrapper">
+                                      
+                                            
+                                            <table class="table font-size-11">
+                                                <tr>
+                                                    <td><b>Service Name</b></td>
+                                                    <td> <%-data.suborders[t].service.name %>
+                                                    </tr>
+                            
+                                                <tr>
+                
+                
+                                            <tr>
+                                                <td><b>Service Icon</b></td>
+                                                <td> <img src="<%-data.suborders[t].service.icon %>" alt="" width="50" height="50"/>
+                                                </tr>
+                        
+                                            <tr>
+                                                <td><b>Quantity</b></td>
+                                                <td><%-data.suborders[t].quantity %> </td>
+                                            </tr>
+            
+                                            </table>
+            
+                                           
+                                        
+                                        </div>
+                                  
+                    
+                                  
+                                </div>
+                                <%}%>
+            
+                            </div>
+               
+               
+               
+               
+                       
+
+
+          <div class="form-input col-md-6 drop-shadow">
+            <div class="form-label col-md-6 pad15L">
+                <label for="">
+                    Customer  Details:
+                </label>
+            </div>
+                    <table class="table font-size-11">
+                       
+                       
+                        <tr>
+                            <td><b>Customer Photo</b></td>
+                            <td> <img src="<%-data.user.image %>" style="border-radius:50%" alt="" width="50" height="50"/>
+                            </tr>
+    
+                        <tr>
+                            <td><b>Customer Name</b></td>
+                            <td><%-data.user.firstName +' '+ data.user.lastName%> </td>
+                        </tr>
+                        <tr>
+                            <td><b>Customer Contact</b></td>
+                            <td><%-data.user.countryCode +' ' + data.user.phoneNumber%> </td>
+                        </tr>
+
+
+                      
+
+                       
+                        <tr>
+                            <td><b>Customer Address</b></td>
+                            <td><%-data.address.addressName%> </td>
+                        </tr>
+                      
+
+                
+                    </table>
+                
+
+
+        
+                    <div class="form-label col-md-6 pad15L">
+                        <label for="">
+                            Price Details:
+                        </label>
+                    </div>
+                    <table class="table font-size-11">
+                       
+                       
+    
+                        <tr>
+                            <td><b>Service Price</b></td>
+                            <td>₹ <%-data.orderPrice%>  </td>
+                        </tr>
+                        <tr>
+                            <td><b>Service Charges</b></td>
+                            <td>₹ <%-data.serviceCharges%> </td>
+                        </tr>
+
+
+                        <tr>
+                            <td><b>Promo Code</b></td>
+                            <td><%-data.promoCode%> </td>
+                        </tr>
+
+                       
+                        <tr>
+                            <td><b>Discount Price</b></td>
+                            <td>₹ <%-data.offerPrice%> </td>
+                        </tr>
+                      
+
+                        <tr>
+                            <td><b>Total Price</b></td>
+                            <td>₹ <%-data.totalOrderPrice%> </td>
+                        </tr>
+                    </table>
+               
+
+
+              
+        </div>
+
+       
+    </div>
+
+       
+              
+                  
+
+</div>
+
+<%}%>
+
+                	</div><!-- #page-content -->
+            </div><!-- #page-main -->
+        </div><!-- #page-wrapper -->
+
+    </body>
+</html>
+
+
+<script type="text/javascript">
+
+     
+    
+      $('#adduser').submit( function() {
+       
+       
+            var tempform = $('#adduser');
+           
+            tempform .parsley('validate' );
+
+            if(tempform.parsley('isValid' ))
+            {
+                var ext = $('#icon').val().split('.').pop().toLowerCase();
+                if(ext==null || ext=="") ext=$('#myIcon').attr('src').split('.').pop().toLowerCase();
+                var ext1 = $('#thumbnail').val().split('.').pop().toLowerCase();
+                if(ext1==null || ext1=="") ext1=$('#myThumbnail').attr('src').split('.').pop().toLowerCase();
+
+
+                if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1    ||  $.inArray(ext1.trim(), ['gif','png','jpg','jpeg']) == -1     ) {
+                    showToastError('Please select only jpg and png files for image!')
+                return false;
+            }
+
+
+            var form_data = new FormData(tempform[0]);
+            $(".overlay").show();
+            var id=$('#serviceId').val()
+
+            $.ajax({
+                type: 'POST',
+                url: '<%-superadminpath%>service/update',
+                dataType: 'json',
+                data: form_data,
+                contentType:false,
+                cache:false,
+                processData:false,
+                success: function (response) {
+                    $(".overlay").hide();
+                    if (response.code == 200) {
+                  
+                        showToastSuccess(response.message)
+
+                        window.location.href="<%-superadminpath%>service/view/"+id;
+                       
+                    } else {
+                        showToastError(response.message)
+                    }
+                },
+
+                error: function(response)
+                {
+                   var errorResponse=JSON.parse(response.responseText)
+                   showToastError(errorResponse.message)
+
+
+                }
+            });
+        }
+      });
+    
+  
+    </script>
+

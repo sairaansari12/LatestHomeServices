@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+
+        <%- include('../partials/dashboardHeader'); -%>
+        <%- include('../partials/commonJs'); -%>
+
+
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <!-- <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">CereHome</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Elements</li>
+                                    </ol>
+                                </div> -->
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <!-- <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal">Assignment</button> -->
+
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Schedule</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end page title -->
+                    <%-include ('../partials/flashMessage')%>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <form role="form" onsubmit="return false" class="col-md-12" id="adduser">
+                                        <input type="hidden" name="scheduleId" id="scheduleId" <%if(data){%>
+                                            value="<%-data.id%>" <%}%>/>
+                                        <input type="hidden"  name="dayParts" id="dayParts"   value="mon" class="form-control"/>
+                                        
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="simpleinput">Start Time:
+                                                    <span class="text-danger"></span>
+                                                </label>
+                                                <input id="fromTime" class="form-control input"  <%if(data){%>
+                                            value="<%-data.startTime%>" <%}%> id="fromTime"  data-required="true" onchange="getTimeSlots()"
+                                              name="startTime" type="text" />
+
+                                             
+
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="example-email">End Time:
+                                                    <span class="text-danger"></span>
+                                                </label>
+                                                <input  id="toTime" class="form-control input"   <%if(data){%>
+                                            value="<%-data.endTime%>" <%}%>  id="toTime"  data-required="true" onchange="getTimeSlots()" name="endTime" type="text" />
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="simpleinput">Turnaround (minutes):
+                                                    <span class="text-danger"></span>
+                                                </label>
+                                                <input class="form-control"  value="60" data-type="number" data-required="true"    onchange="getTimeSlots()" id="turnaround" name="turnaround" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="simpleinput">Time Slots:
+                                                    <span class="text-danger"></span>
+                                                </label>
+
+                                                <input type="checkbox" class="custom-checkbox" id="checkedMonFri" name="checkedMonFri"  />
+                                                <label for="">Mon-Fri</label>
+                                                </div>
+
+                                                <ul class="nav nav-pills navtab-bg nav-justified">
+                                                    <li class="nav-item">
+                                                            <a href="#tabs-accordion-1" onclick="getDaydata('mon')" title="Tab 1" data-toggle="tab" class="nav-link active">
+                                                               Mon
+                                                            </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1" onclick="getDaydata('tue')" title="Tab 2" data-toggle="tab" class="nav-link">
+                                                            Tue
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1" onclick="getDaydata('wed')" title="Tab 3" data-toggle="tab" class="nav-link">
+                                                           Wed
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1" onclick="getDaydata('thu')" title="Tab 4" data-toggle="tab" class="nav-link">
+                                                           Thu
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1" onclick="getDaydata('fri')" title="Tab 5" data-toggle="tab" class="nav-link">
+                                                            Fri
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1"  onclick="getDaydata('sat')" title="Tab 6" data-toggle="tab" class="nav-link">
+                                                           Sat
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a href="#tabs-accordion-1"  onclick="getDaydata('sun')" title="Tab 7" data-toggle="tab" class="nav-link">
+                                                            Sun
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+                                             
+
+                                               
+                                                <div id="justified-tabs-1">
+                                                    <div class="form-row" id="timeSlots">
+                                                
+                                                        <div class="form-input col-md-12">
+                                                            <div class="form-label col-md-3 font-size-11"><label> Time Slot:</label></div>
+                                                            <div class="form-label col-md-3 "><label> Time Slot:</label></div>
+                                                            <div class="form-label col-md-3 font-size-11"><label>Quantity:</label></div>
+                                                            <input class="col-md-2" data-required="true" data-type="number" />
+                                                        </div>
+                                                
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="divider"></div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input class="form-control" type="hidden" name="superhidden" id="superhidden" />
+                                        <div class="form-group text-center mb-2">
+                                            <button type="submit"
+                                                class="btn btn-primary waves-effect waves-light">Submit</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <input type="hidden" name="superhidden" id="superhidden" />
+                                    <div class="form-group col-md-6">
+                                            <button type="button" onclick="window.history.back();" class="btn btn-primary waves-effect waves-light">Cancel</button>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+                                    </div>
+                                </div> -->
+
+                                </form>
+
+                                <!-- end row-->
+
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card -->
+                    </div><!-- end col -->
+                </div>
+                <!-- end row -->
+
+
+
+
+
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <%- include('../partials/script'); -%> </body>
+    <%- include('../partials/commonJs'); -%> </body>
+
+</html>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+
+<script type="text/javascript">
+    
+$("#fromTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+$("#toTime").flatpickr({enableTime:!0,noCalendar:!0,dateFormat:"h:i K"});
+    var breakRow = 0
+    var slotRow = 0
+    var breakTime = []
+    var times = []
+
+    $(document).on('focus', ".timepicker", function () {
+        $(this).timepicker();
+    });
+
+    var count = 0
+    getDaydata('mon')
+
+
+    $(document).ready(function () {
+
+$('#adduser').validate({
+    rules: {
+        fromDate: {
+            required: true,
+        },
+        toDate: {
+            required: true,
+        },
+        startTime: {
+            required: true,
+        },
+        endTime: {
+            required: true,
+           // minlength: 5
+        },
+        turnaround: {
+            required: true,
+           // minlength: 10,
+            //maxlength: 10
+        },
+
+    },
+    messages: {
+        fromDate: {
+            required: "Please enter a from date",
+           // email: "Please enter a vaild email address"
+        },
+        toDate: {
+            required: "Please enter a to date ",
+            //minlength: "Your password must be at least 5 characters long"
+        },
+        fromTime: {
+            required: "Please enter a from time",
+        },
+        endTime: {
+            required: "Please enter a end time",
+            //minlength: "Your password must be at least 5 characters long"
+        },
+        turnaround: {
+            required: "Please enter turnaround",
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+});
+
+
+    $('#adduser').submit(function () {
+
+        var tempform = $('#adduser');
+
+        tempform.parsley('validate');
+
+        if (tempform.parsley('isValid')) {
+
+
+
+            if (times.length == 0) {
+                // showToastError("Please Select Slots ,to get slots choose correct from and to time")
+
+            }
+            else {
+
+                var form_data = new FormData(tempform[0]);
+                $("#loading1").show();
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>schedule/addupdate',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('res svhedule>>>>>>',response);
+                        // $(".overlay").hide();
+                        if (response.code == 200) {
+
+                            // showToastSuccess(response.message)
+
+                         window.location.reload()
+                          // window.location.href = "<%-adminpath%>";
+
+                        } else {
+                            // showToastError(response.message)
+                        }
+                    },
+
+                    error: function (response) {
+                        var errorResponse = JSON.parse(response.responseText)
+                        // showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        }
+    });
+
+
+
+
+    function breakTimeArray() {
+        breakTime = []
+        for (var j = 0; j <= breakRow; j++) {
+            var newArr = [];
+
+
+            var fromBreak = $('#breakFTime_' + j).val()
+
+            var ToBreak = $('#breakTTime_' + j).val()
+
+            newArr.push(fromBreak)
+            newArr.push(ToBreak)
+
+            breakTime.push([newArr])
+        }
+        //  console.log(breakTime)
+
+    }
+
+
+
+
+    function getTimeSlots(permanentSlots, slots) {
+
+        // breakTimeArray();
+
+        var startTime = $('#fromTime').val()
+        var endTime = $('#toTime').val()
+        var turnaround = $('#turnaround').val()
+
+
+
+        var x = {
+            nextSlot: turnaround,
+            // breakTime: [
+            //     ['05:30 PM', '06:00 PM']
+            // ],
+            breakTime: breakTime,
+            startTime: startTime,
+            endTime: endTime
+        };
+
+
+
+
+        var slotTime = moment(x.startTime, "hh:mm a");
+        var endTime = moment(x.endTime, "hh:mm a");
+
+
+
+        function isInBreak(slotTime, breakTimes) {
+            return breakTimes.some((br) => {
+
+                var breakTime = br.toString().split(",")
+
+                return slotTime >= moment(breakTime[0], "hh:mm a") && slotTime < moment(breakTime[1], "hh:mm a");
+            });
+        }
+
+        times = [];
+        var timeSlots = ""
+        slotRow = 0
+        var dataValue = null
+
+        if (slots != null) {
+            dataValue = JSON.parse(permanentSlots)
+            dataValueSlots = JSON.parse(slots)
+        }
+
+        while (slotTime < endTime) {
+            if (!isInBreak(slotTime, x.breakTime)) {
+                timeSlots = timeSlots + '<div class="form-input col-md-12" style="padding-top: 12px;"><div class="row">' +
+                    '<input type="hidden" value="' + slotTime.format("hh:mm A") + '"  name= "slotsTime" id ="timeValue_' + slotRow + '">' +
+                    '                       <div class="form-label col-md-2 font-size-16"><label> ' + slotTime.format("hh:mm A") + '</label></div>' +
+                    '                        <div class="form-label col-md-2 font-size-11"><label>Maximum Bookings:</label></div>';
+
+                // '<input class="form-input col-md-5" data-required="true"  value="0" id="slotQuantity_'+slotRow+'"  data-type="number" />'+
+
+                var timeSlots1 = "";
+                if (dataValue && dataValue.length > 0 && dataValue[slotRow]) {
+                    timeSlots = timeSlots + '<div class="col-md-2"> <input  data-required="true" class="form-control"  oninput="remainingSlots(' + slotRow + ',' + dataValue[slotRow].bookings + ',' + (dataValue[slotRow].bookings - dataValueSlots[slotRow].bookings) + ')"   name= "slotsQuantity"  value="' + dataValue[slotRow].bookings + '" id="slotQuantity_' + slotRow + '"  data-type="number" /></div> ';
+                    timeSlots1 = '<input class="col-md-2 form-control"   readonly  name= "slotsQuantity1"  value="' + dataValueSlots[slotRow].bookings + '" id="slotQuantity1_' + slotRow + '"  data-type="number" /> ';
+                }
+                else {
+
+                    timeSlots = timeSlots + '<div class="col-md-2"><input  class="form-control" data-required="true"  oninput="remainingSlots(' + slotRow + ',null,null)"     name= "slotsQuantity"   value="0"  id="slotQuantity_' + slotRow + '"  data-type="number" /></div>';
+                    timeSlots1 = '<input class="form-control  col-md-2" data-required="true"  readonly  name= "slotsQuantity1"   value="0" id="slotQuantity1_' + slotRow + '"  data-type="number" />';
+
+                }
+
+
+                timeSlots = timeSlots + '<div class="form-label col-md-2 font-size-11"><label> Remaining Today:</label></div>';
+                timeSlots = timeSlots + timeSlots1 + '</div></div><br/>'
+                times.push(slotTime.format("hh:mm"));
+                slotRow++;
+
+            }
+            slotTime = slotTime.add(x.nextSlot, 'minutes');
+        }
+
+        $('#timeSlots').html(timeSlots)
+        //console.log("Time slots: ", times);
+    }
+
+
+
+    function saveSlot() {
+
+
+        var tempform = $('#adduser');
+        tempform.parsley('validate');
+
+        if (tempform.parsley('isValid')) {
+
+
+
+            if (times.length == 0) {
+                // showToastError("Please Select Slots ,to get slots choose correct from and to time")
+
+            }
+            else {
+
+                var form_data = new FormData(tempform[0]);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>schedule/addupdate',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.code == 200) {
+
+
+                        } else {
+                        }
+                    },
+
+                    error: function (response) {
+                        var errorResponse = JSON.parse(response.responseText)
+
+
+                    }
+                });
+            }
+        }
+
+
+
+    }
+
+    function remainingSlots(rowNo, prevVal, diff) {
+
+        setTimeout(function () {
+
+            var newValue = $('#slotQuantity_' + rowNo).val()
+            if(prevval==null)
+            $('#slotQuantity1_' + rowNo).val(newValue)
+            var prevval = prevVal
+            var thisRowVal = $('#slotQuantity1_' + rowNo).val()
+
+            //var diff=prevval-thisRowVal
+            var newVal = newValue - diff
+
+            if (newVal < 0) {
+                $('#slotQuantity_' + rowNo).val(prevval)
+                alert("this value can't be less than remaining bookings")
+            }
+            else $('#slotQuantity1_' + rowNo).val(newVal)
+
+        }, 800);
+    }
+
+    function getDaydata(day) {
+
+        if (count > 0) saveSlot()
+        count++;
+
+
+        $('#loading1').show();
+
+        setTimeout(function () {
+            $('#dayParts').val(day)
+
+            $.ajax({
+                type: 'POST',
+                url: '<%-adminpath%>schedule/getSlots',
+                dataType: 'json',
+                data: { 'dayParts': day },
+                success: function (response) {
+                    $('#loading1').hide();
+
+                    var dataAppend = null
+                    var data = response.body
+                    if (response.code == '200') {
+                        if (data == null)
+                            getTimeSlots(null, null);
+
+                        else {
+                            $('#fromTime').val(data.startTime)
+                            $('#toTime').val(data.endTime)
+                            $('#turnaround').val(data.turnaround)
+                            $('#fromDate').val(data.fromDate)
+                            $('#toDate').val(data.toDate)
+                            getTimeSlots(data.permanentSlots, data.slots);
+
+
+                        }
+
+                    }
+
+
+
+                },
+
+                error: function (response) {
+                    $('#loading1').hide();
+
+                    // showToastError(response.message)
+
+                }
+            });
+
+
+        }, 1000);
+
+    }
+
+</script>

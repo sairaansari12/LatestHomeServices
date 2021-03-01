@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- <div class="login-logo">
+        <a href="<%-superadminpath%>/"><b>Food</b>Delivery</a>
+      </div> -->
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="<%- superadminpath %>">Dashboard</a></li>
+                                        
+                                        <li class="breadcrumb-item">Settings</li>
+
+                                        <li class="breadcrumb-item active">Send New Email</li>
+                                    </ol>
+                                </div>
+                                <h4 class=form-label">Send New Email</h4>
+                            </div>
+                        </div>
+                    </div>     
+                    <!-- end page title --> 
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+
+                    <div class="card-body">
+
+
+                    <form  role="form" onsubmit="return false"  class="col-md-10"  id="adduser" >
+
+                        <div class="form-row">
+                            <div class="form-label col-md-4">
+                                <label for="">
+                                    Type:  <span class="text-danger">*</span>
+                                
+                                </label>
+                            </div>
+                            <div class="form-input mt-2 col-md-8">
+                                <select data-placeholder="Choose Type" class="chosen-select form-control"  data-required="true" id="userType" name="userType">
+                                   
+                                    <option value="0" />All 
+                                    <%for(var p=0;p<types.length;p++){%>
+                                       
+                                        <option   value="<%-types[p].id%>" ><%-types[p].userType%></option> 
+      
+                                       
+                                       <%}%>
+                    
+                    
+                           </select>                        </div>
+                        </div>
+    
+    
+                        <div class="form-row mt-2 ">
+                            <div class="form-label col-md-4">
+                                <label for="">
+                                     Title:
+                                    <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            <div class="form-input col-md-8">
+                                <input  maxlength="100"  type="text" id="title" name="title"  data-trigger="change" data-required="true" class="parsley-validated form-control" />
+                            </div>
+                        </div>
+    
+                        
+                        <div class="form-row mt-2">
+                            <div class="form-label col-md-4">
+                                <label for="" class="label-description">
+                                    Description : <span class="text-danger">*</span>
+                                    <p class="text-muted font-12">500 chars max</p>
+                                </label>
+                            </div>
+                            <div class="form-input col-md-8">
+                                <textarea  id="product-description" name="email" data-required="true" data-trigger="keyup" data-rangelength="[10,1000]" class="parsley-validated form-control"></textarea>
+                            </div>
+                        </div>
+                      
+                        <div class="divider"></div>
+                        <div class="form-row">
+                            <input type="hidden" name="superhidden" id="superhidden" />
+                            <div class="form-input col-md-8 col-md-offset-6">
+                                <!-- //onclick="javascript:$(&apos;#demo-form&apos;).parsley( &apos;validate&apos; );" -->
+                                <!-- onclick="javascript:$('#adduser').parsley('validate' );"  -->
+                                <button  type="button" onclick="window.history.back();"   class="btn btn-default btn-sm">
+                                    <span class="button-content">Cancel</span>
+                                </button>
+                                <button  type="submit" class="btn btn-info btn-sm">
+                                    <span class="button-content">Push</span>
+                                </button>
+                                </div>
+                        </div>
+    
+                    </form>
+
+                    </div>
+
+                    </div>
+
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <%- include('../partials/footer'); -%>
+
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+   
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+
+
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+
+
+    <script>
+ $('#adduser').validate({
+            rules: {
+                title: {
+                    required: true,
+                },
+               
+            },
+            messages: {
+                title: {
+                    required: "Please enter a title",
+                   // email: "Please enter a vaild email address"
+                },
+               
+               
+               
+            },
+
+            submitHandler: function (form) {
+                var tempform = $('#adduser');
+
+                var textareaValue = $('#product-description').summernote('code').replace(/<\/?[^>]+(>|$)/g, "");
+            if(textareaValue=="")
+            {showToastError("Please enter email content")
+            return;
+            }
+
+            
+            if(textareaValue.length>500)
+            {showToastError("Maximum 500 characters allowed")
+            return;
+            }
+
+
+var form_data = new FormData(tempform[0]);
+$('#loading1').show()
+$.ajax({
+    type: 'POST',
+    url: '<%-superadminpath%>notification/pushEmail',
+    dataType: 'json',
+    data: form_data,
+    contentType:false,
+    cache:false,
+    processData:false,
+    success: function (response) {
+        $('#loading1').hide()
+        if (response.code == 200) {
+      
+            showToastSuccess(response.message)
+            setTimeout( function() {              window.location.reload();
+ }, 1500 );
+
+           
+        } else {
+          showToastError(response.message)
+        }
+    },
+
+    error: function(response)
+    {
+        $('#loading1').hide()
+       var errorResponse=JSON.parse(response.responseText)
+       showToastError(errorResponse.message)
+
+
+    }
+});
+}
+});
+
+
+    </script>
+
+</body>
+
+</html>

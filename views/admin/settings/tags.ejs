@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+    <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Setting</a></li>
+                                            <li class="breadcrumb-item active">Tags</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Vendor Tags</h4>
+                                </div>
+                            </div>
+                        </div>     
+
+
+                        <div class="row">
+                            
+                            <form  role="form" onsubmit="return false"  class="col-md-12"  id="adduser" >
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card-box">
+                                                                    <!-- end page title --> 
+                                       <h5 class=" mt-0 mb-3 text-muted bg-light p-2">This will display as highlights in customer application,User will found the speciality of your Vendor through this tags</h5>
+
+
+                                       <div class="checkbox  checkbox-primary mb-4">
+                                  
+                                        <% for(var p =0;p<tagsData.length;p++){ %>
+                                        <input id="checkbox<%-p%>"  value="<%-tagsData[p].id%>" class="ml-2" name="tags" type="checkbox"  <%if(compTags && compTags.dataValues && compTags.dataValues.tagsIncluded && compTags.dataValues.tagsIncluded.includes(tagsData[p].id)){ %> checked <%}%>>
+                                        <label for="checkbox<%-p%>">
+                                            <%-tagsData[p].tag%>
+                                        </label>
+
+                                   
+<%}%>
+
+                                    </div>
+
+                                    
+
+
+
+
+
+                                            <% for(var i =0;i<tags.length;i++){ %>
+                                            <div class="row after-add-more mt-2">
+                                                <div class="form-group  col-md-4 mb-3">
+                                                    <label for="product-name">Add Tag <span class="text-danger">*</span></label>
+                                                    <input type="text" id="tag[]" value="<%- tags[i] %>" autocomplete="off"  minlength="1" maxlength="100" name="tag" class="form-control" placeholder="Add Tag">
+                                                </div>
+                                                <% if(i != 0){ %>
+                                                    <div class="text-center form-group" style="margin-top: 28px;">
+                                                        <button type="button" class='btn w-sm btn-danger remove waves-effect waves-light form-control'>- Remove</button>
+                                                    </div>
+                                                    
+                                                <% } %>
+                                            </div>
+
+                                            <% } %>
+                                            <div class="newinputs">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group change">
+                                                    <label for="">&nbsp;</label><br/>
+                                                    <button type="button" class="btn w-sm btn-success  waves-effect waves-light add-more">+ Add More</button>
+                                                </div>
+                                            </div>
+                                        </div> <!-- end card-box -->
+                                    </div> <!-- end col -->
+                                    
+                                </div>
+                                <!-- end row -->
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center mb-3">
+                                            <a  onclick="window.history.back()" href="javascript:void(0);:"><button type="button"  class="btn w-sm btn-light waves-effect">Cancel</button></a>
+                                            <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div>
+                            <!-- end row -->
+                            </form>
+                        </div>
+                        <!-- end row -->
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->              
+                
+</div>
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+    <%- include('../partials/commonJs'); -%>
+<script>
+    $("body").on("click",".remove",function(){ 
+        $(this).parents(".after-add-more").remove();
+    });
+    jQuery(document).ready( function () {                                 
+        $(".add-more").click( function(e) {
+             e.preventDefault();
+
+             if($('.after-add-more').length<5)
+                {
+            $(".newinputs").append('<div class="row after-add-more">\
+                <div class="form-group  col-md-4 mb-3">\
+                <label for="product-name">Add Tag <span class="text-danger">*</span></label>\
+                <input type="text" id="tag[]" autocomplete="off"  minlength="1" maxlength="100" name="tag" class="form-control" placeholder="Add Tag">\
+                </div><div class="text-center form-group" style="margin-top: 28px;">\
+                <button type="button" class="btn w-sm btn-danger remove waves-effect waves-light form-control remove_this">- Remove</button>\
+                </div></div>');
+            return false;
+                }
+        });
+    });
+    jQuery(document).on('click', '.remove_this', function() {
+       $(this).parents(".newinputs").remove();
+        return false;
+    });
+    $(document).ready(function(){
+
+        $("#adduser").validate({
+            rules: {
+                tag: {
+                  required: true
+                }
+            },
+            messages: {
+                tag: {
+                    required: "This field is required"
+                }
+            },
+            submitHandler: function (form) {
+     
+            if($('.after-add-more').length==0)
+            {
+                showToastError('Please Specify tag to proceed')
+
+
+            }
+else{
+                $(".overlay").show();
+                var tempform = $('#adduser');
+                var form_data = new FormData(tempform[0]);
+                console.log(form_data);
+                $(".overlay").show();
+                $.ajax({
+                    type: 'POST',
+                    url: '<%-adminpath%>tags/addTag',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType:false,
+                    cache:false,
+                    processData:false,
+                    success: function (response) {
+                        $(".overlay").hide();
+                        if (response.code == 200) {
+                            showToastSuccess(response.message);
+                           
+                            //showToastSuccess(response.message)
+                        } else {
+                            setTimeout(function(){
+                                showToastError(response.message);
+                            }, 2000);
+                        }
+                    },
+                    error: function (response) {
+                        $("#loading1").hide();
+                        var errorResponse = JSON.parse(response.responseText)
+                        showToastError(errorResponse.message)
+
+
+                    }
+                });
+            }
+        }
+        
+        });
+    });
+</script>
+</body>
+
+</html>

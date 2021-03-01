@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/header'); -%>
+
+
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <%- include('../partials/dashboardHeader'); -%>
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">CereHome</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Apps</a></li>
+                                            <li class="breadcrumb-item active">Task Board</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class=form-label">Task Board</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                  
+                                    <h4 class="header-title">Upcoming</h4>
+                                    <p class="sub-header">
+                                        Your scheduled upcoming tasks goes here.
+                                    </p>
+
+                                    <ul   class="sortable-list tasklist list-unstyled " id="upcoming">
+                                       
+                                       
+                                    </ul>
+                                    <div id="pagination_upcoming">
+
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                   
+                                    <h4 class="header-title">In Progress</h4>
+                                    <p class="sub-header">
+                                        Your processing  tasks goes here.
+                                    </p>
+
+                                    <ul class="sortable-list tasklist list-unstyled" id="inprogress">
+                                       
+                                        
+                                    </ul>
+                                    <div id="pagination_inprogress">
+
+                                    </div>                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                   
+                                    <h4 class="header-title">Completed</h4>
+                                    <p class="sub-header">
+                                        Your completed tasks goes here.
+                                    </p>
+
+                                    <ul class="sortable-list tasklist list-unstyled" id="completed">
+                                       
+                                    </ul>
+                                    <div id="pagination_completed">
+
+                                    </div>                                </div> <!-- end card-box -->
+                            </div> <!-- end col -->
+
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <!-- Footer Start -->
+                <%- include('../partials/footer'); -%>
+
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>
+
+        
+    </body>
+    <script>
+
+
+
+     function getFilter(currentPage,filterType)
+    {
+        currentPage=currentPage
+        var limit=20
+        $('#loading1').show();
+
+        $.ajax({
+            type: 'POST',
+            url: '<%-adminpath%>task/list',
+            dataType: 'json',
+            data: {"filterType":filterType,"limit":limit,"page":currentPage},
+            success: function (response) {
+                console.log(response);
+                $('#loading1').hide()
+                if (response.code == '200') 
+                {
+                    var row="";
+                    var data1=response.body.data
+                    var data=response.body.rows
+                   
+                    console.log(data)
+                        $.each(data,function(key,value)
+                        {
+                      var assignImage=(value.assignedEmployees && value.assignedEmployees.length>0 && value.assignedEmployees[0].employee)? value.assignedEmployees[0].employee.image:""
+                      var assignname=(value.assignedEmployees && value.assignedEmployees.length>0 && value.assignedEmployees[0].employee)? value.assignedEmployees[0].employee.firstName+" "+value.assignedEmployees[0].employee.lastName:""
+                      var assignContact=(value.assignedEmployees && value.assignedEmployees.length>0 && value.assignedEmployees[0].employee)? value.assignedEmployees[0].employee.countryCode+"-"+value.assignedEmployees[0].employee.phoneNumber:""
+var display ="none"
+if(parseInt(value.progressStatus)>=8 && (value.assignedEmployees && value.assignedEmployees.length>0 && value.assignedEmployees[0].employee))  display ="inline"
+                      row=row+   ` <li id="task${value.id}">
+                                            <span class="badge bg-soft-danger text-danger float-right">High</span>
+                                            <h5 class="mt-0"><a href="javascript: void(0);" class="text-dark">${value.orderNo}</a></h5>
+                                           
+                                            <p><span class="text-muted text-bold">User Info: </span>${value.user.firstName+" "+value.user.lastName},
+                                            ${value.user.phoneNumber}</p>
+
+                                            <p>${value.address?value.address.addressName:"NA"}</p>
+                                            <div class="clearfix"></div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i>${formatAMPM(new Date(value.serviceDateTime))}
+                                                        <span class="font-18">${value.orderStatus.statusName}</span>
+                                                        <span style="display:${display}"   class="font-15  p-1 btn-info"><a href="<%-adminpath%>task/tracking?orderId=${value.id}">Track</a></span>
+
+                                                        </p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="text-right">
+                                                        <a href="javascript: void(0);" class="text-muted">
+                                                            <img src="${assignImage}"   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
+                                                        </a> 
+                                                      
+                                                    </div>
+
+                                                    <div class="text-right">${assignname}</div>
+                                                    <div class="text-right">${assignContact}</div>
+
+                                                </div>
+                                            </div>
+                                        </li>`;
+
+
+                       
+                    });
+                    
+                    
+                    $('#'+filterType).html(row);
+                    appendPagination(currentPage,Math.ceil(response.body.count/limit),filterType)
+                    //$('#exe').DataTable();
+                }
+                else{
+                    showToastError(response.message)
+                }
+            },
+
+            error :function(response)
+            {
+                $('#loading1').hide()
+
+                var errorResponse=JSON.parse(response.responseText)
+                 showToastError(errorResponse.message)
+
+            }
+        });
+    } 
+
+
+    function appendPagination(currentPage,count,filterType)
+    {
+        var fd="";
+        if (count >= 1) { 
+            fd=fd+' <ul class="pagination pagination-rounded justify-content-end my-2">'; 
+
+            if (currentPage > 1) {            
+              fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter(1,\''+filterType+'\')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>';
+            }
+          var i = 1;
+          if (currentPage > 5) {
+          i = +currentPage - 4;
+          } 
+      
+            for (i; i<=count; i++) {
+                if (currentPage == i) { 
+                  fd=fd+'<li class="page-item active"><a class="page-link" href="javascript: void(0);">'+currentPage+'</a></li>';
+                } else {
+                    fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+i+',\''+filterType+'\')" href="javascript: void(0);">'+i+'</a></li>';
+                }
+                if (i == (+currentPage + 4)) {
+                    fd=fd+'<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                 break; } 
+              }
+         
+          
+            if (currentPage != count) {
+                fd=fd+'<li class="page-item"><a class="page-link" onclick="getFilter('+count+',\''+filterType+'\')" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+            else{
+                fd=fd+'<li class="page-item"><a class="page-link disabled" href="javascript: void(0);" aria-label="Previous"> <span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>';
+            } 
+             
+            fd=fd+'</ul>';  
+        } 
+           $("#pagination_"+filterType).html(fd)  
+    }
+
+    var currentPage=1
+ getFilter(currentPage,'upcoming')
+ getFilter(currentPage,'inprogress')
+ getFilter(currentPage,'completed')
+
+
+  
+
+
+
+
+
+
+    </script>
+</html>

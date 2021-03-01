@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+<body class="loading">
+    <!-- Begin page -->
+    <div id="wrapper">
+        <%- include('../partials/dashboardHeader'); -%>
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="<%- adminpath %>">Dashboard</a></li>
+
+                                        <li class="breadcrumb-item active">Employee</li>
+                                    </ol>
+                                </div>
+                                <!-- <h4 class=form-label">Orders</h4> -->
+
+
+                                <h4 class=form-label">
+                                    <a href="javascript:;" onclick="window.history.back()" ;> <i
+                                            class="fas fa-angle-left"></i> </a>
+                                    Welcome ,
+                                    <%if(data.firstName && data.firstName!=""){ %> <%-data.firstName%> <%}else{%>
+                                    User <% }%>
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row mb-2">
+                                <div class="col-lg-12">
+                                    <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                        <div
+                                            class="col-md-3 form-bordered   text-transform-upr font-size-12 font-bold  font-purple pad10A">
+                                            <b>Total ORDERS :</b><span id="totalOrders">0</span> </div>
+                                        <div
+                                            class="col-md-3 form-bordered text-transform-upr font-size-12 font-bold  primary-font pad10A mrg25B">
+                                            <b>Total Payment :</b><span id="totalPayment">0</span> <%-CURRENCY%> </div>
+                                        <div
+                                            class="col-md-3 form-bordered text-transform-upr font-size-12 font-bold  font-purple pad10A mrg25B">
+                                            <b>Total Ratings :</b><span id="totalRatings"><%-ratings.length%></span>
+                                        </div>
+                                        <div
+                                            class="col-md-3 form-bordered  text-transform-upr font-size-12  font-bold primary-font pad10A mrg25B">
+                                            <b>Avg Rating :</b><span
+                                                id="avgRating">
+                                                <%- " ( "+avgRating+"  ) "+ commonMethods.getRating(avgRating)%>
+                                            </span> </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #page-title -->
+                <%-include ('../partials/flashMessage')%>
+
+
+                <div id="basicwizard">
+                    <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
+                        <li class="nav-item">
+                            <a href="#justified-tabs-1" onclick="showTab('justified-tabs-1','justified-tabs-2')"
+                                title="Tab 1" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                <i class=" fas fa-pause"></i> Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#justified-tabs-2" onclick="showTab('justified-tabs-2','justified-tabs-1')"
+                                title="Tab 2" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                <i class=" fas fa-star"></i>
+                                Ratings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body" id="justified-tabs-1">
+                                <div class="row mb-2">
+                                    <div class="col-lg-12">
+                                        <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                            <div class="form-group mb-2">
+                                                <label for="inputPassword2" class="sr-only">Search</label>
+                                                <input type="search" class="form-control" id="search" name="search"
+                                                    placeholder="Search...">
+                                            </div>
+                                            <div class="form-group mx-sm-2 mb-2">
+                                                <label for="status-select" class="mr-2">Status</label>
+                                                <select class="custom-select" id="status-select">
+                                                    <option value="" />All
+                                                    <option value="0" />Pending
+                                                    <option value="1" />Confirmed
+                                                    <option value="2" />Cancelled-User
+                                                    <option value="3" />Processing
+                                                    <option value="3" />Cancelled-Company
+                                                    <option value="5" />Completed
+                                                </select>
+                                            </div>
+                                            <div class="form-group mx-sm-1 mb-2">
+                                                <input type="text" id="basic-datepicker" name="from"
+                                                    class="fromDate form-control" placeholder="From Date">
+                                            </div>
+                                            <div class="form-group mx-sm-1 mb-2">
+
+                                                <input type="text" id="toDate" placeholder="To Date"
+                                                    class="toDate form-control" name="to" />
+                                            </div>
+
+                                            <div class="col-lg-2">
+                                                <div class="text-lg-left">
+                                                    <a onclick="getFilter(1)" href="javascript:;"><button type="button"
+                                                            class="btn btn-light waves-effect mb-2">Filter</button></a>
+                                                </div>
+                                            </div><!-- end col-->
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="exe" class="table table-centered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <!-- <th>Order ID</th>
+                                                    <th>Customer</th>
+                                                    <th>Date</th>
+                                                    <th>Contact</th>
+                                                    <th>Price (<%-CURRENCY%>)</th>
+                                                    <th>Payment</th>
+                                                    <th>Address</th>
+                                                    <th>Order Date </th>
+                                                    <th>Order Status</th>
+                                                    <th style="width: 125px;">Action</th> -->
+                                                <th style="width: 125px;">Order No</th>
+                                                <th style="width: 125px;">Customer Name</th>
+                                                <th style="width: 125px;">Service Date</th>
+                                                <th style="width: 150px;">Contact</th>
+                                                <th style="width: 100px;">Price</th>
+                                                <th style="width: 125px;">address </th>
+                                                <th style="width: 125px;">Order Date </th>
+                                                <th style="width: 150px;">Order Status </th>
+                                                <th style="width: 100px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="orderData">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-4" style="float:right" id="append_pagination">
+                                </div>
+                            </div>
+
+                            <!--2nd div-->
+                            <div id="justified-tabs-2">
+                                <table class="table" id="example" style="width:100%">
+
+                                    <thead>
+                                        <tr>
+                                            <th>OrderNo</th>
+                                            <th>User Name</th>
+                                            <th>User Photo</th>
+                                            <th>Rating</th>
+                                            <th>Review</th>
+                                            <th>Review At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="ratingData">
+                                        <% 
+        for(var t=0;t<ratings.length; t++){%>
+                                        <tr>
+                                            <td><%-ratings[t].order.orderNo%></td>
+
+                                            <td><%-ratings[t].order.user.firstName%></td>
+                                            <td><img src='<%((ratings[t].order!=null)?ratings[t].order.user.image :"" )%>'
+                                                    alt="" width="90" height="70" /> </td>
+                                            <td> <%-ratings[t].rating +' '+commonMethods.getRating(ratings[t].rating)%>
+                                            </td>
+                                            <td><%-ratings[t].review%></td>
+                                            <td><%-commonMethods.format(new Date(ratings[t].ratingOn))%></td>
+                                            <td>
+
+                                                <a onclick="deleteReview('<%-ratings[t].userId%>')" href="javascript:;"
+                                                    class="font-red" title="">
+                                                    <i class="glyph-icon icon-remove mrg5R"></i>
+                                                    Delete
+                                                </a>
+
+                            </div>
+                            </td>
+                            </tr>
+                            <%}%>
+    </tbody>
+    
+</table>
+                            
+                            
+                            <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+
+    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Order Status</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <input type="hidden" id="assignOrderId" value="" />
+                        <select class="custom-select" id="status-selectt">
+                            <option value="" disabled />Choose Status
+                            <option value="1" />Order Confirmed
+                            <option value="3" />Order Prepare by restaurent
+                            <option value="6" />Order Picked up
+                            <option value="5" />Order Delivered
+                            <option value="2" />Order Cancelled By user
+                            <option value="4" />Order Cancelled By Vendor
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="changeStatus()" class="btn btn-info waves-effect waves-light">Save
+                        changes</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div><!-- /.modal -->
+
+    </div>
+
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <%- include('../partials/script'); -%>
+                            <%- include('../partials/commonJs'); -%>
+
+
+                            <script type="text/javascript">
+                                $("#toDate").flatpickr();
+
+                                $('#search').on('keyup', function () {
+                                    setTimeout(function () { getSearch(1) }, 800);
+                                });
+
+
+                                var currentPage = 1
+
+                                $('#adduser').submit(function () {
+
+                                    var id = $('#empId').val()
+
+
+                                    var tempform = $('#adduser');
+
+                                    tempform.parsley('validate');
+
+                                    if (tempform.parsley('isValid')) {
+
+                                        var form_data = new FormData(tempform[0]);
+                                        $(".overlay").show();
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '<%-adminpath%>employees/update',
+                                            dataType: 'json',
+                                            data: form_data,
+                                            contentType: false,
+                                            cache: false,
+                                            processData: false,
+                                            success: function (response) {
+                                                $(".overlay").hide();
+                                                if (response.code == 200) {
+
+                                                    showToastSuccess(response.message)
+
+                                                    window.location.href = "<%-adminpath%>employees/view/" + id;
+
+                                                } else {
+                                                    showToastError(response.message)
+                                                }
+                                            },
+
+                                            error: function (response) {
+                                                var errorResponse = JSON.parse(response.responseText)
+                                                showToastError(errorResponse.message)
+
+
+                                            }
+                                        });
+
+
+                                    }
+                                });
+
+
+
+
+                            </script>
+
+                            <script>
+
+                                function changeStatus(id, status, stYpe) {
+
+                                    if (confirm('Are you sure you want to change status for this order?')) {
+                                        $('#myModal').modal('hide');
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '<%-adminpath%>orders/status',
+                                            dataType: 'json',
+                                            data: { 'id': id, 'status': status },
+                                            success: function (response) {
+                                                if (response.code == '200') {
+                                                    // $('#block_status_'+id).html('');
+
+
+                                                    showToastSuccess(response.message)
+                                                    //$("#black-modal-60").attr('class','hide ui-dialog-content ui-widget-content'); 
+                                                    $('#block_statustext_' + id).html(stYpe)
+                                                    $('#block_statusvalue_' + id).val(status)
+                                                    //window.location.reload()
+
+                                                }
+                                                else {
+
+                                                    showToastError(response.message)
+                                                }
+                                            },
+
+                                            error: function (response) {
+
+                                                showToastError(response.message)
+
+                                            }
+                                        });
+                                    }
+                                }
+
+
+
+                                function showTab(id1, id2) {
+                                    $('#' + id1).show();
+                                    $('#' + id2).hide();
+                                }
+
+                                function getFilter(currentPage) {
+                                    currentPage = currentPage
+                                    var limit = 50
+                                    $('#loading1').show()
+                                    var status = $('#status').val();
+                                    var fromDate = $('#fromDate').val();
+                                    var toDate = $('#toDate').val();
+
+                                    //alert(fromDate)
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<%-adminpath%>employees/orders',
+                                        dataType: 'json',
+                                        data: { 'fromDate': fromDate, 'progressStatus': status, 'toDate': toDate, 'page': currentPage, 'limit': limit, 'empId': '<%-data.id%>' },
+                                        success: function (response) {
+                                            $('#loading1').hide()
+
+                                            if (response.code == '200') {
+
+                                                var row = "";
+                                                console.log('okkkkk', response)
+                                                $('#orderData').html('')
+                                                var data1 = response.body.data
+                                                var data = response.body.data.rows
+                                                for (var t = 0; t < data.length; t++) {
+
+
+                                                    var status = "Pending"
+                                                    if (data[t].progressStatus == "1") status = "Confirmed"
+                                                    if (data[t].progressStatus == "2") status = "Cancelled"
+                                                    if (data[t].progressStatus == "3") status = "Processing"
+                                                    if (data[t].progressStatus == "4") status = "Cancelled-Comapny"
+                                                    if (data[t].progressStatus == "5") status = "Completed"
+
+                                                    var btnBg = getOrderColor(data[t].progressStatus)
+
+                                                    row = row + '<tr>' +
+                                                        '			<td>' + data[t].orderNo + ' </td>' +
+                                                        '			<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                                        '			<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                                        '            <td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                                        '            <td>' + data[t].totalOrderPrice + '</td>' +
+                                                        '            <td>' + data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city + '</td>' +
+                                                        '            <td>' + format(new Date(data[t].createdAt)) + '</td>' +
+                                                        '			<td>' +
+                                                        '<a href="javascript:;"  class="btn ' + btnBg + '" data-placement="bottom" id="block_status_' + data[t].id + '" >' +
+                                                        '                <input type="hidden"  value="' + data[t].progressStatus + '" id="block_statusvalue_' + data[t].id + '">' +
+                                                        '                <span class="button-content">' +
+                                                        '                    <i class="glyph-icon icon-cog float-left"></i>' +
+                                                        '<span id="block_statustext_' + data[t].id + '">' + status + ' <span>' +
+                                                        '                </span>' +
+                                                        '            </a>' + ' </td>' +
+                                                        '<td>' +
+                                                        '<a href="<%-adminpath%>orders/view/' + data[t].id + '" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                                                        '<a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" title="" class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                                                        '</td>' +
+
+                                                        '        </tr>';
+
+                                                }
+
+                                                if (row == "") {
+                                                    $('#orderData').html('&nbsp;&nbsp;&nbsp;No matching records found')
+
+                                                }
+                                                else $('#orderData').html(row);
+                                                appendPagination(currentPage, Math.ceil(data1.count / limit))
+                                                appendStat(response.body.counts)
+
+                                            }
+                                            else {
+
+                                                showToastError(response.message)
+                                            }
+                                        },
+
+                                        error: function (response) {
+                                            $('#loading1').hide()
+
+                                            showToastError(response.message)
+
+                                        }
+                                    });
+                                }
+
+
+                                function getSearch(currentPage) {
+                                    currentPage = currentPage
+                                    var search = $('#search').val()
+                                    var limit = 40
+                                    $('#loading1').show()
+                                    var status = $('#status').val();
+                                    var fromDate = $('#fromDate').val();
+                                    var toDate = $('#toDate').val();
+
+                                    //alert(fromDate)
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<%-adminpath%>orders/search',
+                                        dataType: 'json',
+                                        data: { 'search': search, 'page': currentPage, 'limit': limit },
+                                        success: function (response) {
+                                            console.log('heloooooo>>>>', response)
+
+                                            $('#loading1').hide()
+
+                                            if (response.code == '200') {
+
+                                                var row = "";
+                                                console.log('order search>>>>', response)
+                                                $('#orderData').html('')
+                                                var data1 = response.body.data
+                                                var data = response.body.data.rows
+                                                for (var t = 0; t < data.length; t++) {
+
+
+                                                    var status = "Pending"
+                                                    var Payment = "Failed"
+                                                    var paymentBg = "bg-red"
+                                                    if (data[t].progressStatus == "1") status = "Confirmed"
+                                                    if (data[t].progressStatus == "2") status = "Cancelled"
+                                                    if (data[t].progressStatus == "3") status = "Processing"
+                                                    if (data[t].progressStatus == "4") status = "Cancelled-Comapny"
+                                                    if (data[t].progressStatus == "5") status = "Completed"
+
+                                                    var btnBg = getOrderColor(data[t].progressStatus)
+                                                    if (data[t].payment && data[t].payment.transactionStatus == "1") {
+                                                        Payment = "Success"
+                                                        paymentBg = "bg-green"
+                                                    }
+
+
+                                                    row = row + '<tr id="row_' + data[t].id + '">' +
+                                                        '			<td>' + data[t].orderNo + ' </td>' +
+                                                        '			<td>' + data[t].user.firstName + " " + data[t].user.lastName + ' </td>' +
+                                                        '			<td>' + format(new Date(data[t].serviceDateTime)) + ' </td>' +
+                                                        '            <td>' + data[t].user.countryCode + " " + data[t].user.phoneNumber + '</td>' +
+                                                        '            <td>' + data[t].totalOrderPrice + '</td>' +
+                                                        '            <td>' +
+                                                        '             <a href="javascript:;"  class="btn ' + paymentBg + ' font-size-10 pad5A tooltip-button" data-placement="bottom" title="Open modal window"   >' +
+                                                        '                <span class="button-content">' +
+                                                        '                    <i class="glyph-icon icon-money float-left"></i>' +
+                                                        '<span>' + Payment + ' <span>' +
+                                                        '                </span>' +
+                                                        '            </a></td>' +
+                                                        '            <td>' + (data[t].address != null ? data[t].address.houseNo + " " + data[t].address.addressName + " ," + data[t].address.city : "") + '</td>' +
+                                                        '            <td>' + format(new Date(data[t].createdAt)) + '</td>              ' +
+                                                        '              ' +
+                                                        '            <td>' +
+                                                        '             <a href="javascript:;"  class="btn ' + btnBg + ' font-size-10 pad5A tooltip-button  black-modal-60" data-placement="bottom" title="Open modal window"  id="block_status_' + data[t].id + '"  onclick="showModal(\'' + data[t].id + '\',\'' + data[t].progressStatus + '\')" >' +
+                                                        '                <input type="hidden"  value="' + data[t].progressStatus + '" id="block_statusvalue_' + data[t].id + '">' +
+                                                        '                <span class="button-content">' +
+                                                        '                    <i class="glyph-icon icon-cog float-left"></i>' +
+                                                        '<span id="block_statustext_' + data[t].id + '">' + status + ' <span>' +
+                                                        '                </span>' +
+                                                        '            </a>' +
+                                                        '             <div class="dropdown">' +
+                                                        '                <a href="javascript:;" title="" class="btn small bg-blue dropdown-toggle" data-toggle="dropdown">' +
+                                                        '                    <span class="button-content">' +
+                                                        '                        <i class="glyph-icon font-size-11 icon-cog"></i>' +
+                                                        '                        <i class="glyph-icon font-size-11 icon-chevron-down"></i>' +
+                                                        '                    </span>' +
+                                                        '                </a>' +
+                                                        '                <ul class="dropdown-menu float-right">' +
+                                                        '                    <li>' +
+                                                        '                        <a href="<%-adminpath%>orders/view/' + data[t].id + '" title="">' +
+                                                        '                            <i class="glyph-icon icon-edit mrg5R"></i>' +
+                                                        '                            View' +
+                                                        '                        </a>' +
+                                                        '                    </li>' +
+                                                        '                    <li class="divider"></li>' +
+                                                        '                    <li>' +
+                                                        '                        <a onclick="return confirm(\'Are you sure you want to delete this?\');"  href="<%-adminpath%>orders/delete/' + data[t].id + '" data-id="' + data[t].id + '" class="font-red" title="">' +
+                                                        '                            <i class="glyph-icon icon-archive mrg5R"></i>' +
+                                                        '                            Delete' +
+                                                        '                        </a>' +
+                                                        '                    </li>' +
+                                                        '                </ul>' +
+                                                        '            </div>' +
+                                                        '            </td>		' +
+                                                        '        </tr>';
+
+                                                }
+
+                                                if (row == "") {
+                                                    $('#orderData').html('&nbsp;&nbsp;&nbsp;No matching records found')
+
+                                                }
+                                                else $('#orderData').html(row);
+                                                appendPagination(currentPage, Math.ceil(data1.count / limit))
+                                                appendStat(response.body.counts)
+
+                                            }
+                                            else {
+
+                                                // showToastError(response.message)
+                                            }
+                                        },
+
+                                        error: function (response) {
+                                            $('#loading1').hide()
+
+                                            // showToastError(response.message)
+
+                                        }
+                                    });
+                                }
+
+
+
+
+
+
+
+                                function appendPagination(currentPage, count) {
+                                    var fd = "";
+                                    //alert(data.pageCount);
+                                    if (count > 1) {
+                                        fd = fd + '<ul class="button-group center-div">';
+
+                                        if (currentPage > 1) {
+                                            fd = fd + '<a  href="javascript:;" class="btn medium ui-state-default" onclick="getFilter(1)"><i class="glyph-icon icon-chevron-left"></i></a>';
+                                        }
+                                        else {
+                                            fd = fd + '<a  href="javascript:;" class="btn medium ui-state-default disabled"><i class="glyph-icon icon-chevron-left"></i></a>';
+
+                                        }
+                                        var i = 1;
+                                        if (currentPage > 5) {
+                                            i = +currentPage - 4;
+                                        }
+                                        if (i !== 1) {
+                                            fd = fd + '<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                                        }
+
+                                        // alert(fd);
+
+
+                                        for (i; i <= count; i++) {
+                                            if (currentPage == i) {
+                                                fd = fd + '<li class="btn medium ui-state-default primary-bg"><span><span>' + currentPage + '</span></span></li>';
+                                            } else {
+                                                fd = fd + '<a  class="btn medium  ui-state-default" href="javascript:;" onclick="getFilter(' + i + ')">' + i + '</a>';
+                                            }
+                                            if (i == (+currentPage + 4)) {
+                                                fd = fd + '<a  class="btn medium disabled ui-state-default" href="javascript:;">...</a>';
+                                                break;
+                                            }
+                                        }
+
+
+                                        if (currentPage != count) {
+                                            fd = fd + '<a  class="btn medium ui-state-default"  href="javascript:void(0)" onclick="getFilter(' + count + ')"> <i class="glyph-icon icon-chevron-right"></i></a>';
+                                        }
+                                        else {
+                                            fd = fd + '<a  class="btn medium ui-state-default disabled"  href="javascript:void(0)" > <i class="glyph-icon icon-chevron-right"></i></a>';
+                                        }
+
+                                        fd = fd + '</ul>';
+                                    }
+
+                                    $("#append_pagination").html(fd)
+                                }
+                                function appendStat(data) {
+                                    console.log(data)
+                                    var total = 0;
+                                    var count = 0
+                                    for (var k = 0; k < data.length; k++) {
+
+                                        if (data[k].progressStatus == "0") {
+                                            $('#totalPendingCount').html(data[k].count)
+                                            $('#totalPendingSum').html(data[k].totalSum)
+                                        }
+
+                                        if (data[k].progressStatus == "1") {
+                                            $('#totalConfirmedCount').html(data[k].count)
+                                            $('#totalConfirmedSum').html(data[k].totalSum)
+                                        }
+
+                                        if (data[k].progressStatus == "2") {
+                                            $('#totalCancelledCount').html(data[k].count)
+                                            $('#totalCancelledSum').html(data[k].totalSum)
+                                        }
+
+
+                                        if (data[k].progressStatus == "3") {
+                                            $('#totalProcessingCount').html(data[k].count)
+                                            $('#totalProcessingSum').html(data[k].totalSum)
+                                        }
+
+
+
+                                        if (data[k].progressStatus == "5") {
+                                            $('#totalCompletedCount').html(data[k].count)
+                                            $('#totalCompletedSum').html(data[k].totalSum)
+                                        }
+
+
+                                        total = total + data[k].totalSum
+                                        count = count + data[k].count
+                                    }
+
+                                    $('#totalPayment').html(total)
+                                    $('#totalOrders').html(count)
+
+                                }
+
+
+                            </script>
+                            <script>
+                                showTab('justified-tabs-1', 'justified-tabs-2')
+                                getFilter(currentPage)
+
+                            </script>
+
+
+</body>
+
+</html>

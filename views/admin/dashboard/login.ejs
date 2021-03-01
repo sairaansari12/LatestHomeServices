@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header'); -%>
+
+
+<body class="loading auth-fluid-pages pb-0">
+
+    <div class="auth-fluid">
+        <!--Auth fluid left content -->
+        <div class="auth-fluid-form-box">
+            <div class="align-items-center d-flex h-100">
+                <div class="card-body">
+
+                    <!-- Logo -->
+                    <div class="auth-brand text-center text-lg-left">
+                        <div class="auth-logo">
+                            <a href="<%-adminpath%>" class="logo logo-dark text-center">
+                                <span class="logo-lg">
+                                    <img src="/dist/assets/images/logo-light.png" alt="" height="50">
+
+                                </span>
+                            </a>
+
+                            <a href="<%-adminpath%>" class="logo logo-light text-center">
+                                <span class="logo-lg">
+                                    <img src="/dist/assets/images/login-bg1.png" alt="" height="80">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- title-->
+                    <h4 class="mt-3">Sign In</h4>
+                    <p class="text-muted mb-4">Enter your email address and password to access account.</p>
+
+                    <% if (typeof successMessage != 'undefined' && successMessage && successMessage.length>0) { %>
+
+                        <div class="callout callout-info bg-success">
+                    
+                            <p><%- successMessage %></p>
+                          </div>
+                        <% }%>
+
+                    <% if (typeof errorMessage != 'undefined' && errorMessage && errorMessage.length>0) { %>
+                    
+                        <div class="callout callout-info">
+                            <p><%- errorMessage %></p>
+                          </div>
+                        <% }%>
+
+                    <!-- form -->
+                    <form role="form" id="loginForm" action="<%-adminpath%>/login" method="POST">
+                        <div class="form-group">
+                            <label for="emailaddress">Email address</label>
+                            <input class="form-control" type="email" name="email" id="email"
+                                placeholder="Enter your email">
+                            <!-- <div class="input-group-append ">
+                                    <div class="input-group-text">
+                                      <span class="fas fa-envelope"></span>
+                                    </div>
+                                  </div> -->
+                        </div>
+                        <div class="form-group">
+                            <a href="<%-adminpath%>forgotPassword" class="text-muted float-right"><small>Forgot your
+                                    password?</small></a>
+                            <label for="password">Password</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" name="password" autocomplete="off" id="password"
+                                    class="form-control" placeholder="Enter your password">
+                                <div class="input-group-append" data-password="false">
+                                    <div class="input-group-text">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <!-- <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="checkbox-signin">
+                                <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                            </div> -->
+                            <div class="form-checkbox-radio col-md-7">
+                                <input type="checkbox" id="checkbox1" class="custom-checkbox" name="remember-password" id="remember-password" />
+                                <label for="remember-password" class="pad5L">Remember password?</label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group mb-0 text-center">
+                            <button  class="btn btn-primary btn-block" type="submit">Log In </button>
+                        </div>
+
+
+
+                    </form>
+                    <!-- end form-->
+
+                  
+
+                </div> <!-- end .card-body -->
+            </div> <!-- end .align-items-center.d-flex.h-100-->
+        </div>
+      
+        <div class="auth-fluid-right text-center" >
+            <div class="auth-user-testimonial">
+              
+               
+            </div> <!-- end auth-user-testimonial-->
+        </div>
+        <!-- end Auth fluid right content -->
+    </div>
+    <!-- end auth-fluid-->
+
+    <%- include('../partials/script'); -%>
+
+
+</body>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#loginForm').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+
+            },
+            messages: {
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a vaild email address"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    
+</script>
+
+
+</html>
+
+<%- include('../partials/commonJs'); -%> 
+
+<script>
+
+if (localStorage.chkbox && localStorage.chkbox != '') {
+        $('#checkbox1').attr('checked', 'checked');
+        $('#email').val(localStorage.username);
+        $('#password').val(localStorage.pass);
+    } else {
+        $('#checkbox1').removeAttr('checked');
+        $('#email').val('');
+        $('#password').val('');
+    }
+
+$('#checkbox1').change(function() {
+
+        if(this.checked) {
+            localStorage.username = $('#email').val();
+            localStorage.pass = $('#password').val();
+            localStorage.chkbox = $('#checkbox1').val();        }
+            else{
+                localStorage.username = '';
+            localStorage.pass = '';
+            localStorage.chkbox = '';
+            }             
+    });
+</script>
+<script>
+
+</script>

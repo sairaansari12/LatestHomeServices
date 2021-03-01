@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/header'); -%>
+
+<style>
+    .lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+</style>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <%- include('../partials/dashboardHeader'); -%>
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <div class="mb-2 row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <form  onkeypress="return event.keyCode != 13" class="form-inline">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <input type="text" class="form-control border-0" placeholder="Select date in range" id="range-datepicker">
+                                                    <div class="input-group-append">
+                                                        <span  onclick="getFilter()"  class="input-group-text bg-secondary border-secondary text-white">
+                                                            <i class="mdi mdi-calendar-range"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="javascript: void(0);"  onclick="window.location.reload()" class="btn btn-secondary btn-sm ml-2">
+                                                <i class="mdi mdi-autorenew"></i>
+                                            </a>
+                                            
+                                        </form>
+                                    </div>
+                                    <h4 class="form-label">Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <!-- end page title --> 
+
+                        <div class="row">
+                            <div class="col-md-6 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
+                                                <i class="mdi mdi-currency-usd mdi-spin font-22 avatar-title text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <h3 class="mt-1"><%-CURRENCY%><span data-plugin="counterup" id="mTotalRevenue"></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Total Revenue</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+
+                            <div class="col-md-6 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-success border-success border">
+                                                <i class="fe-shopping-cart font-22 avatar-title text-success"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup" id="mTotalOrders"></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Total Orders</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+
+                            <div class="col-md-6 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                                <i class="fe-bar-chart-line- font-22 avatar-title text-info"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup" id="mTotalProducts" ></span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Services Added</p>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+
+                            <div class="col-md-6 col-xl-3">
+                                <div class="widget-rounded-circle card-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg rounded-circle bg-soft-warning border-warning border">
+                                                <i class="mdi mdi-star mdi-spin font-22 avatar-title text-warning"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="<%-adminpath%>ratings/company">
+                                            <div class="text-right">
+                                                <h3 class="text-dark mt-1"><span data-plugin="counterup" id="mTotalRatings"></span></h3>
+                                                <p class="text-muted mb-1 text-truncate" >Total Ratings</p>
+                                            </div>
+                                        </a>
+                                        </div>
+                                    </div> <!-- end row-->
+                                </div> <!-- end widget-rounded-circle-->
+                            </div> <!-- end col-->
+                        </div>
+
+                       
+
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    
+
+                                    <h4 class="header-title mb-0">Total Revenue (This Month)</h4>
+
+                                    <div class="widget-chart text-center" dir="ltr">
+                                        
+                                        <div id="total-revenue1"  series="[50]" class="mt-0"  data-colors="#f86262"></div>
+
+                                        <h5 class="text-muted mt-0">Total sales made</h5>
+                                        <h2 id='totalSales'></h2>
+
+                                        <p class="text-muted w-75 mx-auto sp-line-2">Sales for this month.</p>
+
+                                        <div class="row mt-3">
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Target</p>
+                                                <h4><span id="salesTarget"></span></h4>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Target achieved</p>
+                                                <h4><i class="fe-arrow-up text-success mr-1"></i><span id="achTarget"></span></h4>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <p class="text-muted font-15 mb-1 text-truncate">Remaining</p>
+                                                <h4><span id="sucessTarget" style="display:none"> <i class="fe-arrow-down text-danger mr-1"></i></span>
+                                                    <span id="failedTarget" style="display:none"> <i class="fe-arrow-up text-success mr-1"></i></span>
+                                                    <span id="expTarget"></span></h4>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col-->
+
+
+                            <div class="col-lg-6">
+                                <div class="card-box">
+                                    
+
+                                    <h4 class="header-title mb-0">Ratings Overview</h4>
+
+                                    <div class="widget-chart text-center" dir="ltr">
+                                        
+                                 
+<div id="apex-bar">
+
+    
+</div>
+                                        <p class="text-muted w-75 mx-auto sp-line-2"> Here are ratings with multiple factors</p>
+
+                                      
+                                        
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> 
+
+                            <div class="col-lg-12">
+                                <div class="card-box pb-2">
+                                    <div class="float-right d-none d-md-inline-block">
+                                        <div class="btn-group mb-2">
+                                            <button type="button" id="filterDAY" onclick='setFilterName("DAY")' class="btn btn-xs btn-light">Daily</button>
+                                            <button type="button"  id="filterWEEK" onclick='setFilterName("WEEK")' class="btn btn-xs btn-light">Weekly</button>
+                                            <button type="button"  id="filterMONTH" onclick='setFilterName("MONTH")' class="btn btn-xs btn-light">Monthly</button>
+                                            <button type="button" id="filterYEAR" onclick='setFilterName("YEAR")' class="btn btn-xs btn-light">Yearly</button>
+
+                                        </div>
+                                    </div>
+
+                                    <h4 class="header-title mb-3">Sales Analytics</h4>
+
+                                    <div dir="ltr">
+                                        <div id="sales-analytics1" class="mt-4" data-colors="#3283f6,#43bee1"></div>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card-box">
+                                    
+
+                                    <h4 class="header-title mb-3">Top 5 Users </h4>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th colspan="2">Profile</th>
+                                                    <th>Contact Info</th>
+                                                    <th>Spent Money</th>
+                                                    <th>Total orders</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableTop5users">
+                                              
+                                             
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+
+                            <div class="col-xl-6">
+                                <div class="card-box">
+                                   
+
+                                    <h4 class="header-title mb-3">Order History</h4>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-nowrap table-hover table-centered m-0">
+
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <th>No. Of Orders</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableRevenueHistory">
+                                              
+
+
+                                        
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end .table-responsive-->
+                                </div> <!-- end card-box-->
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <!-- Footer Start -->
+                <%- include('../partials/footer'); -%>
+
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- Right Sidebar -->
+
+      
+        <%- include('../partials/script'); -%>
+        <%- include('../partials/commonJs'); -%>
+
+
+        <script>
+//$('#range-datepicker').val(format(new Date())+" to "+format(new Date()))
+            
+            var filterName="DAY"
+            var fName=getURLParameter('filterName')
+if(fName && fName!="")
+filterName=fName
+$('#filter'+filterName).removeClass('btn-light')
+$('#filter'+filterName).addClass('btn-secondary')
+
+            var countLoad=0
+            getFilter()
+            function getFilter()
+                {
+        var fromDate=""
+         var toDate=""
+      var rangeDatePicker=$('#range-datepicker').val().split("to");
+  
+
+       if(rangeDatePicker.length>1){ fromDate=rangeDatePicker[0];
+         toDate=rangeDatePicker[1];}
+            
+                  
+                       // if(countLoad>0)
+                        $('#loading1').show()
+
+                        countLoad++;
+            
+                    //alert(fromDate)
+                    $.ajax({
+                        type: 'POST',
+                        url: '<%-adminpath%>dashboard',
+                        dataType: 'json',
+                        data: {'fromDate':fromDate ,'toDate':toDate,'filterName':filterName},
+                        success: function (response) {
+                            $('#loading1').hide()
+                            if (response.code == '200') {
+                                var data=response.body
+                            //$('#totalOrders').html(data.mainTotalOrder);
+                            setRevenueHistory(data.ordersDataStat)
+                            setRatingsBar(data.ratingsData)
+                            top5UsersData(data.top5UserStat)
+                            setTopBar(data)
+                           setAnalytics(data.revenuAnalytics)
+
+                            setTotalRevenue(data.targetSales,data.paymentStat)
+
+                            // $('#totalUsers').html(data.mainTotalUser);
+                            // var earnings=data.ordersDataStat.map(item => item.totalSum).reduce(function(acc, val) { return acc + val; }, 0)
+                            // $('#totalEarnings').html('<%-CURRENCY%>'+earnings); 
+            
+                            }
+                            else{
+                               
+                                showToastError(response.message)
+                            }
+                        },
+            
+                        error :function(response)
+                        {
+                            $('#loading1').hide()
+            
+                            showToastError(response.message)
+            
+                        }
+                    });
+                }
+                
+                
+                function setTotalRevenue(target,paymentStat)
+                {
+
+                    var sum=0
+                    var escrow=0
+                    var escrow=0
+                    var count=0
+                   var target=(target.targetSales!=null)?target.targetSales:0
+                    for(var k=0;k<paymentStat.length;k++)
+                    {
+                        sum=sum+paymentStat[k].totalSum
+                        count=count+paymentStat[k].count
+                    }
+
+                    var achratget=target-count
+                    if(achratget>=0) $('#sucessTarget').show()
+                     else $('#failedTarget').hide()
+                    $('#totalSales').html('<%-CURRENCY%>'+sum.toFixed(2))
+                    $('#achTarget').html(count)
+                    $('#salesTarget').html(target)
+                    $('#expTarget').html(achratget)
+
+                    
+                   var revenuPer= (count/target)*100
+
+                
+
+ 
+                   var options = {
+  chart: {
+    height: 200,
+    type: 'radialBar',
+    stacked: false
+  },
+  plotOptions:{radialBar:{hollow:{size:"65%"}}},
+  colors:colors,labels:["Revenue"],
+  series: [revenuPer.toFixed(1)],
+  colors:["#1abc9c","#4a81d4"]
+}
+$('#total-revenue1').html("")
+var chart = new ApexCharts(document.querySelector("#total-revenue1"), options);
+chart.render();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    $('#escrow').html(revenuPer)
+
+
+                }
+            
+            
+                function setRevenueHistory(orderData)
+                {
+                    var html=""
+                    for(var k=0;k<orderData.length;k++)
+                    {
+                        var text=['text-warning','text-info','text-success','text-danger']
+               html=html+`  <tr>
+        <td><h5 class="m-0  font-weight-bold">${orderData[k].orderStatus.statusName}</h5></td>
+     <td><span class="text-muted ">${orderData[k].count}</span></td>
+     <td><%-CURRENCY%> ${orderData[k].totalSum.toFixed(2)}</td>
+
+    </tr>`
+
+                }
+            
+
+            $('#tableRevenueHistory').html(html)
+                }
+           
+           
+                function top5UsersData(data)
+                {
+                    var html=""
+                    for(var k=0;k<data.length;k++)
+                    {
+               html=html + `<tr>
+                                                    <td style="width: 36px;">
+                                                        <img   onError="this.onerror=null;this.src='/assets/images/products/no-image.jpg';"  src="${data[k].user.image}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                    </td>
+    
+                                                    <td>
+                                                        <h5 class="m-0 font-weight-normal">${data[k].user.firstName + " " +data[k].user.lastName}</h5>
+                                                        <p class="mb-0 text-muted"><small>Member Since ${format(new Date(data[k].user.createdAt))}</small></p>
+                                                    </td>
+    
+
+                                                    <td>
+                                                        ${data[k].user.countryCode+"-"+data[k].user.phoneNumber}
+                                                    </td>
+                                                    <td>
+                                                       <%-CURRENCY%>${data[k].totalSum.toFixed(2)}
+                                                    </td>
+    
+                                                   
+    
+                                                    <td>
+                                                        ${data[k].count}
+                                                    </td>
+    
+                                                   
+                                                </tr>`;
+    
+
+                }
+            
+
+            $('#tableTop5users').html(html)
+                }
+
+                function setTopBar(data)
+                {
+var totalRatings=(data.ratingStat && data.ratingStat.count)?data.ratingStat.count:0
+var totalOrders=(data.totalOrders )?data.totalOrders:0
+var totalProducts=(data.productStat && data.productStat.count )?data.productStat.count:0
+var totalRevenue=(data.totalRevenue)?data.totalRevenue.toFixed(2):0
+
+
+$('#mTotalRatings').html(totalRatings)
+$('#mTotalProducts').html(totalProducts)
+//alert(totalRevenue)
+$('#mTotalRevenue').html(totalRevenue)
+$('#mTotalOrders').html(totalOrders)
+
+
+                }
+          
+
+                function setRatingsBar(data)
+                {
+                    var  options={chart:
+                {height:320,
+                    type:"bar",
+                    toolbar:{show:!1}},
+                    plotOptions:{bar: {horizontal:!0,distributed: true}},
+                    dataLabels:{enabled:!1},
+                    series:[{data:[data.avgRating,data.foodQuality,data.foodQuantity,data.packingPres]}],
+                    colors: ['#41B883', '#E46651', '#f7b84b','#6658dd'],
+
+                    xaxis:{categories:["Overall","Service quality","Service delivery","Service Time"]},
+                    states:{hover:{filter:"none"}},
+        
+                    grid:{borderColor:"#f1f3fd"}}
+                    
+                    chart=new ApexCharts(document.querySelector("#apex-bar"),options).render();
+
+
+                }
+
+                function setAnalytics(data)
+                {
+
+                    $("#sales-analytics1").html("")
+
+          
+
+            var paymentData=[]
+            var labels=[""]
+            var paymentData=[]
+            var orderCountData=[]
+            var labelsArray=[]
+
+            var min= Math.min.apply(Math, data.map(function(o) { return o[filterName]; }))
+            var max= Math.max.apply(Math, data.map(function(o) { return o[filterName]; }))
+          
+
+            if(min==max) min=0
+            var diff=max-min
+
+
+            for(var k=0;k<=diff;k++)
+            {   
+
+
+            const found =data.find( ( filters ) => filters[filterName] ===(min+k) );
+
+
+
+            if(found)  
+            {paymentData.push(found.totalSum)
+             orderCountData.push(found.count)
+             var date=format(new Date(found.createdAt))
+
+             if(filterName=="DAY")labelsArray.push(date)
+             if(filterName=="MONTH")labelsArray.push(date.split("-")[1])
+             if(filterName=="YEAR")labelsArray.push(date.split("-")[2])
+             if(filterName=="WEEK"){labelsArray.push("WEEK "+(k+1))}
+
+
+            
+            }
+            
+
+            }
+
+
+
+
+          var options = {
+    series: [{
+ 			name: "Revenue",
+ 			type: "column",
+ 			data:paymentData
+ 		},
+
+ 		{
+ 			name: "Sales",
+ 			type: "line",
+ 			data: orderCountData
+ 		}
+ 	],
+ 	chart: {
+ 		height: 378,
+ 		type: "line",
+         toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false   ,
+          customIcons: []
+        }
+    },
+
+
+    
+    
+    },
+     
+    
+ 	stroke: {
+ 		width: [1, 2]
+     },
+     
+ 	plotOptions: {
+ 		bar: {
+             columnWidth: "10%",
+             distributed:true
+ 		}
+ 	},
+     colors: ['#41B883', '#E46651', '#f7b84b','#6658dd'],
+ 	dataLabels: {
+ 		enabled: !0,
+ 		enabledOnSeries: [1]
+ 	},
+ 	labels: labelsArray,
+ 	xaxis: {
+ 		type: "string"
+ 	},
+ 	legend: {
+ 		offsetY: 7
+ 	},
+ 	grid: {
+ 		padding: {
+ 			bottom: 20
+ 		}
+ 	},
+ 	fill: {
+ 		type: "gradient",
+ 		gradient: {
+ 			shade: "light",
+ 			type: "horizontal",
+ 			shadeIntensity: .25,
+ 			gradientToColors: void 0,
+ 			inverseColors: !0,
+ 			opacityFrom: .75,
+ 			opacityTo: .75,
+ 			stops: [0, 0, 0]
+ 		}
+ 	}, yaxis: [{
+ 		title: {
+ 			text: "Net Revenue"
+ 		}
+ 	}, {
+ 		opposite: !0,
+ 		title: {
+ 			text: "Number of Sales"
+ 		}
+ 	}]
+ };
+
+
+
+
+     
+    var chart = new ApexCharts(document.querySelector("#sales-analytics1"), options);
+    chart.render();
+
+
+
+
+
+                }
+
+                function setFilterName(filter)
+                {
+filterName=filter
+//window.location.href="<%-adminpath%>?filterName="+filterName
+getFilter()
+                }
+
+              
+           </script>
+        
+    </body>
+</html>
