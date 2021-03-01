@@ -1444,6 +1444,21 @@
       "responses": {}
     }
   },
+  "/api/delivery/orders/cancel": {
+    "post": {
+      "x-swagger-router-controller": "/api/delivery/orders/cancel",
+      "operationId": "index",
+      "tags": ["Cancel order when user is not accepting reached order"],
+      "description": "Cancel order when user is not accepting reached order",
+      "parameters": [
+        { "name": "authorization",  "in": "header",  "required":true,"type":"string"},
+        { "name": "orderId",  "in": "formData",  "required":true ,"type":"string"},
+        { "name": "cancellationReason",  "in": "formData",  "required":true ,"type":"string"}
+
+   ],
+      "responses": {}
+    }
+  },
 
 
 

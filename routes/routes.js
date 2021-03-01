@@ -71,6 +71,7 @@ const jwt = require('jsonwebtoken');
  INFORMATION=db.models.userInformation
  FILTERS=db.models.filters
  LPHISTORY=db.models.lpHistory
+ USERWALLET=db.models.userWallet
 
 
 

@@ -1,11 +1,11 @@
 module.exports = {
   development: {
     username: 'root',
-    password: 'pW8c6sGXahv',
-    // database: 'fooddeliveryservicesvAdmin',
+    // password: 'pW8c6sGXahv',
+    // host: '10.8.14.242',
     database: 'homeservicesAdmin',
-
-    host: '10.8.14.242',
+    password: '',
+    host: 'localhost',
     dialect: 'mysql',
     dialectOptions: {
       charset: 'utf8mb4'

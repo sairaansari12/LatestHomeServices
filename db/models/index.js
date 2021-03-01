@@ -85,11 +85,8 @@ let modules = [
   require('./trialSubscription'),
   require('./userInformation'),
   require('./filters'),
-  require('./lpHistory')
-
-
-  
-
+  require('./lpHistory'),
+  require('./userWallet')
 
 
 
