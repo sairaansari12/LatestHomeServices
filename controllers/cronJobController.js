@@ -78,7 +78,7 @@ checkAdminExpiryPlans()
 
 
       var services = await SERVICES.findAll({
-        attributes: ['id','name','icon','thumbnail','validUpto','offer','offerName','price','originalPrice'],
+        attributes: ['id','name','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','unit'],
         where: {
                  status: 1,
                  validupto: {
