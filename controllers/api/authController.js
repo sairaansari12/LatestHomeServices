@@ -148,7 +148,6 @@ app.post('/signup', async (req, res) => {
 })
 
 
-
 app.post('/login', async (req, res, next) => {
   const params = req.body;
 
@@ -298,7 +297,6 @@ app.post('/login', async (req, res, next) => {
   }
 
 })
-
 app.post('/loginTrial', async (req, res, next) => {
   const params = req.body;
 
@@ -353,6 +351,7 @@ app.post('/loginTrial', async (req, res, next) => {
           setReferralPoints(params.referralCode, userData.dataValues.id,  userData.dataValues.companyId, userData.dataValues.lPoints)
 
         userData.dataValues.sessionToken = token
+        userData.dataValues.parentCompany = userData.dataValues.companyId
         userData.dataValues.platform = params.platform
         userData.dataValues.deviceToken = params.deviceToken
         userData.dataValues.isFirst = false

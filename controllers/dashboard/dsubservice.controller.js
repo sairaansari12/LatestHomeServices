@@ -22,7 +22,7 @@ app.get('/list',adminAuth, async (req, res, next) => {
   }
    
       const servicesData = await SERVICES.findAll({
-        attributes: ['id','name','description','price','icon','thumbnail','type','price','duration','turnaroundTime','includedServices','excludedServices','createdAt','status','parentId'],
+        attributes: ['id','name','description','price','icon','thumbnail','type','price','duration','turnaroundTime','includedServices','excludedServices','createdAt','status','parentId','unit'],
         where: {
           companyId: req.companyId,
           parentId :  parentId

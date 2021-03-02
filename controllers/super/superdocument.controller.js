@@ -9,7 +9,7 @@ const Op = require('sequelize').Op;
 const COMPANY= db.models.companies;
 const STAFFROLE= db.models.staffRoles;
 function issuperAuth(req, res, next) {
-    if(req.session.userData){
+    if(req.session.userData1){
       return next();
     }
     return res.redirect('/company');

@@ -213,6 +213,27 @@ app.get('/list', checkAuth, async (req, res) => {
 
         }
       });
+ orderData=JSON.parse(JSON.stringify(orderData))
+ countDataq=JSON.parse(JSON.stringify(countDataq))
+
+var addOns=[]
+for(var k=0;k<orderData.length;k++)
+{
+
+  if(orderData[k].service&& orderData[k].service.addOnIds.length>0)
+  {
+  var dataAddons=await SERVICES.findAll({
+    attributes: ['id','name','productType','description','price','icon','thumbnail','type','price','duration','includedServices','excludedServices','createdAt','status','originalPrice','offer','offerName','unit'],
+     where: {
+      id: { [Op.or]: orderData[k].service.addOnIds},
+       status:1,
+       deleted:0,
+     }
+   });
+  
+   if(!addOns.includes(dataAddons) && dataAddons.length>0)addOns.push(dataAddons)
+  }
+}
 
       orderData = JSON.parse(JSON.stringify(orderData))
       countDataq = JSON.parse(JSON.stringify(countDataq))

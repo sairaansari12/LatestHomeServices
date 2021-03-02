@@ -20,7 +20,7 @@ const companies = db.models.companies;
 
 
 function isAdminAuth(req, res, next) {
-    // if(req.session.userData){
+    // if(req.session.userData11){
     //   return next();
     // }
     // return res.redirect('/company');
@@ -33,7 +33,7 @@ function isAdminAuth(req, res, next) {
 *@author Saira Ansari
 */
 app.get('/', async (req, res, next) => {
-    if(req.session.userData){
+    if(req.session.userData1){
        //var data=await  getDashboardData("2020-04-10","2020-04-17",null,null,req.session.companyId)
         return res.render(adminfilepath+'dashboard/dashboard.ejs',{data:null});
 
@@ -46,22 +46,22 @@ app.get('/', async (req, res, next) => {
 app.get('/chat',adminAuth, async (req, res, next) => {
 
   const credentials = {
-    phoneNumber: req.session.userData.phoneNumber,
+    phoneNumber: req.session.userData1.phoneNumber,
     companyId:   req.companyId,
-    countryCode: req.session.userData.countryCode,
-    userType: req.session.userData.type,
-    id : req.session.userData.id
+    countryCode: req.session.userData1.countryCode,
+    userType: req.session.userData1.type,
+    id : req.session.userData1.id
   };
   const authToken = jwt.sign(credentials, config.jwtToken, { algorithm: 'HS256', expiresIn: config.authTokenExpiration });  
     return res.render('admin/chat/chat.ejs',{ token: authToken, id: req.id});
 });
 app.get('/chatVendor',adminAuth, async (req, res, next) => {
   const credentials = {
-    phoneNumber: req.session.userData.phoneNumber,
+    phoneNumber: req.session.userData1.phoneNumber,
     companyId:   req.companyId,
-    countryCode: req.session.userData.countryCode,
-    userType: req.session.userData.type,
-    id : req.session.userData.id
+    countryCode: req.session.userData1.countryCode,
+    userType: req.session.userData1.type,
+    id : req.session.userData1.id
   };
   authToken = jwt.sign(credentials, config.jwtToken, { algorithm: 'HS256', expiresIn: config.authTokenExpiration });
   return res.render('admin/chatVendor/chat.ejs',{ token: authToken, id: req.id});
@@ -590,11 +590,11 @@ app.post('/login',async(req,res,next) => {
                 // var parent=await commonMethods.getParentCompany(userData.dataValues.id)
                 // if(parent && parent.dataValues)
                 parentCompany=userData.dataValues.parentId
-                req.session.userData = userData;
-                req.session.role = userData.dataValues.role;
-                req.session.companyId = userData.dataValues.id;
-                req.session.userId = userData.dataValues.id;
-                req.session.parentCompany = parentCompany;
+                req.session.userData1 = userData;
+                req.session.role1 = userData.dataValues.role;
+                req.session.companyId1 = userData.dataValues.id;
+                req.session.userId1 = userData.dataValues.id;
+                req.session.parentCompany1 = parentCompany;
 
                 var currency =await commonMethods.getCurrency(userData.dataValues.id) 
                 if(currency && currency.dataValues && currency.dataValues.currency) CURRENCY=currency.dataValues.currency

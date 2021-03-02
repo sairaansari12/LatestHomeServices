@@ -813,7 +813,7 @@ app.get('/edit/:id',adminAuth,async(req,res,next) => {
       });
       var filters=[]
 
-      console.log(">>>>>>>>>>>>>>>>",findData.dataValues.filter)
+      //console.log(">>>>>>>>>>>>>>>>",findData.dataValues.filter)
       if(findData && findData.dataValues && findData.dataValues.filter )
        filters=await FILTERS.findAll({where :{cid : findData.dataValues.filter.cid }});
       
@@ -951,6 +951,7 @@ var status=(permissions && permissions.dataValues && permissions.dataValues.pApp
         price: data.price,
         duration: data.duration,
         icon: thumbnail,
+        unit: data.unit,
         thumbnail: thumbnail,
         includedServices:data.includedServices,
         excludedServices:data.excludedServices,
@@ -1048,6 +1049,7 @@ app.post('/update',adminAuth,async (req, res) => {
         includedServices:data.includedServices,
         excludedServices:data.excludedServices,
         offer :offer,
+        unit: data.unit,
         offerName :data.offerName,
         originalPrice :data.originalPrice,
         validUpto :validUpto,

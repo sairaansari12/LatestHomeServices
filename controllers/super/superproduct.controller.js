@@ -282,7 +282,7 @@ app.get('/view/:id',superAuth,async(req,res,next) => {
       findData=JSON.parse(JSON.stringify(findData))
 if(findData.addOnIds && findData.addOnIds!="")
        dataAddons=await SERVICES.findAll({
-        attributes: ['id','name','productType','description','price','icon','thumbnail','type','price','duration','includedServices','excludedServices','createdAt','status','originalPrice','offer','offerName','rating','totalRatings','popularity'],
+        attributes: ['id','name','productType','description','price','icon','thumbnail','type','price','duration','includedServices','excludedServices','createdAt','status','originalPrice','offer','offerName','rating','totalRatings','popularity','unit'],
          where: {
           id: { [Op.or]: findData.addOnIds},
          },

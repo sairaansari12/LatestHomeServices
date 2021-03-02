@@ -53,19 +53,29 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(flash());
+
+var dt = new Date().getTime();
+var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  var r = (dt + Math.random()*16)%16 | 0;
+  dt = Math.floor(dt/16);
+  return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+});
+
 app.use(session(
-  { secret: 'mysecret',
+  { secret: config.APP_NAME,
     resave: true,
-    saveUninitialized: true}));
+    saveUninitialized: true,name: uuid}));
 
 app.use((req, res, next) => {
   if (req.session) {
     res.locals.successMessage = req.flash("successMessage");
     res.locals.errorMessage = req.flash("errorMessage");
     res.locals.messages = req.session.messages;
-    res.locals.userInfo = req.session.userInfo;
     res.locals.userData = req.session.userData;
-    res.locals.userId = req.session.userId;
+    res.locals.userData1 = req.session.userData1;
+    res.locals.userDataMain = req.session.userDataMain;
+
+    //res.locals.userId = req.session.userId;
     req.session.messages = {};
 
   }
@@ -117,6 +127,9 @@ server.listen(port, async () => {
 
   console.log(`Listening on port ${port}`);
 });
+
+
+
 
 
 commonMethods.cretaeMainCategory();

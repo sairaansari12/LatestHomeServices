@@ -41,6 +41,13 @@ module.exports = function(sequelize, DataTypes) {
 
     },
 
+    unit: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+      defaultValue: ''
+
+    },
+
     description: {
       type: DataTypes.TEXT('long'),
       allowNull: false,

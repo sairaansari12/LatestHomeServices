@@ -7,7 +7,7 @@ const jwt     = require('jsonwebtoken');
 const hashPassword = require('../../helpers/hashPassword');
 const COMPANY= db.models.companies
 function isAdminAuth(req, res, next) {
-    if(req.session.userData){
+    if(req.session.userData1){
       return next();
     }
     return res.redirect('/company');

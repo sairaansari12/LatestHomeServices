@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 
 app.get('/',adminAuth, async (req, res, next) => {
     const credentials = {
-      phoneNumber: req.session.userData.phoneNumber,
+      phoneNumber: req.session.userData1.phoneNumber,
       companyId:   req.companyId,
-      countryCode: req.session.userData.countryCode,
-      userType: req.session.userData.role,
+      countryCode: req.session.userData1.countryCode,
+      userType: req.session.userData1.role,
       id : req.id,
     };
     const authToken = jwt.sign(credentials, config.jwtToken, { algorithm: 'HS256', expiresIn: config.authTokenExpiration });

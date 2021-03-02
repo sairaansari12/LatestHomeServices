@@ -144,23 +144,21 @@ restAuth : function (req, res, next)  {
     
 adminAuth :async function (req, res, next)  {
     //console.log(req.session)
-     if(req.session.userData && (req.session.role==2 || req.session.role==3)){
+     if(req.session.userData1 && (req.session.role1==2 || req.session.role1==3)){
 
         
-                 req.id = req.session.userId;
-                 req.phoneNumber = req.session.phoneNumber;
-                 req.countryCode =  req.session.countryCode;
-                 req.token =  req.session.token;
-                 req.companyId =  req.session.companyId;
-                 req.parentCompany = req.session.parentCompany;
-                 adminRole = req.session.role;
-                 req.role = req.session.role;
-
-                 req.type =  req.session.type;
-
+                 req.id = req.session.userId1;
+                 req.phoneNumber = req.session.phoneNumber1;
+                 req.countryCode =  req.session.countryCode1;
+                 req.token =  req.session.token1;
+                 req.companyId =  req.session.companyId1;
+                 req.parentCompany = req.session.parentCompany1;
+                 adminRole = req.session.role1;
+                 req.role = req.session.role1;
+                 req.type =  req.session.type1;
                 var userData = await COMPANY.findOne({
                     where: {
-                id: req.session.userId,
+                id: req.session.userId1,
                 status: 1,
           
                     }
@@ -215,15 +213,15 @@ superAuth : async  function (req, res, next)  {
  },
 
  mainAuth :function (req, res, next)  {
-    if(req.session.userData && req.session.role==0){
+    if(req.session.userDataMain && req.session.roleMain==0){
 
-                req.id = req.session.userId;
-                req.phoneNumber = req.session.phoneNumber;
-                req.countryCode =  req.session.countryCode;
-                req.token =  req.session.token;
-                req.companyId =  req.session.companyId;
-                req.parentCompany = req.session.parentCompany;
-                req.type =  req.session.type;
+                req.id = req.session.userIdMain;
+                req.phoneNumber = req.session.phoneNumberMain;
+                req.countryCode =  req.session.countryCodeMain;
+                req.token =  req.session.tokenmain;
+                req.companyId =  req.session.companyIdMain;
+                req.parentCompany = req.session.parentCompanyMain;
+                req.type =  req.session.typeMain;
                 next();
      }
      else{

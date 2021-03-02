@@ -202,7 +202,7 @@ app.post('/subservice',superAuth,async(req,res,next) => {
   }
     try{
       var services = await SERVICES.findAll({
-        attributes: ['id','name','description','price','icon','thumbnail','type','price','duration','turnaroundTime','includedServices','excludedServices'],
+        attributes: ['id','name','description','price','icon','thumbnail','type','price','duration','turnaroundTime','includedServices','excludedServices','unit'],
         where: {
           parentId: params.category,
           status: 1,
