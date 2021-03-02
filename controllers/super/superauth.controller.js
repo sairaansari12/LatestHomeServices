@@ -262,11 +262,11 @@ async function getDashboardData(fromDate1,toDate1,progressStatus1,filterName,com
 
 app.get('/chat',superAuth, async (req, res, next) => {
   const credentials = {
-    phoneNumber: req.session.userData.phoneNumber,
+    phoneNumber: req.session.userData1.phoneNumber,
     companyId:   req.companyId,
-    countryCode: req.session.userData.countryCode,
-    userType: req.session.userData.type,
-    id : req.session.userData.id
+    countryCode: req.session.userData1.countryCode,
+    userType: req.session.userData1.type,
+    id : req.session.userData1.id
   };
   authToken = jwt.sign(credentials, config.jwtToken, { algorithm: 'HS256', expiresIn: config.authTokenExpiration });
   return res.render('super/chat/chat.ejs',{ token: authToken, id: req.id});
@@ -584,6 +584,8 @@ app.post('/login',async(req,res,next) => {
                 var currency =await commonMethods.getCurrency(userData.dataValues.id) 
                 if(currency && currency.dataValues && currency.dataValues.currency) CURRENCY=currency.dataValues.currency
                  
+
+                console.log(superadminpath)
                 req.flash('successMessage',"Welcome, you are logged in successfully.");
                 return res.redirect(superadminpath);
 

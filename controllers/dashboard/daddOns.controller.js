@@ -183,7 +183,6 @@ app.post('/list',adminAuth,async (req, res, next) => {
 
 
 
-      console.log(">>>>>>>>>>>>>SERVICES>>>>>>>>>>>",category)
       var services = await SERVICES.findAndCountAll({
         where: where,
         distinct:true,     

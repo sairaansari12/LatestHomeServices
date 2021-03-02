@@ -3,7 +3,7 @@ module.exports = {
     username: 'root',
     password: 'pW8c6sGXahv',
     // database: 'fooddeliveryservicesvAdmin',
-    database: 'homeservicesAdmin',
+    database: 'multidelivery',
 
     host: '10.8.14.242',
     dialect: 'mysql',

@@ -513,7 +513,7 @@ return responseHelper.post(res,appstrings.oops_something,null,400);
        
         
         var vendors = await SERVICES.findAll({
-          attributes: ['id','name','companyId','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings'],
+          attributes: ['id','name','companyId','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings','unit'],
           where:  {
           categoryId :{ [Op.not]: '0'},
           productType:1,

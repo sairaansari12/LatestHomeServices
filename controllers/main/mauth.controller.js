@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 *@author Saira Ansari
 */
 app.get('/', async (req, res, next) => {
-    if(req.session.userData){
+    if(req.session.userDataMain){
        //var data=await  getDashboardData("2020-04-10","2020-04-17",null,null,req.session.companyId)
         return res.render(mainfilepath+'trial/trialListing.ejs',{data:null});
 
@@ -288,11 +288,11 @@ app.post('/login',async(req,res,next) => {
                 // var parent=await commonMethods.getParentCompany(userData.dataValues.id)
                 // if(parent && parent.dataValues)
                 parentCompany=config.PARENT_COMPANY
-                req.session.userData = userData;
-                req.session.role = userData.dataValues.role;
-                req.session.companyId = userData.dataValues.id;
-                req.session.userId = userData.dataValues.id;
-                req.session.parentCompany = parentCompany;
+                req.session.userDataMain = userData;
+                req.session.roleMain = userData.dataValues.role;
+                req.session.companyIdMain = userData.dataValues.id;
+                req.session.userIdMain = userData.dataValues.id;
+                req.session.parentCompanyMain = parentCompany;
 
                 var currency =await commonMethods.getCurrency(userData.dataValues.id) 
                 if(currency && currency.dataValues && currency.dataValues.currency) CURRENCY=currency.dataValues.currency

@@ -442,6 +442,41 @@ app.get('/home', checkAuth, async (req, res, next) => {
 
 
 
+
+
+    const permissions = await PERMISSIONS.findOne({
+      where: {
+        companyId: req.parentCompany }
+    });
+
+
+
+    catListing=JSON.parse(JSON.stringify(catListing))
+    for(var k=0;k<catListing.length;k++)
+    {
+
+if(permissions && permissions.dataValues && permissions.dataValues.pCategories )
+{
+if( !permissions.dataValues.pCategories.includes(catListing[k].id))
+delete catListing[k]
+} 
+else delete catListing[k]
+
+    
+  }
+
+  catListing=  catListing.filter(i => i)
+
+
+
+
+
+
+
+
+
+
+
     //Restro Offers
     const restOffers = await COUPAN.findAll({
       attributes: ['discount', 'name','icon', 'thumbnail'],
@@ -897,7 +932,7 @@ app.get('/getServices', checkAuth, async (req, res, next) => {
  // console.log("CAT ARRAY>>>>>>>>>>",catArray)
 
     var services = await SERVICES.findAll({
-      attributes: ['id', 'name', 'description', 'productType', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'originalPrice', 'offer', 'offerName', 'validUpto', 'itemType'],
+      attributes: ['id', 'name', 'description', 'productType', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'originalPrice', 'offer', 'offerName', 'validUpto', 'itemType','unit'],
       where: {
         categoryId: { [Op.or]: catArray },
         status: 1,
@@ -1022,7 +1057,7 @@ app.post('/search', checkAuth, async (req, res, next) => {
   try {
     var services = [];
       services = await SERVICES.findAll({
-        attributes: ['id', 'name', 'description', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'originalPrice', 'offer', 'offerName', 'validUpto', 'itemType','rating','totalRatings'],
+        attributes: ['id', 'name', 'description', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'originalPrice', 'offer', 'offerName', 'validUpto', 'itemType','rating','totalRatings','unit'],
         where: {
           name: { [Op.like]: '%' + search + '%' },
           parentCompany:req.parentCompany,
@@ -1124,7 +1159,7 @@ app.get('/detail', checkAuth, async (req, res, next) => {
   if (responseNull) return responseHelper.post(res, appstrings.required_field, null, 400);
   try {
     var services = await SERVICES.findOne({
-      attributes: ['id', 'name', 'description', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'rating', 'originalPrice', 'offer', 'offerName', 'itemType'],
+      attributes: ['id', 'name', 'description', 'price', 'icon', 'thumbnail', 'type', 'price', 'duration', 'includedServices', 'excludedServices', 'rating', 'originalPrice', 'offer', 'offerName', 'itemType','unit'],
       where: {
         id: id,
         status: 1
@@ -1207,7 +1242,7 @@ async function getTrending(CAT, dataItem, companyId,callback) {
   try {
 
     var services = await SERVICES.findAll({
-      attributes: ['id', 'name', 'productType', 'popularity', 'description', 'icon', 'thumbnail', 'categoryId', 'itemType','rating','totalRatings'],
+      attributes: ['id', 'name', 'productType', 'popularity', 'description', 'icon', 'thumbnail', 'categoryId', 'itemType','rating','totalRatings','unit'],
       where: {
         status: 1,
         deleted:0,
@@ -1303,7 +1338,7 @@ async function getTrendingDeliveryType(deliveryType, companyIds, itemType, paren
   try {
 
     var services = await SERVICES.findAll({
-      attributes: ['id', 'name', 'description', 'popularity', 'icon', 'thumbnail', 'categoryId', 'rating', 'itemType','companyId'],
+      attributes: ['id', 'name', 'description', 'popularity', 'icon', 'thumbnail', 'categoryId', 'rating', 'itemType','companyId','unit'],
       where: {
         status: 1,
         deleted:0,
@@ -1343,9 +1378,8 @@ async function getTrendingDeliveryType(deliveryType, companyIds, itemType, paren
    if (services.length<2)
     {
 
-      console.log("M here>>>>>>>>>>",parentCompany)
       services = await SERVICES.findAll({
-    attributes: ['id', 'name', 'description', 'popularity', 'icon', 'thumbnail', 'categoryId', 'rating', 'itemType','companyId'],
+    attributes: ['id', 'name', 'description', 'popularity', 'icon', 'thumbnail', 'categoryId', 'rating', 'itemType','companyId','unit'],
     where: {
       status: 1,
       deleted:0,
@@ -1502,7 +1536,7 @@ async function getTopPicksItems(req, deliveryType, itemType) {
 
 
     var vendors = await SERVICES.findAll({
-      attributes: ['id','name','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings','companyId'],
+      attributes: ['id','name','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings','companyId','unit'],
       where: where,
       include:[{
         model: FILTERS,
@@ -1576,7 +1610,7 @@ async function getSuggested(req) {
 
 
     var vendors = await SERVICES.findAll({
-      attributes: ['id','name','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings'],
+      attributes: ['id','name','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings','unit'],
       where: where,
       include:[{
         model: FILTERS,
@@ -1592,7 +1626,7 @@ async function getSuggested(req) {
      
       
       var vendors = await SERVICES.findAll({
-        attributes: ['id','name','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings'],
+        attributes: ['id','name','categoryId','icon','thumbnail','validUpto','offer','offerName','price','originalPrice','rating','totalRatings','unit'],
         where:  {
           
           categoryId :{ [Op.or]: companyArray },
